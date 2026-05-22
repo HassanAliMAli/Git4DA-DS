@@ -30,8 +30,12 @@ export class GitRepository {
   private index: Map<string, string> = new Map(); // path -> blob hash
   private reflog: { ref: string; oldHash: string | null; newHash: string; message: string; timestamp: number }[] = [];
 
-  constructor(private fs: FileSystem) {
+  constructor(private fs: FileSystem) {}
+
+  public init(): void {
+    if (this.refs.size > 0) return;
     this.refs.set('master', ''); // Initialize empty master branch
+    this.addToReflog('HEAD', null, '', 'initial pull');
   }
 
   // --- Helper: Simple SHA-1-like hashing for simulation ---

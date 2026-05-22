@@ -42,8 +42,7 @@ export class CommandProcessor {
 
     switch (subCommand) {
       case 'init':
-        // Our GitRepository constructor already initializes, 
-        // but we can simulate the output.
+        this.git.init();
         return 'Initialized empty Git repository in /';
 
       case 'status':

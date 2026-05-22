@@ -17,10 +17,14 @@ export default function TerminalPage() {
   // Game state
   const fs = useMemo(() => new FileSystem(), []);
   const git = useMemo(() => new GitRepository(fs), [fs]);
+  
   const [currentLevelId, setCurrentLevelId] = useState(1);
   const [terminalHistory, setTerminalHistory] = useState<{ type: 'command' | 'output' | 'error'; text: string }[]>([]);
+  const [completedGoalIds, setCompletedGoalIds] = useState<Set<string>>(new Set());
+  const [isLevelComplete, setIsLevelComplete] = useState(false);
   
   const currentLevel = LEVELS.find(l => l.id === currentLevelId);
+  
   const processor = useMemo(() => {
     if (!profile) return null;
     return new CommandProcessor(fs, git, profile.name);
@@ -36,6 +40,28 @@ export default function TerminalPage() {
     return <div className={styles.loading}>Connecting to DataPulse Secure Node...</div>;
   }
 
+  const checkLevelProgress = () => {
+    if (!currentLevel) return;
+
+    const newlyCompleted = new Set<string>();
+    currentLevel.goals.forEach(goal => {
+      if (goal.check({ fs, git })) {
+        newlyCompleted.add(goal.id);
+      }
+    });
+
+    setCompletedGoalIds(newlyCompleted);
+
+    if (newlyCompleted.size === currentLevel.goals.length && !isLevelComplete) {
+      setIsLevelComplete(true);
+      setTerminalHistory(prev => [
+        ...prev, 
+        { type: 'output', text: '\n✅ LEVEL COMPLETE: ' + currentLevel.title },
+        { type: 'output', text: 'Dr. Hassan is impressed. Calibrating next simulation...\n' }
+      ]);
+    }
+  };
+
   const handleCommand = async (command: string) => {
     setTerminalHistory(prev => [...prev, { type: 'command', text: command }]);
     
@@ -48,18 +74,10 @@ export default function TerminalPage() {
         setTerminalHistory(prev => [...prev, { type: 'output', text: output }]);
       }
       
-      // Check for goal completion
-      checkGoals();
+      // Check for goal completion after every command
+      checkLevelProgress();
     } catch (error: any) {
       setTerminalHistory(prev => [...prev, { type: 'error', text: error.message }]);
-    }
-  };
-
-  const checkGoals = () => {
-    const allGoalsMet = currentLevel.goals.every(goal => goal.check({ fs, git }));
-    if (allGoalsMet) {
-      setTerminalHistory(prev => [...prev, { type: 'output', text: '--- LEVEL COMPLETE: ' + currentLevel.title + ' ---' }]);
-      // Logic for moving to next level
     }
   };
 
@@ -77,7 +95,7 @@ export default function TerminalPage() {
           <h3>Objectives</h3>
           <ul>
             {currentLevel.goals.map(goal => (
-              <li key={goal.id} className={goal.check({ fs, git }) ? styles.goalMet : ''}>
+              <li key={goal.id} className={completedGoalIds.has(goal.id) ? styles.goalMet : ''}>
                 {goal.description}
               </li>
             ))}

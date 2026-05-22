@@ -38,8 +38,15 @@ export const LEVELS: LevelDefinition[] = [
       },
       {
         id: 'commit',
-        description: 'Create your first commit with a meaningful message.',
-        check: (state) => state.git.getGraph().commits.length > 0
+        description: 'Create your first commit with a meaningful message (e.g., feat: init project).',
+        check: (state) => {
+          const commits = state.git.getGraph().commits;
+          if (commits.length === 0) return false;
+          
+          const latestMessage = commits[0].message.toLowerCase();
+          const conventionalTypes = ['feat:', 'fix:', 'docs:', 'style:', 'refactor:', 'test:', 'chore:'];
+          return conventionalTypes.some(type => latestMessage.startsWith(type));
+        }
       }
     ],
     hints: [
