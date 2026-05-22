@@ -200,7 +200,7 @@ export default function LandingPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-[19px] lg:text-[22px] leading-[1.5] text-zinc-300 max-w-3xl font-light tracking-[-0.01em] mb-12"
+              className="text-[19px] lg:text-[22px] leading-[1.5] text-zinc-300 max-w-5xl font-light tracking-[-0.01em] mb-12"
             >
               Not a tutorial. A high-fidelity simulation of the environments where trillion-row decisions ship daily. 
               You will learn to recover work others consider lost forever, and to sign every byte that touches production.
