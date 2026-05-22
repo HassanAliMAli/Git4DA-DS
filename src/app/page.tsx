@@ -101,7 +101,7 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-ink text-zinc-100 antialiased overflow-x-hidden selection:bg-sage/30 selection:text-white">
+    <div className="min-h-screen bg-ink text-zinc-100 antialiased overflow-x-hidden selection:bg-sage/30 selection:text-white font-sans">
       {/* Top navigation */}
       <header className="sticky top-0 z-50 border-b border-white/5 bg-ink/80 backdrop-blur-2xl">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
@@ -156,12 +156,12 @@ export default function LandingPage() {
           />
         </div>
 
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 relative flex flex-col items-center text-center">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32 relative flex flex-col items-center text-center">
           <div className="max-w-5xl flex flex-col items-center">
             <motion.div 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-sage-ink/60 border border-sage/20 text-xs mb-10"
+              className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-sage-ink/60 border border-sage/20 text-xs mb-12"
             >
               <span className="px-1.5 py-0.5 rounded bg-sage text-ink font-semibold font-mono text-[10px] tracking-wider uppercase">ACTIVE</span>
               <span className="text-zinc-300 font-light">Big Tech Scale Simulation • Meta & Google internal patterns declassified</span>
@@ -177,7 +177,7 @@ export default function LandingPage() {
             >
               <span>The ledger of</span>
               <span className="relative inline-block px-4">
-                <span className="bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent italic">integrity</span>
+                <span className="bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent italic text-[1.1em]">integrity</span>
                 <div className="absolute inset-x-0 bottom-2 h-px bg-gradient-to-r from-transparent via-sage/50 to-transparent"></div>
               </span>
               <span>is a Git graph.</span>
@@ -187,7 +187,7 @@ export default function LandingPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-[19px] lg:text-[22px] leading-[1.5] text-zinc-300 max-w-3xl font-light tracking-[-0.01em] mb-16"
+              className="text-[19px] lg:text-[22px] leading-[1.5] text-zinc-300 max-w-3xl font-light tracking-[-0.01em] mb-12"
             >
               Not a tutorial. A high-fidelity simulation of the environments where trillion-row decisions ship daily. 
               You will learn to recover work others consider lost forever, and to sign every byte that touches production.
@@ -198,7 +198,7 @@ export default function LandingPage() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="relative max-w-3xl rounded-[20px] border border-white/10 bg-ink-2/80 backdrop-blur p-5 lg:p-6 shadow-terminal text-left"
+              className="relative max-w-3xl rounded-[20px] border border-white/10 bg-ink-2/80 backdrop-blur p-5 lg:p-6 shadow-terminal text-left mb-12"
             >
               <div className="flex items-start gap-4">
                 <div className="mt-0.5 w-11 h-11 rounded-2xl bg-gradient-to-br from-zinc-800 to-zinc-900 border border-white/10 flex items-center justify-center flex-shrink-0 shadow-inner">
@@ -223,7 +223,7 @@ export default function LandingPage() {
             </motion.div>
 
             {/* Core philosophy strips */}
-            <div className="mt-14 grid lg:grid-cols-3 gap-3 max-w-5xl">
+            <div className="grid lg:grid-cols-3 gap-3 max-w-5xl">
               {[
                 { 
                   title: 'ABSOLUTE TRACEABILITY', 
@@ -249,7 +249,7 @@ export default function LandingPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 + (i * 0.1) }}
-                  className={`group rounded-2xl border border-white/8 bg-white/[0.02] hover:bg-white/[0.04] hover:border-${item.color}/30 p-4 transition-all cursor-default`}
+                  className={`group rounded-2xl border border-white/8 bg-white/[0.02] hover:bg-white/[0.04] hover:border-${item.color}/30 p-4 transition-all cursor-default text-left`}
                 >
                   <div className="flex items-start gap-3">
                     <div className={`mt-0.5 w-9 h-9 rounded-xl bg-${item.color}/10 border border-${item.color}/20 flex items-center justify-center flex-shrink-0 group-hover:border-${item.color}/40 transition-colors`}>
@@ -268,106 +268,95 @@ export default function LandingPage() {
       </section>
 
       {/* Roadmap Section */}
-      <section id="roadmap" class="border-b border-white/5 bg-ink-2/50">
-        <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
-            <div class="flex flex-wrap items-end justify-between gap-8 mb-12">
+      <section id="roadmap" className="border-b border-white/5 bg-ink-2/50">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+            <div className="flex flex-wrap items-end justify-between gap-8 mb-12 text-left">
                 <div>
-                    <div class="text-[11px] font-semibold tracking-[0.14em] text-sage mb-3 uppercase">0 TO LEGENDARY • 20 LEVELS OF MASTERY</div>
-                    <h2 class="text-[36px] lg:text-[48px] font-semibold tracking-[-0.02em] leading-[0.95] text-white">
+                    <div className="text-[11px] font-semibold tracking-[0.14em] text-sage mb-3 uppercase">0 TO LEGENDARY • 20 LEVELS OF MASTERY</div>
+                    <h2 className="text-[36px] lg:text-[48px] font-semibold tracking-[-0.02em] leading-[0.95] text-white">
                         The path is not linear.<br/><span className="italic font-light opacity-80">It is versioned.</span>
                     </h2>
                 </div>
-                <div class="text-right hidden lg:block">
-                    <div class="inline-flex items-center gap-3 px-4 py-2.5 rounded-xl bg-ink border border-white/10">
-                        <div class="text-left">
-                            <div class="text-[10px] text-zinc-500 font-mono uppercase tracking-wider">Current cohort</div>
-                            <div class="text-[13px] font-medium text-zinc-200 italic font-mono">Level 14 • Interactive Rebase</div>
+                <div className="text-right hidden lg:block">
+                    <div className="inline-flex items-center gap-3 px-4 py-2.5 rounded-xl bg-ink border border-white/10">
+                        <div className="text-left">
+                            <div className="text-[10px] text-zinc-500 font-mono uppercase tracking-wider">Current cohort</div>
+                            <div className="text-[13px] font-medium text-zinc-200 italic font-mono">Level 14 • Interactive Rebase</div>
                         </div>
-                        <div class="w-px h-8 bg-white/10"></div>
-                        <div class="text-[24px] font-mono font-medium text-white leading-none">63%</div>
+                        <div className="w-px h-8 bg-white/10"></div>
+                        <div className="text-[24px] font-mono font-medium text-white leading-none">63%</div>
                     </div>
                 </div>
             </div>
 
             {/* Modules grid */}
-            <div class="grid lg:grid-cols-5 gap-4 items-start" id="modules">
-                {/* Module 1 */}
-                <div class="lg:col-span-1">
-                    <div class="sticky top-24 rounded-2xl border border-white/10 bg-ink p-4">
-                        <div class="text-[10px] font-mono text-sage mb-1 uppercase">MODULE 01</div>
-                        <div class="font-semibold text-white mb-1 tracking-tight">The Safety Net</div>
-                        <div class="text-xs text-zinc-500 mb-3 leading-snug font-light">Foundation • Commits, ignore, time travel, undo. Where legends learn to never panic.</div>
-                        <div class="space-y-1.5 text-[11px] font-mono italic">
-                            <div class="flex items-center gap-2 text-zinc-400"><span class="w-1 h-1 rounded-full bg-zinc-600"></span>01 • Atomic commits</div>
-                            <div class="flex items-center gap-2 text-zinc-400"><span class="w-1 h-1 rounded-full bg-zinc-600"></span>02 • .gitignore patterns</div>
-                            <div class="flex items-center gap-2 text-zinc-400"><span class="w-1 h-1 rounded-full bg-zinc-600"></span>03 • Time travel</div>
-                            <div class="flex items-center gap-2 text-sage"><span class="w-1 h-1 rounded-full bg-sage"></span>04 • Undo without fear</div>
+            <div className="grid lg:grid-cols-5 gap-4 items-start text-left" id="modules">
+                <div className="lg:col-span-1">
+                    <div className="sticky top-24 rounded-2xl border border-white/10 bg-ink p-4">
+                        <div className="text-[10px] font-mono text-sage mb-1 uppercase">MODULE 01</div>
+                        <div className="font-semibold text-white mb-1 tracking-tight">The Safety Net</div>
+                        <div className="text-xs text-zinc-500 mb-3 leading-snug font-light italic">Foundation • Commits, ignore, time travel, undo.</div>
+                        <div className="space-y-1.5 text-[11px] font-mono">
+                            <div className="flex items-center gap-2 text-zinc-400">01 • Atomic commits</div>
+                            <div className="flex items-center gap-2 text-zinc-400">02 • .gitignore patterns</div>
+                            <div className="flex items-center gap-2 text-zinc-400">03 • Time travel</div>
+                            <div className="flex items-center gap-2 text-sage font-bold">04 • Undo without fear</div>
                         </div>
                     </div>
                 </div>
 
-                {/* Module 2 */}
-                <div class="lg:col-span-1">
-                    <div class="sticky top-24 rounded-2xl border border-white/10 bg-ink p-4">
-                        <div class="text-[10px] font-mono text-violet-300 mb-1 uppercase">MODULE 02</div>
-                        <div class="font-semibold text-white mb-1 tracking-tight">Collaboration Protocol</div>
-                        <div class="text-xs text-zinc-500 mb-3 leading-snug font-light">Branching, remotes, conflicts, PRs. How staff engineers review each other.</div>
-                        <div class="space-y-1.5 text-[11px] font-mono italic">
-                            <div class="flex items-center gap-2 text-zinc-400"><span class="w-1 h-1 rounded-full bg-zinc-600"></span>05 • Branch topology</div>
-                            <div class="flex items-center gap-2 text-zinc-400"><span class="w-1 h-1 rounded-full bg-zinc-600"></span>06 • Remotes & forks</div>
-                            <div class="flex items-center gap-2 text-zinc-400"><span class="w-1 h-1 rounded-full bg-zinc-600"></span>07 • Conflict resolution</div>
-                            <div class="flex items-center gap-2 text-zinc-500"><span class="w-1 h-1 rounded-full bg-zinc-700"></span>08 • PRs that ship</div>
+                <div className="lg:col-span-1">
+                    <div className="sticky top-24 rounded-2xl border border-white/10 bg-ink p-4">
+                        <div className="text-[10px] font-mono text-violet-300 mb-1 uppercase">MODULE 02</div>
+                        <div className="font-semibold text-white mb-1 tracking-tight">Collaboration</div>
+                        <div className="text-xs text-zinc-500 mb-3 leading-snug font-light italic">Branching, remotes, conflicts, PRs.</div>
+                        <div className="space-y-1.5 text-[11px] font-mono">
+                            <div className="flex items-center gap-2 text-zinc-400">05 • Branch topology</div>
+                            <div className="flex items-center gap-2 text-zinc-400">06 • Remotes & forks</div>
+                            <div className="flex items-center gap-2 text-zinc-400">07 • Conflict resolution</div>
+                            <div className="flex items-center gap-2 text-zinc-500 italic">08 • PRs that ship</div>
                         </div>
                     </div>
                 </div>
 
-                {/* Module 3 */}
-                <div class="lg:col-span-1">
-                    <div class="sticky top-24 rounded-2xl border border-white/10 bg-ink p-4">
-                        <div class="text-[10px] font-mono text-amber-300 mb-1 uppercase">MODULE 03</div>
-                        <div class="font-semibold text-white mb-1 tracking-tight">Specialized Forge</div>
-                        <div class="text-xs text-zinc-500 mb-3 leading-snug font-light">dbt, Jupytext, SQLFluff, DVC. Tooling for data engineers who ship.</div>
-                        <div class="space-y-1.5 text-[11px] font-mono italic">
-                            <div class="flex items-center gap-2 text-zinc-400"><span class="w-1 h-1 rounded-full bg-zinc-600"></span>09 • dbt + Git</div>
-                            <div class="flex items-center gap-2 text-zinc-400"><span class="w-1 h-1 rounded-full bg-zinc-600"></span>10 • Notebook versioning</div>
-                            <div class="flex items-center gap-2 text-zinc-400"><span class="w-1 h-1 rounded-full bg-zinc-600"></span>11 • Data quality hooks</div>
-                            <div class="flex items-center gap-2 text-zinc-500"><span class="w-1 h-1 rounded-full bg-zinc-700"></span>12 • DVC & MLOps</div>
+                <div className="lg:col-span-1">
+                    <div className="sticky top-24 rounded-2xl border border-white/10 bg-ink p-4">
+                        <div className="text-[10px] font-mono text-amber-300 mb-1 uppercase">MODULE 03</div>
+                        <div className="font-semibold text-white mb-1 tracking-tight">Specialized Forge</div>
+                        <div className="text-xs text-zinc-500 mb-3 leading-snug font-light italic">dbt, Jupytext, SQLFluff, DVC.</div>
+                        <div className="space-y-1.5 text-[11px] font-mono">
+                            <div className="flex items-center gap-2 text-zinc-400">09 • dbt + Git</div>
+                            <div className="flex items-center gap-2 text-zinc-400">10 • Notebooks</div>
+                            <div className="flex items-center gap-2 text-zinc-400">11 • Quality hooks</div>
+                            <div className="flex items-center gap-2 text-zinc-500 italic">12 • DVC & MLOps</div>
                         </div>
                     </div>
                 </div>
 
-                {/* Module 4 - Big Tech */}
-                <div class="lg:col-span-1">
-                    <div class="sticky top-24 rounded-2xl border border-sage/30 bg-sage-ink/40 p-4 shadow-glow">
-                        <div class="flex items-center gap-2 mb-1">
-                            <div class="text-[10px] font-mono text-sage uppercase">MODULE 04</div>
-                            <span class="px-1.5 py-0.5 rounded text-[9px] font-semibold bg-sage text-ink font-mono uppercase">ULTRA HERO</span>
-                        </div>
-                        <div class="font-semibold text-white mb-1 tracking-tight">Big Tech Scale</div>
-                        <div class="text-xs text-zinc-300 mb-3 leading-snug font-light">Meta/Airbnb scale. Sparse checkout, bisect audits, history rewriting.</div>
-                        <div class="space-y-1.5 text-[11px] font-mono italic">
-                            <div class="flex items-center gap-2 text-white"><span class="w-1.5 h-1.5 rounded-full bg-sage shadow-[0_0_8px_#0ea5a3]"></span>13 • Sparse checkout</div>
-                            <div class="flex items-center gap-2 text-sage"><span class="w-1.5 h-1.5 rounded-full bg-sage shadow-[0_0_8px_#0ea5a3]"></span>14 • Interactive rebase</div>
-                            <div class="flex items-center gap-2 text-zinc-300"><span class="w-1 h-1 rounded-full bg-zinc-500"></span>15 • Git bisect audit</div>
-                            <div class="flex items-center gap-2 text-zinc-400"><span class="w-1 h-1 rounded-full bg-zinc-600"></span>16 • Filter-repo cleanup</div>
+                <div className="lg:col-span-1">
+                    <div className="sticky top-24 rounded-2xl border border-sage/30 bg-sage-ink/40 p-4 shadow-glow">
+                        <div className="text-[10px] font-mono text-sage mb-1 uppercase font-bold tracking-widest">MODULE 04</div>
+                        <div className="font-semibold text-white mb-1 tracking-tight">Big Tech Scale</div>
+                        <div className="text-xs text-zinc-300 mb-3 leading-snug font-light italic">Meta/Airbnb scale.</div>
+                        <div className="space-y-1.5 text-[11px] font-mono italic">
+                            <div className="flex items-center gap-2 text-white font-bold">13 • Sparse checkout</div>
+                            <div className="flex items-center gap-2 text-sage font-bold underline decoration-white/20">14 • Interactive rebase</div>
+                            <div className="flex items-center gap-2 text-zinc-300">15 • Git bisect audit</div>
+                            <div className="flex items-center gap-2 text-zinc-400">16 • Filter-repo</div>
                         </div>
                     </div>
                 </div>
 
-                {/* Module 5 - Legendary Tier */}
-                <div class="lg:col-span-1">
-                    <div class="sticky top-24 rounded-2xl border border-amber/30 bg-amber/5 p-4 shadow-glow-violet">
-                        <div class="flex items-center gap-2 mb-1">
-                            <div class="text-[10px] font-mono text-amber-300 uppercase">MODULE 05</div>
-                            <span class="px-1.5 py-0.5 rounded text-[9px] font-semibold bg-amber text-ink font-mono uppercase">LEGENDARY</span>
-                        </div>
-                        <div class="font-semibold text-white mb-1 tracking-tight">The Dark Arts</div>
-                        <div class="text-xs text-zinc-300 mb-3 leading-snug font-light">Reflog resurrection, worktrees, GPG seals, Piper/Sapling architecture.</div>
-                        <div class="space-y-1.5 text-[11px] font-mono italic text-amber-100/70">
-                            <div class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-amber-400 animate-pulse"></span>17 • Reflog resurrection</div>
-                            <div class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-amber-400 animate-pulse"></span>18 • Shadow clones</div>
-                            <div class="flex items-center gap-2 text-zinc-300"><span class="w-1 h-1 rounded-full bg-zinc-500"></span>19 • Cryptographic seal</div>
-                            <div class="flex items-center gap-2 text-zinc-400"><span class="w-1 h-1 rounded-full bg-zinc-600"></span>20 • Monolith master</div>
+                <div className="lg:col-span-1">
+                    <div className="sticky top-24 rounded-2xl border border-amber/30 bg-amber/5 p-4 shadow-glow-violet">
+                        <div className="text-[10px] font-mono text-amber-300 mb-1 uppercase font-bold tracking-widest">MODULE 05</div>
+                        <div className="font-semibold text-white mb-1 tracking-tight italic">Dark Arts</div>
+                        <div className="text-xs text-zinc-300 mb-3 leading-snug font-light">The final tier.</div>
+                        <div className="space-y-1.5 text-[11px] font-mono text-amber-100/70">
+                            <div className="flex items-center gap-2">17 • Reflog resurr.</div>
+                            <div className="flex items-center gap-2 font-bold">18 • Shadow clones</div>
+                            <div className="flex items-center gap-2">19 • GPG seals</div>
+                            <div className="flex items-center gap-2">20 • Monolith master</div>
                         </div>
                     </div>
                 </div>
@@ -376,24 +365,21 @@ export default function LandingPage() {
       </section>
 
       {/* Interactive Lab Section */}
-      <section id="lab" className="py-20 bg-ink border-b border-white/5 relative">
+      <section id="lab" className="py-24 lg:py-32 bg-ink border-b border-white/5 relative">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="max-w-3xl mb-12">
+          <div className="max-w-3xl mb-12 text-left">
             <div className="text-[11px] font-semibold tracking-[0.14em] text-violet-300 mb-3 uppercase">INTERACTIVE LAB • SIMULATED PRODUCTION</div>
-            <h2 className="text-[36px] lg:text-[48px] font-semibold tracking-[-0.02em] leading-[0.95] text-white mb-4">
+            <h2 className="text-[36px] lg:text-[48px] font-semibold tracking-[-0.02em] leading-[0.95] text-white mb-4 text-left">
               The terminal does not lie.<br/><span className="italic font-light opacity-80">Try to break things.</span>
             </h2>
-            <p className="text-[17px] leading-relaxed text-zinc-400 font-light">
-              These are not toys. They are exact replicas of the internal tools used for lineage audits at companies 
-              where a single bad commit can affect $200M in reported revenue. Type, run, recover.
+            <p className="text-[17px] leading-relaxed text-zinc-400 font-light text-left">
+              These are not toys. They are exact replicas of the internal tools used for lineage audits at companies.
             </p>
           </div>
 
           <div className="grid lg:grid-cols-5 gap-6 items-start">
-            {/* Main Terminal Simulation */}
             <div className="lg:col-span-3">
               <div className="rounded-[20px] border border-white/10 bg-ink-2 shadow-terminal overflow-hidden">
-                {/* Window chrome */}
                 <div className="flex items-center justify-between px-4 h-11 border-b border-white/5 bg-white/[0.02]">
                   <div className="flex items-center gap-3">
                     <div className="flex items-center gap-1.5">
@@ -402,17 +388,16 @@ export default function LandingPage() {
                       <div className="w-3 h-3 rounded-full bg-zinc-600 opacity-50" />
                     </div>
                     <div className="h-6 w-px bg-white/10" />
-                    <div className="text-xs font-mono text-zinc-400 tracking-tight">
-                      data-platform • <span className="text-sage font-semibold italic">main</span> • GPG signed
+                    <div className="text-xs font-mono text-zinc-400 tracking-tight italic">
+                      data-platform • <span className="text-sage font-bold">main</span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 text-[10px] font-mono font-bold">
-                    <span className="px-2 py-1 rounded-md bg-emerald-950/70 text-emerald-300 border border-emerald-800/50 uppercase">RECOVERABLE</span>
+                  <div className="flex items-center gap-2 text-[10px] font-mono font-bold uppercase">
+                    <span className="px-2 py-1 rounded-md bg-emerald-950/70 text-emerald-300 border border-emerald-800/50">RECOVERABLE</span>
                   </div>
                 </div>
 
-                {/* Terminal content */}
-                <div className="p-6 font-mono text-[13px] leading-[1.7] text-zinc-300 bg-[#08090c] min-h-[400px]">
+                <div className="p-6 font-mono text-[13px] leading-[1.7] text-zinc-300 bg-[#08090c] min-h-[400px] text-left">
                   <div className="space-y-4">
                     {terminalHistory.map((item, i) => (
                       <motion.div 
@@ -422,12 +407,12 @@ export default function LandingPage() {
                       >
                         {item.type === 'cmd' && (
                           <div className="flex gap-2 text-white">
-                            <span className="text-sage font-bold uppercase tracking-widest text-[10px] mt-1 pr-1">❯</span>
+                            <span className="text-sage font-bold uppercase tracking-widest text-[10px] mt-1 pr-1 italic">❯</span>
                             <span className="font-semibold">{item.content}</span>
                           </div>
                         )}
                         {item.type === 'output' && (
-                          <div className="pl-6 text-zinc-400 font-light">
+                          <div className="pl-6 text-zinc-400 font-light italic">
                             {item.content}
                           </div>
                         )}
@@ -436,69 +421,49 @@ export default function LandingPage() {
                   </div>
 
                   <div className="flex items-center gap-2 mt-4 pt-4 border-t border-white/5 group">
-                    <span className="text-sage font-bold uppercase tracking-widest text-[10px] pr-1">❯</span>
+                    <span className="text-sage font-bold uppercase tracking-widest text-[10px] pr-1 italic">❯</span>
                     <input
                       value={terminalInput}
                       onChange={(e) => setTerminalInput(e.target.value)}
                       onKeyDown={(e) => e.key === 'Enter' && handleCommand(terminalInput)}
                       className="flex-1 bg-transparent border-none outline-none text-white font-semibold caret-sage placeholder:text-zinc-700 italic"
-                      placeholder="git reflog — type 'help' to start"
+                      placeholder="git reflog — try it"
                       spellCheck={false}
                       autoComplete="off"
-                      autoFocus
                     />
-                    <ChevronRight size={14} className="text-zinc-700 group-focus-within:text-sage transition-colors" />
+                    <ChevronRight size={14} className="text-zinc-700" />
                   </div>
                 </div>
               </div>
-              
-              <div className="mt-4 flex items-center gap-3 text-[10px] text-zinc-600 font-mono uppercase tracking-[0.1em] px-2 italic">
-                <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-emerald-500/50" /> keystroke tracking enabled</span>
-                <span>•</span>
-                <span>Reflog retention: 90 days</span>
-                <span>•</span>
-                <span>Object DB: 4.2 GB</span>
-              </div>
             </div>
 
-            {/* Side Highlights */}
-            <div className="lg:col-span-2 space-y-4">
+            <div className="lg:col-span-2 space-y-4 text-left">
               <div className="rounded-2xl border border-white/10 bg-ink-2 p-5 shadow-glow relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-sage/5 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-sage/10 transition-colors" />
                 <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-[10px] font-bold text-sage uppercase tracking-[0.2em]">Assignment Insight</span>
-                    <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-white mb-2 tracking-tight">The Multi-Verse Architecture</h3>
+                  <span className="text-[10px] font-bold text-sage uppercase tracking-[0.2em] mb-4 block">Assignment Insight</span>
+                  <h3 className="text-lg font-semibold text-white mb-2 tracking-tight italic">Multi-Verse Architecture</h3>
                   <p className="text-xs text-zinc-400 leading-relaxed font-light mb-4 italic">
-                    Stop switching branches. Learn to spin up parallel working trees for concurrent A/B testing on multi-terabyte datasets.
+                    Stop switching branches. Parallel working trees for concurrent testing.
                   </p>
-                  <button className="flex items-center gap-2 text-[10px] font-bold text-white uppercase tracking-widest hover:text-sage transition-colors group/btn">
-                    Read the whitepaper <ArrowRight size={12} className="group-hover/btn:translate-x-1 transition-transform" />
+                  <button className="flex items-center gap-2 text-[10px] font-bold text-white uppercase tracking-widest hover:text-sage transition-colors">
+                    Read the paper <ArrowRight size={12} />
                   </button>
                 </div>
               </div>
 
               <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5 backdrop-blur shadow-inner">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-8 h-8 rounded-lg bg-violet/10 border border-violet/20 flex items-center justify-center text-violet-300">
-                    <Lock size={16} />
-                  </div>
+                  <Lock size={16} className="text-violet-300" />
                   <span className="text-[11px] font-bold text-zinc-300 uppercase tracking-widest">Audit Trails</span>
                 </div>
-                <div className="space-y-3 font-mono text-[10px]">
+                <div className="space-y-3 font-mono text-[10px] italic text-zinc-500">
                   <div className="flex justify-between py-2 border-b border-white/5">
-                    <span className="text-zinc-500 italic">Signed Commit</span>
+                    <span>Signed Commit</span>
                     <span className="text-emerald-400 font-bold">✓ VERIFIED</span>
                   </div>
                   <div className="flex justify-between py-2 border-b border-white/5">
-                    <span className="text-zinc-500 italic">DVC Pointer</span>
+                    <span>DVC Pointer</span>
                     <span className="text-zinc-300">dvc://s3-v1.2</span>
-                  </div>
-                  <div className="flex justify-between py-2 border-b border-white/5">
-                    <span className="text-zinc-500 italic">Reflog Index</span>
-                    <span className="text-sage italic">0x4F2...A9B</span>
                   </div>
                 </div>
               </div>
@@ -507,57 +472,111 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-white/5 bg-ink-2/80 backdrop-blur py-12">
+      {/* Signature Section */}
+      <section className="border-b border-white/5 bg-ink-2/30 py-24 lg:py-32">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-start gap-12">
-            <div className="max-w-md">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sage to-violet flex items-center justify-center shadow-glow">
-                  <span className="font-mono font-semibold text-xs tracking-widest text-white">G4D</span>
+            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-10 text-left">
+                <div className="max-w-2xl">
+                    <div className="text-[11px] font-semibold tracking-[0.14em] text-sage mb-3 uppercase">LEVEL 19 • CRYPTOGRAPHIC SEAL</div>
+                    <h2 className="text-[28px] lg:text-[36px] font-semibold tracking-[-0.02em] leading-[1.1] text-white italic">
+                        Verified badges are liability.
+                    </h2>
                 </div>
-                <div className="text-lg font-bold tracking-tight text-white uppercase italic">Git4Data</div>
+                <div className="lg:text-right">
+                    <div className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-ink border border-white/10 text-xs italic font-mono text-zinc-500">
+                        GPG: 4096R/4A7F9C2D
+                    </div>
+                </div>
+            </div>
+
+            <div className="grid lg:grid-cols-3 gap-4 text-left">
+                <div className="lg:col-span-2 rounded-2xl border border-emerald-900/50 bg-emerald-950/20 overflow-hidden">
+                    <div className="p-6">
+                        <div className="flex items-start gap-4">
+                            <Shield size={20} className="text-emerald-300 mt-1" />
+                            <div className="min-w-0 flex-1">
+                                <div className="flex flex-wrap items-center gap-2 mb-2 italic">
+                                    <code className="text-[13px] font-mono text-white">a7f3c9d • Cascade Model v3</code>
+                                    <span className="bg-emerald-900 text-emerald-200 border border-emerald-700 px-2 py-0.5 rounded text-[10px] font-bold">VERIFIED</span>
+                                </div>
+                                <p className="text-xs text-zinc-400 leading-relaxed italic font-light mb-2">
+                                    Audit-proof lineage • Deployed us-east-1
+                                </p>
+                                <span className="text-[10px] font-mono text-zinc-600">Key: 4A7F 9C2D 1E4B</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="rounded-2xl border border-amber-900/40 bg-amber-950/15 p-6 italic">
+                    <div className="text-[10px] font-bold text-amber-300 uppercase mb-2 tracking-widest">POLICY</div>
+                    <div className="text-xs text-zinc-300 font-mono">reject unverified commits</div>
+                </div>
+            </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="bg-ink border-b border-white/5 py-24 lg:py-32">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center">
+          <div className="max-w-4xl flex flex-col items-center">
+            <h2 className="text-[36px] lg:text-[52px] font-semibold tracking-[-0.03em] leading-[0.95] text-white mb-8 italic">
+              The environment refuses to let you fail.
+            </h2>
+            <p className="text-[18px] leading-relaxed text-zinc-300 max-w-2xl mb-12 font-light italic opacity-80">
+              No certificates. Only recovery stories.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4">
+                <button 
+                  onClick={() => router.push('/terminal')}
+                  className="h-14 px-10 rounded-xl bg-white text-ink font-bold text-[15px] hover:bg-zinc-100 transition-all active:scale-[0.98] shadow-glow flex items-center justify-center gap-2 uppercase tracking-widest"
+                >
+                    Start Level 1
+                    <ArrowRight size={18} />
+                </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-white/5 bg-ink-2/80 backdrop-blur py-24 lg:py-32">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row justify-between items-start gap-16 text-left font-light italic">
+            <div className="max-w-md">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sage to-violet flex items-center justify-center">
+                  <span className="font-mono font-semibold text-xs text-white uppercase">G4D</span>
+                </div>
+                <div className="text-xl font-bold tracking-tight text-white uppercase">Git4Data</div>
               </div>
-              <p className="text-sm leading-relaxed text-zinc-500 font-light italic">
-                The absolute ceiling of Git mastery for the high-stakes world of data. 
-                Where PhD-level research meets staff-level engineering rigor.
+              <p className="text-sm leading-relaxed text-zinc-500 font-light">
+                PhD-level Git mastery. Staff-level engineering rigor.
               </p>
             </div>
             
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-12">
-              <div className="space-y-4">
-                <h4 className="text-[11px] font-bold text-zinc-300 uppercase tracking-[0.2em]">Curriculum</h4>
-                <ul className="text-xs space-y-2 text-zinc-500 font-light">
-                  <li className="hover:text-sage transition-colors cursor-pointer italic underline decoration-white/5">Safety Net</li>
-                  <li className="hover:text-sage transition-colors cursor-pointer italic underline decoration-white/5">The Forge</li>
-                  <li className="hover:text-sage transition-colors cursor-pointer italic underline decoration-white/5">Dark Arts</li>
-                </ul>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-16 text-zinc-500 text-xs">
+              <div className="space-y-6">
+                <h4 className="text-[11px] font-bold text-zinc-300 uppercase tracking-[0.2em] not-italic">Curriculum</h4>
+                <div className="space-y-3">
+                  <div>Safety Net</div>
+                  <div>The Forge</div>
+                </div>
               </div>
-              <div className="space-y-4">
-                <h4 className="text-[11px] font-bold text-zinc-300 uppercase tracking-[0.2em]">Architecture</h4>
-                <ul className="text-xs space-y-2 text-zinc-500 font-light">
-                  <li className="hover:text-sage transition-colors cursor-pointer italic underline decoration-white/5">VFS Layer</li>
-                  <li className="hover:text-sage transition-colors cursor-pointer italic underline decoration-white/5">Reflog Engine</li>
-                  <li className="hover:text-sage transition-colors cursor-pointer italic underline decoration-white/5">DVC Audit</li>
-                </ul>
-              </div>
-              <div className="space-y-4">
-                <h4 className="text-[11px] font-bold text-zinc-300 uppercase tracking-[0.2em]">Contact</h4>
-                <ul className="text-xs space-y-2 text-zinc-500 font-light">
-                  <li className="hover:text-sage transition-colors cursor-pointer italic underline decoration-white/5">Secure Node</li>
-                  <li className="hover:text-sage transition-colors cursor-pointer italic underline decoration-white/5">Status: Nominal</li>
-                </ul>
+              <div className="space-y-6">
+                <h4 className="text-[11px] font-bold text-zinc-300 uppercase tracking-[0.2em] not-italic">Architecture</h4>
+                <div className="space-y-3">
+                  <div>VFS Layer</div>
+                  <div>Reflog Engine</div>
+                </div>
               </div>
             </div>
           </div>
           
-          <div className="mt-16 pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-between gap-4 text-[10px] font-mono text-zinc-700 uppercase tracking-widest italic">
+          <div className="mt-24 pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-between gap-4 text-[10px] font-mono text-zinc-700 uppercase tracking-widest italic font-bold">
             <div>© 2026 Git4Data • Engineered by Dr. Hassan</div>
-            <div className="flex gap-6">
-              <span>Verified Lineage</span>
-              <span>GPG Signed</span>
-              <span>0% Data Loss</span>
-            </div>
+            <div>0% Data Loss • GPG Signed</div>
           </div>
         </div>
       </footer>
