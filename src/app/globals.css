@@ -1,18 +1,31 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif';
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Monaco', 'monospace';
+
+  --color-ink: #0a0b0f;
+  --color-ink-2: #0f1117;
+  --color-ink-3: #151924;
+  --color-sage: #0ea5a3;
+  --color-sage-ink: #0b3b3a;
+  --color-amber: #f59e0b;
+  --color-violet: #8b5cf6;
+
+  --shadow-glow: 0 0 0 1px rgba(14,165,163,0.15), 0 8px 40px rgba(14,165,163,0.12), 0 2px 8px rgba(0,0,0,0.4);
+  --shadow-glow-violet: 0 0 0 1px rgba(139,92,246,0.18), 0 8px 40px rgba(139,92,246,0.15);
+  --shadow-terminal: 0 0 0 1px rgba(255,255,255,0.04), 0 20px 60px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.03);
+
+  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-float: float 6s ease-in-out infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(1deg); }
+  }
+}
 
 @layer base {
-  :root {
-    --ink: #0a0b0f;
-    --ink-2: #0f1117;
-    --ink-3: #151924;
-    --sage: #0ea5a3;
-    --sage-ink: #0b3b3a;
-    --amber: #f59e0b;
-    --violet: #8b5cf6;
-  }
-
   * {
     font-variant-numeric: tabular-nums;
     box-sizing: border-box;
@@ -49,12 +62,16 @@
     -webkit-backdrop-filter: blur(24px);
   }
 
+  .sheen {
+    position: relative;
+  }
+
   .sheen::before {
     content: '';
     position: absolute;
     inset: 0;
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-    animation: sheen 2.5s infinite;
+    animation: sheen-anim 2.5s infinite;
   }
 
   .level-node {
@@ -63,7 +80,7 @@
   }
 }
 
-@keyframes sheen {
+@keyframes sheen-anim {
   0% { transform: translateX(-100%) skewX(-12deg); }
   100% { transform: translateX(200%) skewX(-12deg); }
 }

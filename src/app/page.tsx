@@ -156,12 +156,12 @@ export default function LandingPage() {
           />
         </div>
 
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 relative">
-          <div className="max-w-5xl">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 relative flex flex-col items-center text-center">
+          <div className="max-w-5xl flex flex-col items-center">
             <motion.div 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-sage-ink/60 border border-sage/20 text-xs mb-8"
+              className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-sage-ink/60 border border-sage/20 text-xs mb-10"
             >
               <span className="px-1.5 py-0.5 rounded bg-sage text-ink font-semibold font-mono text-[10px] tracking-wider uppercase">ACTIVE</span>
               <span className="text-zinc-300 font-light">Big Tech Scale Simulation • Meta & Google internal patterns declassified</span>
@@ -173,21 +173,21 @@ export default function LandingPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="font-sans font-semibold tracking-[-0.03em] text-[clamp(42px,8vw,84px)] leading-[0.88] mb-8"
+              className="font-sans font-semibold tracking-[-0.03em] text-[clamp(42px,8vw,84px)] leading-[1.1] mb-12 flex flex-col items-center gap-4"
             >
-              The ledger of<br/>
-              <span className="relative inline-block">
+              <span>The ledger of</span>
+              <span className="relative inline-block px-4">
                 <span className="bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent italic">integrity</span>
-                <div className="absolute inset-x-0 bottom-3 h-px bg-gradient-to-r from-transparent via-sage/50 to-transparent"></div>
+                <div className="absolute inset-x-0 bottom-2 h-px bg-gradient-to-r from-transparent via-sage/50 to-transparent"></div>
               </span>
-              <br/>is a Git graph.
+              <span>is a Git graph.</span>
             </motion.h1>
 
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-[19px] lg:text-[22px] leading-[1.5] text-zinc-300 max-w-3xl font-light tracking-[-0.01em] mb-12"
+              className="text-[19px] lg:text-[22px] leading-[1.5] text-zinc-300 max-w-3xl font-light tracking-[-0.01em] mb-16"
             >
               Not a tutorial. A high-fidelity simulation of the environments where trillion-row decisions ship daily. 
               You will learn to recover work others consider lost forever, and to sign every byte that touches production.
@@ -198,7 +198,7 @@ export default function LandingPage() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="relative max-w-3xl rounded-[20px] border border-white/10 bg-ink-2/80 backdrop-blur p-5 lg:p-6 shadow-terminal"
+              className="relative max-w-3xl rounded-[20px] border border-white/10 bg-ink-2/80 backdrop-blur p-5 lg:p-6 shadow-terminal text-left"
             >
               <div className="flex items-start gap-4">
                 <div className="mt-0.5 w-11 h-11 rounded-2xl bg-gradient-to-br from-zinc-800 to-zinc-900 border border-white/10 flex items-center justify-center flex-shrink-0 shadow-inner">
