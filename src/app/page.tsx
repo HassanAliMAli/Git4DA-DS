@@ -169,8 +169,8 @@ export default function LandingPage() {
           />
         </div>
 
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32 relative flex flex-col items-center text-center">
-          <div className="max-w-5xl flex flex-col items-center">
+        <div className="w-full px-6 sm:px-10 lg:px-16 py-24 lg:py-32 relative flex flex-col items-center text-center">
+          <div className="max-w-6xl flex flex-col items-center">
             <motion.div 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
