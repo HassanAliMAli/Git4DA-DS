@@ -16,9 +16,11 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useProfile } from '@/contexts/ProfileContext';
 
 export default function LandingPage() {
   const router = useRouter();
+  const { isLoaded } = useProfile();
   const [terminalInput, setTerminalInput] = useState('');
   const [terminalHistory, setTerminalHistory] = useState<Array<{type: 'cmd' | 'output', content: string | React.ReactNode}>>([
     { type: 'output', content: <span className="text-zinc-500">Git4Data Lab v2.4.1 • Legendary Tier simulation • type "help" for commands</span> },
@@ -33,6 +35,17 @@ export default function LandingPage() {
   useEffect(() => {
     terminalEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [terminalHistory]);
+
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen bg-ink flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-2 border-sage/20 border-t-sage rounded-full animate-spin" />
+          <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.2em] animate-pulse">Initializing Secure Node...</span>
+        </div>
+      </div>
+    );
+  }
 
   const commands: Record<string, React.ReactNode> = {
     help: (
