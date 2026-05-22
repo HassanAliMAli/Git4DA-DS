@@ -1,0 +1,112 @@
+# Project TASKS: Git4Data (Legendary Path)
+
+## Phase 0: Environment & Project Scaffolding
+- [x] Initialize Next.js 15+ project with TypeScript (Strict Mode)
+- [x] Configure `Vanilla CSS` variables for "DataPulse" brand identity (Teal/Dark/Gold)
+- [x] Setup ESLint and Prettier for strict engineering standards
+- [x] Configure **OpenNext Cloudflare Adapter** for Next.js 15 (`@opennextjs/cloudflare`)
+- [x] Initialize `wrangler.jsonc` with `nodejs_compat` enabled
+- [x] Initialize `src/` folder structure according to Project Plan
+- [x] Create `TASKS.md` (Self-tracking initialization)
+- [x] Create `AGENTS.md` — Comprehensive agent standing orders (Sentinel-tier rules)
+- [x] Create `CLAUDE.md` — References AGENTS.md for Claude Code compliance
+
+---
+
+## Phase 1: The Narrative & Onboarding (Dr. Hassan's Welcome)
+### 1.1 Profile Selection System
+- [x] Design `src/models/Profile.ts` interface (Role, XP, Level, BadgeID)
+- [x] Create `src/contexts/ProfileContext.tsx` for global state management
+- [x] Implement `ProfileSelection` UI component:
+    - [x] Role cards for "Data Analyst" and "Data Scientist"
+    - [ ] Animated "DataPulse Badge" generator
+    - [x] Logic to persist profile selection to **Cloudflare D1** (Serverless SQL) [Note: Fallback to LocalStorage for now]
+- [ ] Write Dr. Hassan's "Welcome to the Forge" introductory dialogue scripts
+
+### 1.2 Narrative Engine
+- [x] Create `DrHassanAdvisor` component (Sticky/Floating mentor)
+- [x] Implement "Typewriter" effect for narrative delivery
+- [ ] Add sound triggers for Dr. Hassan's "Audit Warnings" and "Sage Approval" [Postponed for sound asset availability]
+
+---
+## Phase 2: The Core Simulation Engine (The "Heart")
+### 2.1 Virtual File System (VFS)
+- [x] Implement `FileSystem.ts`:
+    - [x] In-memory tree structure for folders/files
+    - [x] File operations: `mkdir`, `rm`, `touch`, `write`, `read`
+    - [x] Support for metadata (file size, hidden status)
+- [x] Unit tests for VFS operations
+
+### 2.2 Git Simulation Engine (The PhD Layer)
+- [x] Implement `GitRepository.ts`:
+    - [x] Object Database (Blobs, Trees, Commits)
+    - [x] Ref Management (`HEAD`, branches, tags)
+    - [x] Staging Area (Index) logic
+    - [x] **Ultra Hero Feature**: Implement `Reflog` to track every pointer move
+    - [ ] **Legendary Feature**: Implement `GPG Signature` verification logic [Integrated data field, logic pending in Module 5]
+- [x] Implement `GitCommandProcessor.ts`: [Basic internal implementation done, CLI registry pending in Module 2]
+- [x] Unit tests for Git engine operations
+
+    - [ ] Tab-completion registry
+
+### 2.3 Specialized Data Components
+- [x] Build `NotebookViewer.tsx` (Renders JSON `.ipynb` as visual cells)
+- [x] Build `SQLViewer.tsx` (Syntax highlighted SQL editor)
+- [x] Build `GitGraphVisualizer.tsx` (SVG/Canvas based commit tree)
+- [x] Build `DVCScanner.ts` (Logic to check for large files committed without `.dvc` pointers)
+
+---
+
+## Phase 3: The 20-Level Implementation (The Path)
+
+### Module 1: The Safety Net (Foundation)
+- [ ] **Level 1**: Implement `init`, `add`, `commit` challenge
+- [ ] **Level 2**: Implement `.gitignore` auditor (Blocks commits if `.csv` is present)
+- [ ] **Level 3**: Implement `status`/`log` visualization
+- [ ] **Level 4**: Implement `revert` challenge (The "Data Disaster" recovery)
+
+### Module 2: The Collaboration Protocol
+- [ ] **Level 5**: Implement basic branching (`git branch`, `git checkout`)
+- [ ] **Level 6**: Implement simulated `remote` and `push` to "DataPulse Central"
+- [ ] **Level 7**: Implement Merge Conflict scenario (Simulated conflicting SQL files)
+- [ ] **Level 8**: Implement "Pull Request" UI (Dr. Hassan's logic audit)
+
+### Module 3A: Data Analyst "Insights Architect" Track
+- [ ] **Level 9**: Implement dbt-style "State" versioning simulation
+- [ ] **Level 10**: Implement `Jupytext` workflow (Syncing `.ipynb` to `.py`)
+- [ ] **Level 11**: Implement `SQLFluff` linting gate (Blocks commits with poor formatting)
+- [ ] **Level 12**: Implement "Slim CI" (Only testing modified models)
+
+### Module 3B: Data Scientist "Production Alchemist" Track
+- [ ] **Level 9**: Implement DVC Pointer creation (`dvc add`)
+- [ ] **Level 10**: Implement "Commit-to-Experiment" linking (MLflow simulation)
+- [ ] **Level 11**: Implement "Feature Definition" versioning challenge
+- [ ] **Level 12**: Implement "Git-Triggered Training" (Simulated GitHub Action)
+
+### Module 4 & 5: The Legendary Tier (The Dark Arts)
+- [ ] **Level 13**: Implement `sparse-checkout` (Large repo navigation)
+- [ ] **Level 14**: Implement Interactive Rebase challenge (`rebase -i`)
+- [ ] **Level 15**: Implement `git bisect` (Hunting the "Data Bug")
+- [ ] **Level 16**: Implement `git filter-repo` (Purging sensitive CSVs)
+- [ ] **Level 17**: **Legendary**: Implement `reflog` recovery of uncommitted work
+- [ ] **Level 18**: **Legendary**: Implement `git worktree` UI (Parallel experimentation)
+- [ ] **Level 19**: **Legendary**: Implement GPG Signing workflow
+- [ ] **Level 20**: **Legendary**: Final Capstone: Managing a simulated monorepo with VFS
+
+---
+
+## Phase 4: Gamification & Polish
+- [ ] Implement XP/Coin reward system
+- [ ] Build the "Shop" for Terminal Themes (Matrix, Cyberpunk, DataPulse Gold)
+- [ ] Implement achievement badges (e.g., "Reflog Archaeologist", "Signer of Truth")
+- [ ] Final audio pass (Environmental ambiance for DataPulse HQ)
+- [ ] Mobile-responsiveness check for the terminal interface
+
+---
+
+## Phase 5: Verification & Launch
+- [ ] End-to-end testing of all 20 levels
+- [ ] Performance audit for the in-memory Git engine
+- [ ] Final Dr. Hassan dialogue review
+- [ ] Configure **Cloudflare D1**, **KV**, and **R2** bindings in production
+- [ ] Deploy to **Cloudflare Workers / Pages** via Wrangler CLI
