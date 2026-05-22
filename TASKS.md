@@ -2,30 +2,26 @@
 
 ## Phase 0: Environment & Project Scaffolding
 - [x] Initialize Next.js 15+ project with TypeScript (Strict Mode)
-- [x] Configure `Vanilla CSS` variables for "DataPulse" brand identity (Teal/Dark/Gold)
+- [x] Configure **Tailwind CSS v4** with "Ink/Sage" world-class theme
 - [x] Setup ESLint and Prettier for strict engineering standards
-- [x] Configure **OpenNext Cloudflare Adapter** for Next.js 15 (`@opennextjs/cloudflare`)
+- [x] Configure **OpenNext Cloudflare Adapter** for Next.js 15
 - [x] Initialize `wrangler.jsonc` with `nodejs_compat` enabled
-- [x] Initialize `src/` folder structure according to Project Plan
+- [x] Initialize `src/` folder structure
 - [x] Create `TASKS.md` (Self-tracking initialization)
-- [x] Create `AGENTS.md` — Comprehensive agent standing orders (Sentinel-tier rules)
-- [x] Create `CLAUDE.md` — References AGENTS.md for Claude Code compliance
+- [x] **Total Aesthetic Overhaul**: Migrated to expansive Ink/Sage landing page
 
 ---
 
-## Phase 1: The Narrative & Onboarding (Dr. Hassan's Welcome)
+## Phase 1: The Narrative & Onboarding (Ink/Sage Edition)
 ### 1.1 Profile Selection System
-- [x] Design `src/models/Profile.ts` interface (Role, XP, Level, BadgeID)
-- [x] Create `src/contexts/ProfileContext.tsx` for global state management
-- [x] Implement `ProfileSelection` UI component:
-    - [x] Role cards for "Data Analyst" and "Data Scientist"
-    - [ ] Animated "DataPulse Badge" generator
-    - [x] Logic to persist profile selection to **Cloudflare D1** (Serverless SQL) [Note: Fallback to LocalStorage for now]
-- [ ] Write Dr. Hassan's "Welcome to the Forge" introductory dialogue scripts
+- [x] Design `src/models/Profile.ts` interface
+- [x] Create `src/contexts/ProfileContext.tsx`
+- [ ] Rebuild `ProfileSelection` UI with Ink/Sage expansive cards
+- [x] Write Dr. Hassan's "Welcome to the Forge" introductory scripts
 
 ### 1.2 Narrative Engine
-- [x] Create `DrHassanAdvisor` component (Sticky/Floating mentor)
-- [x] Implement "Typewriter" effect for narrative delivery
+- [ ] Rebuild `DrHassanAdvisor` component (Sage-gradient popup with Framer Motion)
+- [x] Implement "Typewriter" effect logic
 - [ ] Add sound triggers for Dr. Hassan's "Audit Warnings" and "Sage Approval" [Postponed for sound asset availability]
 
 ---
