@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useProfile } from '@/contexts/ProfileContext';
 import ProfileSelection from '@/components/ProfileSelection';
 import DrHassanAdvisor from '@/components/DrHassanAdvisor';
@@ -9,6 +10,7 @@ import styles from './page.module.css';
 
 export default function Home() {
   const { profile, isLoaded } = useProfile();
+  const router = useRouter();
   const [showAdvisor, setShowAdvisor] = useState(false);
   const [isTerminalCalibrating, setIsTerminalCalibrating] = useState(false);
 
@@ -28,8 +30,10 @@ export default function Home() {
 
   const onAdvisorComplete = () => {
     setIsTerminalCalibrating(true);
-    // Logic to move to the first level will go here
-    console.log("Terminal Calibrated. Entering Level 1...");
+    // Navigate to terminal after a short delay to simulate calibration
+    setTimeout(() => {
+      router.push('/terminal');
+    }, 2000);
   };
 
   return (
