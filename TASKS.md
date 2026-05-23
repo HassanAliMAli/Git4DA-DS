@@ -66,14 +66,14 @@
 - [x] **Level 8**: Implement "Pull Request" UI (Dr. Hassan's logic audit)
 
 ### Module 3A: Data Analyst "Insights Architect" Track
-- [ ] **Level 9**: Implement dbt-style "State" versioning simulation
-- [ ] **Level 10**: Implement `Jupytext` workflow (Syncing `.ipynb` to `.py`)
+- [x] **Level 9**: Implement dbt-style "State" versioning simulation
+- [x] **Level 10**: Implement `Jupytext` workflow (Syncing `.ipynb` to `.py`)
 - [ ] **Level 11**: Implement `SQLFluff` linting gate (Blocks commits with poor formatting)
 - [ ] **Level 12**: Implement "Slim CI" (Only testing modified models)
 
 ### Module 3B: Data Scientist "Production Alchemist" Track
-- [ ] **Level 9**: Implement DVC Pointer creation (`dvc add`)
-- [ ] **Level 10**: Implement "Commit-to-Experiment" linking (MLflow simulation)
+- [x] **Level 9**: Implement DVC Pointer creation (`dvc add`)
+- [x] **Level 10**: Implement "Commit-to-Experiment" linking (MLflow simulation)
 - [ ] **Level 11**: Implement "Feature Definition" versioning challenge
 - [ ] **Level 12**: Implement "Git-Triggered Training" (Simulated GitHub Action)
 

@@ -58,6 +58,24 @@ export class CommandProcessor {
       case "clear":
         return "CLEAR_TERMINAL"; // Special signal
 
+      case "jupytext":
+        if (args.includes("--sync")) {
+          const target = args[args.indexOf("--sync") + 1];
+          if (!target || !target.endsWith(".ipynb")) return "error: jupytext --sync requires an .ipynb target";
+          const pyFile = target.replace(".ipynb", ".py");
+          this.fs.writeFile(pyFile, "# AUTO-GENERATED FROM NOTEBOOK\nprint('Logic synchronized')");
+          return `✓ Synchronized ${target} -> ${pyFile}`;
+        }
+        return "usage: jupytext --sync <file.ipynb>";
+
+      case "mlflow":
+        if (args[0] === "log" && args.includes("--git-hash")) {
+          const currentHash = this.git.getCurrentCommit() || "N/A";
+          this.fs.writeFile("/mlruns/metadata.json", JSON.stringify({ run_id: "77a1", git_hash: currentHash.substring(0, 7) }));
+          return `✓ Logged experiment to MLflow (Git Hash: ${currentHash.substring(0, 7)})`;
+        }
+        return "usage: mlflow log --git-hash";
+
       default:
         return `command not found: ${command}`;
     }
