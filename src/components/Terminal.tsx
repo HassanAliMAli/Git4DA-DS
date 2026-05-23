@@ -52,12 +52,12 @@ export function Terminal({ onCommand, history }: TerminalProps) {
       </div>
 
       {/* Output Area */}
-      <div className="flex-1 p-8 overflow-y-auto font-mono text-[13px] leading-relaxed scrollbar-hide text-left">
+      <div className="flex-1 p-8 overflow-y-auto font-mono text-[14px] leading-relaxed scrollbar-hide text-left">
         <div className="space-y-3">
           {history.map((entry, idx) => (
             <div key={idx} className={
               entry.type === 'command' ? 'text-white' : 
-              entry.type === 'error' ? 'text-gh-danger' : 'text-gh-text-sec'
+              entry.type === 'error' ? 'text-gh-danger' : 'text-white opacity-90'
             }>
               {entry.type === 'command' && (
                 <div className="flex items-center gap-3 mb-1.5">
@@ -66,7 +66,7 @@ export function Terminal({ onCommand, history }: TerminalProps) {
                 </div>
               )}
               {entry.type !== 'command' && (
-                <div className="whitespace-pre-wrap pl-6 font-light border-l border-white/5 ml-1">{entry.text}</div>
+                <div className="whitespace-pre-wrap pl-6 font-medium border-l border-white/10 ml-1">{entry.text}</div>
               )}
             </div>
           ))}
@@ -76,13 +76,13 @@ export function Terminal({ onCommand, history }: TerminalProps) {
 
       {/* Input Area */}
       <form onSubmit={handleSubmit} className="px-8 py-5 bg-ink border-t border-gh-border flex items-center gap-3">
-        <span className="text-gh-blue font-black italic text-[14px]">❯</span>
+        <span className="text-gh-blue font-black italic text-[15px]">❯</span>
         <input
           ref={inputRef}
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          className="flex-1 bg-transparent border-none outline-none text-white font-mono text-[13px] placeholder:text-zinc-500 italic font-bold"
+          className="flex-1 bg-transparent border-none outline-none text-white font-mono text-[14px] placeholder:text-zinc-500 italic font-bold"
           placeholder="git init — initialize your registry"
           autoFocus
           spellCheck={false}
