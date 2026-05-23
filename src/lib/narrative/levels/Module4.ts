@@ -73,4 +73,44 @@ export const MODULE_4_LEVELS: LevelDefinition[] = [
       "In the rebase UI, change 'pick' to 'squash' for the bottom two commits.",
     ],
   },
+  {
+    id: 15,
+    title: "The Data Detective",
+    role: "BOTH",
+    narrative: [
+      "Accuracy is the pulse of the firm, and the pulse is dropping.",
+      "Sometime in the last 10 snapshots, a 'Data Bug' was introduced that tanked our model precision from 94% to 12%.",
+      "Manually checking each commit is for clerks. A Staff Alchemist uses 'git bisect'.",
+      "Your mission: Use binary search to find the exact commit that broke the logic. Mark the origin as 'good' and the HEAD as 'bad'.",
+      "Hunt the bug. Restore the precision.",
+    ],
+    setup: async (state) => {
+      state.git.init();
+      // Create a 10-commit history
+      for (let i = 1; i <= 10; i++) {
+        const val = i === 6 ? "0.12" : "0.94"; // Bug introduced at commit 6
+        state.fs.writeFile("/accuracy.txt", `model_precision: ${val}`);
+        await state.git.add("accuracy.txt");
+        await state.git.commit(`feat: snapshot ${i}`, "Dr. Hassan");
+      }
+    },
+    goals: [
+      {
+        id: "bisect_bug",
+        description: "Identify the first bad commit using 'git bisect'.",
+        check: (state) => {
+          const graph = state.git.getGraph();
+          const firstBad = graph.commits.find((c) => c.message === "feat: snapshot 6");
+          // Check if bisect found it (simulated via log message or state check)
+          return state.git.getCurrentCommit() === firstBad?.hash;
+        },
+      },
+    ],
+    hints: [
+      "Start with 'git bisect start'.",
+      "Mark current state: 'git bisect bad'.",
+      "Mark the first commit: 'git log' to find hash, then 'git bisect good <hash>'.",
+      "Test each jump: 'cat accuracy.txt'. If 0.12, run 'git bisect bad'. If 0.94, run 'git bisect good'.",
+    ],
+  },
 ];

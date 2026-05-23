@@ -78,9 +78,9 @@
 - [x] **Level 12**: Implement "Git-Triggered Training" (Simulated GitHub Action)
 
 ### Module 4 & 5: The Legendary Tier (The Dark Arts)
-- [ ] **Level 13**: Implement `sparse-checkout` (Large repo navigation)
-- [ ] **Level 14**: Implement Interactive Rebase challenge (`rebase -i`)
-- [ ] **Level 15**: Implement `git bisect` (Hunting the "Data Bug")
+- [x] **Level 13**: Implement `sparse-checkout` (Large repo navigation)
+- [x] **Level 14**: Implement Interactive Rebase challenge (`rebase -i`)
+- [x] **Level 15**: Implement `git bisect` (Hunting the "Data Bug")
 - [ ] **Level 16**: Implement `git filter-repo` (Purging sensitive CSVs)
 - [ ] **Level 17**: **Legendary**: Implement `reflog` recovery of uncommitted work
 - [ ] **Level 18**: **Legendary**: Implement `git worktree` UI (Parallel experimentation)

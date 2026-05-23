@@ -228,6 +228,18 @@ export class CommandProcessor {
         }
         return "usage: git rebase -i <base>";
 
+      case "bisect":
+        const bisectAction = subArgs[0];
+        if (
+          bisectAction === "start" ||
+          bisectAction === "good" ||
+          bisectAction === "bad" ||
+          bisectAction === "reset"
+        ) {
+          return await this.git.bisect(bisectAction);
+        }
+        return "usage: git bisect <start|good|bad|reset>";
+
       case "sparse-checkout":
         if (subArgs[0] === "set") {
           const path = subArgs[1];

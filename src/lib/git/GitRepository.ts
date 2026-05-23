@@ -31,6 +31,12 @@ export class GitRepository {
   private core: GitCore;
   private sync: GitRemote;
 
+  // Bisect state for Level 15
+  private bisectActive: boolean = false;
+  private bisectBad: string | null = null;
+  private bisectGood: string | null = null;
+  private bisectRange: string[] = [];
+
   constructor(private fs: FileSystem) {
     this.remotes.set("origin", new Map());
     this.core = new GitCore(this.fs, this.objects);
@@ -289,5 +295,57 @@ export class GitRepository {
 
   public async fetch(remote: string): Promise<void> {
     return await this.sync.fetch(remote);
+  }
+
+  /**
+   * Bisect Simulation Engine
+   * Orchestrates the binary search process through the DAG history.
+   */
+  public async bisect(
+    action: "start" | "good" | "bad" | "reset",
+    target?: string,
+  ): Promise<string> {
+    if (action === "reset") {
+      this.bisectActive = false;
+      this.bisectRange = [];
+      this.checkout("master");
+      return "✓ Bisect reset complete. Returned to master.";
+    }
+
+    if (action === "start") {
+      this.bisectActive = true;
+      this.bisectRange = this.getGraph().commits.map((c) => c.hash).reverse();
+      this.bisectBad = this.getCurrentCommit();
+      return "✓ Bisect started. Waiting for 'bad' and 'good' markers.";
+    }
+
+    if (!this.bisectActive)
+      throw new Error("fatal: bisect not active. run 'git bisect start'");
+
+    const currentHash = target || this.getCurrentCommit();
+    if (!currentHash)
+      throw new Error("fatal: could not identify current commit");
+
+    if (action === "bad") this.bisectBad = currentHash;
+    if (action === "good") this.bisectGood = currentHash;
+
+    // Calculate new range
+    const badIdx = this.bisectRange.indexOf(this.bisectBad!);
+    const goodIdx = this.bisectGood
+      ? this.bisectRange.indexOf(this.bisectGood)
+      : -1;
+
+    const subRange = this.bisectRange.slice(goodIdx + 1, badIdx + 1);
+
+    if (subRange.length <= 1) {
+      this.bisectActive = false;
+      return `✓ ${this.bisectBad?.substring(0, 7)} is the first bad commit.`;
+    }
+
+    const midIdx = Math.floor(subRange.length / 2);
+    const midHash = subRange[midIdx];
+    this.checkout(midHash);
+
+    return `Bisecting: ${subRange.length} revisions left to test after this (roughly ${Math.ceil(Math.log2(subRange.length))} steps)`;
   }
 }
