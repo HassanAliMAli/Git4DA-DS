@@ -4,20 +4,20 @@
   --font-sans: 'Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif';
   --font-mono: 'JetBrains Mono', 'SF Mono', 'Monaco', 'monospace';
 
-  /* GitHub Dark Palette */
+  /* GitHub Dark Palette with High Contrast White Text */
   --color-ink: #0d1117;
   --color-ink-2: #161b22;
   --color-ink-3: #21262d;
   --color-gh-blue: #1f6feb;
   --color-gh-green: #238636;
   --color-gh-gray: #30363d;
-  --color-gh-text: #c9d1d9;
-  --color-gh-text-sec: #8b949e;
+  --color-gh-text: #ffffff; /* Absolute White */
+  --color-gh-text-sec: #d1d7e0; /* Brightened Secondary */
   --color-gh-border: #30363d;
-  --color-gh-danger: #f85149;
-  --color-gh-warn: #d29922;
-  --color-gh-indigo: #388bfd;
-  --color-gh-violet: #8957e5;
+  --color-gh-danger: #ff7b72; /* Brightened Red */
+  --color-gh-warn: #e3b341; /* Brightened Yellow */
+  --color-gh-indigo: #58a6ff; /* Brightened Indigo */
+  --color-gh-violet: #bc8cff; /* Brightened Violet */
 
   --shadow-glow: 0 0 0 1px rgba(31,111,235,0.2), 0 8px 40px rgba(31,111,235,0.12), 0 2px 8px rgba(0,0,0,0.4);
   --shadow-terminal: 0 0 0 1px rgba(255,255,255,0.05), 0 20px 60px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.02);
