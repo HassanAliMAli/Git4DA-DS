@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { ChevronRight, ArrowRight, Lock } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
 interface TerminalEntry {
   type: "cmd" | "output";

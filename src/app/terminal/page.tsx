@@ -12,6 +12,23 @@ import { PullRequestView } from "@/components/PullRequestView";
 import { TerminalSidebar } from "@/components/features/TerminalSidebar";
 import { useRouter } from "next/navigation";
 
+/**
+ * Terminal UI / Workstation Orchestrator
+ * 
+ * ARCHITECTURAL PHILOSOPHY:
+ * This component acts as the "Motherboard" of the Git4Data simulation.
+ * It is responsible for instantiating the core engines (VFS, GitRepository, CommandProcessor)
+ * and mounting them into the React lifecycle using `useMemo`.
+ * 
+ * Data Flow:
+ * 1. The user inputs a command in the `<Terminal>` component.
+ * 2. `TerminalPage` intercepts this and passes it to the `CommandProcessor`.
+ * 3. The `CommandProcessor` executes the logic against the `GitRepository`/`FileSystem` instances.
+ * 4. The execution output is returned and appended to the `terminalHistory` state.
+ * 5. `checkLevelProgress()` is triggered, reading the mutated VFS to see if narrative goals are met.
+ * 6. The UI automatically reflects changes (e.g., updating the GitGraph Visualizer).
+ */
+
 export default function TerminalPage() {
   const router = useRouter();
   const { profile, isLoaded } = useProfile();

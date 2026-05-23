@@ -3,6 +3,20 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { UserProfile, UserRole, INITIAL_PROFILE } from "@/models/Profile";
 
+/**
+ * Global Profile Context
+ * 
+ * ARCHITECTURAL PHILOSOPHY:
+ * This Context manages the persistent state of the user across the entire application.
+ * It is responsible for role assignment (Analyst vs. Scientist), XP progression, 
+ * and level tracking.
+ * 
+ * By elevating this state globally, we ensure that the entire application—from the 
+ * Landing Page to the Terminal UI—dynamically reacts to the user's specific career track 
+ * and progress without needing prop drilling. Currently backed by LocalStorage, designed 
+ * for future integration with a Cloudflare D1 database.
+ */
+
 interface ProfileContextType {
   profile: UserProfile | null;
   setRole: (role: UserRole, name: string) => Promise<void>;

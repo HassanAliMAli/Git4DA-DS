@@ -1,6 +1,18 @@
 import { GitRepository } from "./GitRepository";
 import { FileSystem } from "../vfs/FileSystem";
 
+/**
+ * Command Processor Engine
+ * 
+ * ARCHITECTURAL PHILOSOPHY:
+ * The CommandProcessor acts as the translation layer between the raw terminal input 
+ * and the underlying Git/VFS engines. It is responsible for:
+ * 1. Lexical Parsing: Splitting user input into commands, subcommands, and flags.
+ * 2. Execution Routing: Directing valid commands to either the FileSystem (ls, mkdir, echo)
+ *    or the GitRepository (git status, git commit).
+ * 3. Output Simulation: Formatting the raw data returned from the engines into strings
+ *    that perfectly mimic standard POSIX/Bash `stdout` and `stderr`.
+ */
 export class CommandProcessor {
   constructor(
     private fs: FileSystem,

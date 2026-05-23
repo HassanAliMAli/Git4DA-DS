@@ -1,11 +1,10 @@
 "use client";
 
-import React from "react";
 import { motion } from "framer-motion";
 import {
   GitPullRequest,
   CheckCircle2,
-  User,
+  
   MessageSquare,
   ShieldCheck,
   Activity,
@@ -24,7 +23,7 @@ export function PullRequestView({
   title,
   author,
   description,
-  diff,
+  
   onApprove,
 }: PullRequestViewProps) {
   return (

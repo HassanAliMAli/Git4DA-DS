@@ -8,7 +8,7 @@ import {
   Lock,
   ChevronRight,
   Database,
-  FlaskConical,
+  
   ShieldAlert,
   Cpu,
   Zap,

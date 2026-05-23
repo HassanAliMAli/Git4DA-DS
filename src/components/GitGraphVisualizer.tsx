@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { GitCommit } from "@/lib/git/types";
 import { GitBranch, User, Hash } from "lucide-react";
 
@@ -103,7 +102,7 @@ export function GitGraphVisualizer({
                 </foreignObject>
 
                 {/* Branch Labels */}
-                {pointingBranches.map((branch, bIdx) => (
+                {pointingBranches.map((branch) => (
                   <foreignObject
                     key={branch.name}
                     x="72%"

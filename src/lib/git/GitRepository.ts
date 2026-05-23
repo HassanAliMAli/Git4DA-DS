@@ -1,3 +1,14 @@
+/**
+ * Git Repository Simulation Engine
+ *
+ * ARCHITECTURAL PHILOSOPHY:
+ * This class provides a high-fidelity, purely functional simulation of a Git object database.
+ * It is not a wrapper around a system shell. It implements a true directed acyclic graph (DAG)
+ * using an in-memory Virtual File System (VFS) to simulate blobs, trees, and commits.
+ *
+ * We use SubtleCrypto (SHA-1) to generate realistic content-addressable hashes, ensuring
+ * the user experiences the true immutability and cryptographic nature of Git operations.
+ */
 import { FileSystem } from "../vfs/FileSystem";
 import {
   GitObject,

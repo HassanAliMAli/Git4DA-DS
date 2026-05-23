@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Send,
@@ -8,7 +8,7 @@ import {
   Phone,
   Video,
   ShieldCheck,
-  User,
+  
 } from "lucide-react";
 
 interface Message {
@@ -25,7 +25,7 @@ interface DataPulseMessengerProps {
 
 export function DataPulseMessenger({
   messages,
-  onComplete,
+  
 }: DataPulseMessengerProps) {
   const [displayedMessages, setDisplayedMessages] = useState<Message[]>([]);
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
