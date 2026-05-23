@@ -93,7 +93,7 @@ export default function LandingPage() {
     )
   };
 
-  const handleCommand = (cmd: string) => {
+  const handleCommand = (cmd: string): void => {
     if (!cmd) return;
     const normalizedCmd = cmd.trim();
     setTerminalHistory(prev => [...prev, { type: 'cmd', content: normalizedCmd }]);

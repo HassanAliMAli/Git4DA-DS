@@ -1,0 +1,44 @@
+:root {
+  /* DataPulse Brand Palette */
+  --color-ink: #0F172A;
+  --color-ink-2: #1E293B;
+  --color-ink-3: #334155;
+  
+  --color-teal: #0D9488;
+  --color-green: #22C55E;
+  --color-slate: #475569;
+  --color-light: #F8FAFC;
+  --color-silver: #94A3B8;
+  --color-border: #334155;
+  
+  --color-danger: #EF4444;
+  --color-gold: #F59E0B;
+
+  /* Typography Scale */
+  --font-size-12: 12px;
+  --font-size-14: 14px;
+  --font-size-16: 16px;
+  --font-size-20: 20px;
+  --font-size-24: 24px;
+  --font-size-32: 32px;
+  --font-size-40: 40px;
+  --font-size-48: 48px;
+
+  /* Spacing Scale (Multiples of 4) */
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --space-48: 48px;
+  --space-64: 64px;
+  --space-80: 80px;
+  --space-96: 96px;
+
+  /* Elevation */
+  --shadow-glow: 0 0 0 1px rgba(13, 148, 136, 0.2), 0 8px 40px rgba(13, 148, 136, 0.12), 0 2px 8px rgba(0,0,0,0.4);
+  --shadow-terminal: 0 0 0 1px rgba(255,255,255,0.05), 0 20px 60px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.02);
+}

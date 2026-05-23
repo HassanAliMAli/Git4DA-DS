@@ -63,7 +63,7 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({ child
 };
 
 
-export const useProfile = () => {
+export const useProfile = (): ProfileContextType => {
   const context = useContext(ProfileContext);
   if (context === undefined) {
     throw new Error('useProfile must be used within a ProfileProvider');

@@ -13,7 +13,7 @@ export function Terminal({ onCommand, history }: TerminalProps) {
   const terminalEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const scrollToBottom = () => {
+  const scrollToBottom = (): void => {
     terminalEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
@@ -21,7 +21,7 @@ export function Terminal({ onCommand, history }: TerminalProps) {
     scrollToBottom();
   }, [history]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     if (!input.trim()) return;
 

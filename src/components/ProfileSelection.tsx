@@ -12,7 +12,7 @@ export function ProfileSelection() {
   const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
   const [isIssuing, setIsIssuing] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     if (name && selectedRole) {
       setIsIssuing(true);

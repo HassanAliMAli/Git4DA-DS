@@ -83,7 +83,7 @@ export class GitRepository {
     this.reflog.push({ ref, oldHash, newHash, message, timestamp: Date.now() });
   }
 
-  public getReflog() { return [...this.reflog].reverse(); }
+  public getReflog(): ReflogEntry[] { return [...this.reflog].reverse(); }
   public getHead(): string { return this.head; }
   public getCurrentCommit(): string | null { return this.refs.get(this.head) || null; }
 
