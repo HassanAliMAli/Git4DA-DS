@@ -46,9 +46,9 @@
     - [ ] Tab-completion registry
 
 ### 2.3 Specialized Data Components
-- [x] Build `NotebookViewer.tsx` (Renders JSON `.ipynb` as visual cells)
-- [x] Build `SQLViewer.tsx` (Syntax highlighted SQL editor)
-- [x] Build `GitGraphVisualizer.tsx` (SVG/Canvas based commit tree)
+- [x] Build `NotebookViewer.tsx` (Renders JSON `.ipynb` as visual cells) [Ink/Sage Edition]
+- [x] Build `SQLViewer.tsx` (Syntax highlighted SQL editor) [Ink/Sage Edition]
+- [x] Build `GitGraphVisualizer.tsx` (SVG based commit tree) [Ink/Sage Edition]
 - [x] Build `DVCScanner.ts` (Logic to check for large files committed without `.dvc` pointers)
 
 ---
