@@ -111,6 +111,17 @@ export class CommandProcessor {
         const revertHash = await this.git.revert(subArgs[0], this.author);
         return `[master ${revertHash.substring(0, 7)}] revert: ...\n 1 file changed`;
 
+      case 'push':
+        const pushRemote = subArgs[0] || 'origin';
+        const pushBranch = subArgs[1] || this.git.getHead();
+        await this.git.push(pushRemote, pushBranch);
+        return `Enumerating objects: 3, done.\nDelta compression using up to 12 threads\nCompressing objects: 100% (2/2), done.\nWriting objects: 100% (3/3), 320 bytes | 320.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo ${pushRemote}\n   ${this.git.getCurrentCommit()?.substring(0, 7)}..${this.git.getCurrentCommit()?.substring(0, 7)}  ${pushBranch} -> ${pushBranch}`;
+
+      case 'fetch':
+        const fetchRemote = subArgs[0] || 'origin';
+        await this.git.fetch(fetchRemote);
+        return `From ${fetchRemote}\n * [new branch]      master     -> origin/master`;
+
       default:
         return `git: '${subCommand}' is not a git command. See 'git --help'.`;
     }

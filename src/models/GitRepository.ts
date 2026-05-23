@@ -29,8 +29,11 @@ export class GitRepository {
   private head: string = 'master'; // current branch or detached commit hash
   private index: Map<string, string> = new Map(); // path -> blob hash
   private reflog: { ref: string; oldHash: string | null; newHash: string; message: string; timestamp: number }[] = [];
+  private remotes: Map<string, Map<string, string>> = new Map(); // remote name -> { branch -> hash }
 
-  constructor(private fs: FileSystem) {}
+  constructor(private fs: FileSystem) {
+    this.remotes.set('origin', new Map());
+  }
 
   public init(): void {
     if (this.refs.size > 0) return;
@@ -229,16 +232,11 @@ export class GitRepository {
       throw new Error('fatal: cannot revert root commit');
     }
 
-    // Simplified revert: just restore parent state and commit
     await this.restoreStateFromCommit(commitData.parent);
     
-    // Add all files from restored state to index
-    // (Simplified for simulation: we assume the whole working tree is now the reverted state)
     this.index.clear();
-    // In a real simulation we'd walk the tree, but for now we'll just commit the VFS state
-    // We'll manually re-add the files that were in the parent tree
-    const parentTreeObj = this.objects.get(commitData.parent)!;
-    const parentCommitData = JSON.parse(parentTreeObj.data) as GitCommit;
+    const parentCommitObj = this.objects.get(commitData.parent)!;
+    const parentCommitData = JSON.parse(parentCommitObj.data) as GitCommit;
     const treeEntries = JSON.parse(this.objects.get(parentCommitData.tree)!.data) as GitTreeEntry[];
     
     for (const entry of treeEntries) {
@@ -256,7 +254,6 @@ export class GitRepository {
     if (!treeObj) return;
     const entries = JSON.parse(treeObj.data) as GitTreeEntry[];
 
-    // Clear current VFS (simplified: just overwrite files from tree)
     for (const entry of entries) {
       const blob = this.objects.get(entry.hash);
       if (blob) {
@@ -295,5 +292,29 @@ export class GitRepository {
 
   public getBranches(): Map<string, string> {
     return new Map(this.refs);
+  }
+
+  public getRemoteBranches(remote: string = 'origin'): Map<string, string> {
+    return new Map(this.remotes.get(remote) || new Map());
+  }
+
+  public async push(remote: string, branch: string): Promise<void> {
+    const localHash = this.refs.get(branch);
+    if (localHash === undefined) throw new Error(`error: src refspec ${branch} does not match any`);
+    
+    const remoteRefs = this.remotes.get(remote);
+    if (!remoteRefs) throw new Error(`fatal: '${remote}' does not appear to be a git repository`);
+    
+    remoteRefs.set(branch, localHash);
+    this.addToReflog(`${remote}/${branch}`, null, localHash, `push: exported from ${branch}`);
+  }
+
+  public async fetch(remote: string): Promise<void> {
+    const remoteRefs = this.remotes.get(remote);
+    if (!remoteRefs) throw new Error(`fatal: '${remote}' does not appear to be a git repository`);
+    
+    for (const [branch, hash] of remoteRefs.entries()) {
+      this.addToReflog(`${remote}/${branch}`, null, hash, `fetch: from ${remote}`);
+    }
   }
 }

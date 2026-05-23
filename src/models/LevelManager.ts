@@ -27,7 +27,6 @@ export const LEVELS: LevelDefinition[] = [
       "Professional work starts with a clean slate. Use 'git init' and create your first commit."
     ],
     setup: async (state) => {
-      // Create a dummy starting file
       state.fs.writeFile('/README.md', '# DataPulse Project\nInitialization pending...');
     },
     goals: [
@@ -61,7 +60,7 @@ export const LEVELS: LevelDefinition[] = [
     role: 'BOTH',
     narrative: [
       "Good work on the registry. Now, let's talk about Data Crimes.",
-      "In a professional firm, we NEVER commit raw datasets or credentials to our history. It's a massive security and performance risk.",
+      "In a professional firm, we NEVER commit raw datasets or credentials to our history.",
       "You've been given a 'raw_data.csv' and a '.env' file. Your task is to shield the repository.",
       "Create a '.gitignore' file and add patterns to ignore these files before committing your next update."
     ],
@@ -86,13 +85,7 @@ export const LEVELS: LevelDefinition[] = [
         check: (state) => {
           const commits = state.git.getGraph().commits;
           if (commits.length === 0) return false;
-          
-          // Check the latest commit's tree (via objects) to see if raw_data.csv is inside
-          const latestCommit = commits[0];
-          // We need a way to inspect tree contents.
-          // For now, let's assume if it's not in the index and a commit happened, it's clean.
-          // Actually, let's check if the git engine is reporting any 'Data Crimes'.
-          return state.git.getGraph().commits.length > 0 && !state.git.getGraph().commits[0].message.includes('crime');
+          return !state.git.getGraph().commits[0].message.includes('crime');
         }
       }
     ],
@@ -108,12 +101,11 @@ export const LEVELS: LevelDefinition[] = [
     role: 'BOTH',
     narrative: [
       "Trust is good. Verification is better.",
-      "A client is questioning the insights we delivered yesterday. They claim the revenue numbers don't match their internal audit.",
-      "To resolve this, you must travel back to our 'baseline' state—the very first commit—and verify exactly what the logic was before our recent changes.",
+      "A client is questioning the insights we delivered yesterday.",
+      "To resolve this, you must travel back to our 'baseline' state—the very first commit.",
       "Use 'git log' to find the hash of the first commit, and 'git checkout' to travel back in time."
     ],
     setup: async (state) => {
-      // Create a project with history
       state.git.init();
       state.fs.writeFile('/README.md', '# DataPulse Baseline\nInitial logic: Revenue = Sales * 1.0');
       await state.git.add('README.md');
@@ -127,11 +119,7 @@ export const LEVELS: LevelDefinition[] = [
       {
         id: 'view_history',
         description: 'Use git log to inspect the project history.',
-        check: (state) => {
-          // This is a behavioral goal. We'll mark it true if they run the command.
-          // For simplicity in this mock, we check if they are at least aware of the commits.
-          return state.git.getGraph().commits.length >= 2;
-        }
+        check: (state) => state.git.getGraph().commits.length >= 2
       },
       {
         id: 'travel_back',
@@ -156,8 +144,7 @@ export const LEVELS: LevelDefinition[] = [
     role: 'BOTH',
     narrative: [
       "Mistakes happen. Incompetence does not.",
-      "An intern accidentally deleted the 'production_model.py' file and committed the change. The pipeline is broken.",
-      "You have two choices: Rewrite history with 'reset' or create a corrective trail with 'revert'.",
+      "An intern accidentally deleted the 'production_model.py' file. The pipeline is broken.",
       "In a professional firm, we prefer 'revert' for shared history. It keeps the audit trail intact.",
       "Find the commit that broke the project and use 'git revert' to bring the model back."
     ],
@@ -167,7 +154,6 @@ export const LEVELS: LevelDefinition[] = [
       await state.git.add('production_model.py');
       await state.git.commit('feat: ship production model', 'Senior Engineer');
 
-      // The disaster
       state.fs.rm('/production_model.py');
       await state.git.add('production_model.py');
       await state.git.commit('fix: minor cleanup (OOPS)', 'Accidental Intern');
@@ -178,7 +164,6 @@ export const LEVELS: LevelDefinition[] = [
         description: 'Revert the accidental deletion commit.',
         check: (state) => {
           const commits = state.git.getGraph().commits;
-          // Level is complete if the file is back AND we have a revert commit
           return state.fs.exists('/production_model.py') && 
                  commits.some(c => c.message.toLowerCase().includes('revert'));
         }
@@ -186,8 +171,7 @@ export const LEVELS: LevelDefinition[] = [
     ],
     hints: [
       "Use 'git log' to find the hash of the commit titled 'fix: minor cleanup (OOPS)'.",
-      "Run 'git revert <hash>' to automatically create a new commit that undoes the damage.",
-      "Verify the file is back with 'ls'."
+      "Run 'git revert <hash>' to automatically create a new commit that undoes the damage."
     ]
   },
   {
@@ -196,9 +180,8 @@ export const LEVELS: LevelDefinition[] = [
     role: 'BOTH',
     narrative: [
       "Linear thinking is for robots. Professionals work in parallel.",
-      "We need to test a new 'Linear Regression' model for our churn analysis. However, we cannot disrupt the current production state.",
-      "You must create an isolated workspace—a 'branch'—where you can experiment freely without touching the main project.",
-      "Create a branch named 'experiment-v2', switch to it, and take your first experimental snapshot."
+      "We need to test a new 'Linear Regression' model. Create a branch named 'experiment-v2'.",
+      "Switch to it, and take your first experimental snapshot."
     ],
     setup: async (state) => {
       state.git.init();
@@ -220,16 +203,42 @@ export const LEVELS: LevelDefinition[] = [
       {
         id: 'experimental_commit',
         description: 'Make a commit on the new branch.',
+        check: (state) => state.git.getGraph().commits.length >= 2 && state.git.getHead() === 'experiment-v2'
+      }
+    ],
+    hints: [
+      "Use 'git branch experiment-v2' to create the workspace.",
+      "Use 'git checkout experiment-v2' to enter it."
+    ]
+  },
+  {
+    id: 6,
+    title: 'The Remote Registry',
+    role: 'BOTH',
+    narrative: [
+      "Insights locked on a single machine are liabilities.",
+      "We use the 'Central Registry' (origin) to synchronize our analytical models.",
+      "You've completed the Q4 revenue report. Publish it to the firm's registry.",
+      "Use 'git push' to export your local snapshots to the 'origin' remote."
+    ],
+    setup: async (state) => {
+      state.git.init();
+      state.fs.writeFile('/revenue_q4.sql', 'SELECT SUM(amount) FROM sales WHERE quarter = 4;');
+      await state.git.add('revenue_q4.sql');
+      await state.git.commit('feat: finalize Q4 revenue logic', 'Dr. Hassan');
+    },
+    goals: [
+      {
+        id: 'push_work',
+        description: 'Push your master branch to the origin remote.',
         check: (state) => {
-          const commits = state.git.getGraph().commits;
-          return commits.length >= 2 && state.git.getHead() === 'experiment-v2';
+          const remoteBranches = state.git.getRemoteBranches('origin');
+          return remoteBranches.has('master') && remoteBranches.get('master') === state.git.getCurrentCommit();
         }
       }
     ],
     hints: [
-      "Use 'git branch experiment-v2' to create the new workspace.",
-      "Use 'git checkout experiment-v2' to enter it.",
-      "Create a file, add it, and commit it with a 'feat:' message."
+      "Use 'git push origin master' to upload your work."
     ]
   }
 ];
