@@ -22,6 +22,21 @@ export class CommandProcessor {
         this.fs.mkdir(args[0]);
         return '';
 
+      case 'touch':
+        if (!args[0]) return 'usage: touch <filename>';
+        this.fs.writeFile(args[0], '');
+        return '';
+
+      case 'echo':
+        const contentMatch = input.match(/echo\s+["'](.*)["']\s+>\s+(.*)/);
+        if (contentMatch) {
+          const content = contentMatch[1];
+          const path = contentMatch[2].trim();
+          this.fs.writeFile(path, content);
+          return '';
+        }
+        return args.join(' ');
+
       case 'git':
         return await this.handleGit(args);
 

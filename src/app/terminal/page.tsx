@@ -100,6 +100,17 @@ export default function TerminalPage() {
 
   const graphData = git.getGraph();
 
+  const onNextLevel = () => {
+    if (currentLevelId < LEVELS.length) {
+      setCurrentLevelId(prev => prev + 1);
+      setIsLevelComplete(false);
+      setCompletedGoalIds(new Set());
+      setTerminalHistory([]);
+    } else {
+      router.push('/');
+    }
+  };
+
   return (
     <div className="flex flex-col h-screen bg-ink text-zinc-100 overflow-hidden font-sans selection:bg-sage/30 selection:text-white">
       {/* Top Header */}
@@ -190,6 +201,18 @@ export default function TerminalPage() {
                     </motion.li>
                   ))}
                 </ul>
+
+                {isLevelComplete && (
+                  <motion.button
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    onClick={onNextLevel}
+                    className="w-full h-12 mt-6 rounded-xl bg-white text-ink font-bold text-[12px] uppercase tracking-widest hover:bg-zinc-200 transition-all flex items-center justify-center gap-2 shadow-glow"
+                  >
+                    Proceed to Mission {currentLevelId + 1}
+                    <ChevronRight size={14} />
+                  </motion.button>
+                )}
               </div>
            </div>
 
