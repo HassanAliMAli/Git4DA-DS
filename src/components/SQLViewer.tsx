@@ -9,7 +9,6 @@ interface SQLViewerProps {
 }
 
 export function SQLViewer({ content, fileName }: SQLViewerProps) {
-  // Enhanced syntax highlighting for Ink/Sage aesthetic
   const highlightSQL = (text: string) => {
     const keywords = [
       'SELECT', 'FROM', 'WHERE', 'GROUP BY', 'ORDER BY', 'LIMIT', 'JOIN', 'LEFT JOIN', 
@@ -20,28 +19,28 @@ export function SQLViewer({ content, fileName }: SQLViewerProps) {
     let highlighted = text;
     keywords.forEach(keyword => {
       const regex = new RegExp(`\\b${keyword}\\b`, 'gi');
-      // Using Sage color for keywords
-      highlighted = highlighted.replace(regex, `<span class="text-sage font-bold uppercase">${keyword}</span>`);
+      highlighted = highlighted.replace(regex, `<span class="text-gh-blue font-black uppercase">${keyword}</span>`);
     });
     
     return highlighted;
   };
 
   return (
-    <div className="bg-ink-2/40 backdrop-blur-xl border border-white/5 rounded-2xl overflow-hidden shadow-glow h-full flex flex-col font-mono">
-      <div className="px-5 py-4 bg-white/5 border-b border-white/5 flex items-center justify-between">
-        <div className="flex items-center gap-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-[0.2em]">
-          <Database size={14} className="text-sage" />
+    <div className="bg-ink-2 border border-gh-border rounded-[24px] overflow-hidden shadow-terminal h-full flex flex-col font-mono italic">
+      <div className="px-6 py-5 bg-ink-3 border-b border-gh-border flex items-center justify-between">
+        <div className="flex items-center gap-3 text-[10px] font-black text-gh-text-sec uppercase tracking-[0.3em]">
+          <Database size={16} className="text-gh-blue" />
           SQL Logic Forge
         </div>
-        <span className="text-[9px] font-mono text-zinc-500 italic">
+        <span className="text-[10px] font-mono text-zinc-600 font-bold italic tracking-tighter">
           {fileName}
         </span>
       </div>
       
-      <div className="p-6 overflow-y-auto flex-1 scrollbar-hide">
-        <div className="bg-ink-3/40 rounded-xl p-5 border border-white/[0.02]">
-          <pre className="text-[13px] leading-relaxed text-zinc-300">
+      <div className="p-8 overflow-y-auto flex-1 scrollbar-hide">
+        <div className="bg-ink rounded-3xl p-8 border border-white/[0.02] shadow-inner relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gh-blue/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
+          <pre className="text-[14px] leading-relaxed text-gh-text font-bold relative z-10">
             <code 
               dangerouslySetInnerHTML={{ __html: highlightSQL(content) }} 
             />
@@ -49,10 +48,10 @@ export function SQLViewer({ content, fileName }: SQLViewerProps) {
         </div>
       </div>
 
-      <div className="px-5 py-3 bg-white/[0.02] border-t border-white/5 flex items-center justify-between">
-        <div className="flex items-center gap-2 text-[9px] font-mono text-zinc-600 uppercase tracking-widest italic font-bold">
-          <FileCode size={10} />
-          Validation: Nominal • Query Optimized
+      <div className="px-6 py-4 bg-ink-3 border-t border-gh-border flex items-center justify-between">
+        <div className="flex items-center gap-3 text-[10px] font-mono text-zinc-600 uppercase tracking-[0.4em] font-black">
+          <FileCode size={12} className="text-gh-green" />
+          Linear Logic Validated
         </div>
       </div>
     </div>

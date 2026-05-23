@@ -23,49 +23,44 @@ export function NotebookViewer({ content, fileName }: NotebookViewerProps) {
     cells = data.cells || [];
   } catch (e) {
     return (
-      <div className="p-6 bg-red-950/20 border border-red-500/20 rounded-xl text-red-400 font-mono text-xs flex items-start gap-3">
-        <Info size={16} />
-        <span>Malformed Research Artifact: {fileName}. JSON parsing failure.</span>
+      <div className="p-8 bg-gh-danger/10 border border-gh-danger/20 rounded-2xl text-gh-danger font-mono text-[11px] flex items-start gap-4 italic font-bold">
+        <Info size={18} />
+        <span>[FATAL_ERROR]: MALFORMED RESEARCH ARTIFACT. {fileName.toUpperCase()} PARSING FAILURE.</span>
       </div>
     );
   }
 
   return (
-    <div className="bg-ink-2/40 backdrop-blur-xl border border-white/5 rounded-2xl overflow-hidden shadow-glow h-full flex flex-col">
-      <div className="px-5 py-4 bg-white/5 border-b border-white/5 flex items-center justify-between">
-        <div className="flex items-center gap-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-[0.2em]">
-          <BookText size={14} className="text-violet-400" />
+    <div className="bg-ink-2 border border-gh-border rounded-[24px] overflow-hidden shadow-terminal h-full flex flex-col font-sans italic">
+      <div className="px-6 py-5 bg-ink-3 border-b border-gh-border flex items-center justify-between">
+        <div className="flex items-center gap-3 text-[10px] font-black text-gh-text-sec uppercase tracking-[0.3em]">
+          <BookText size={16} className="text-violet-400" />
           Research Notebook
         </div>
-        <span className="text-[9px] font-mono text-zinc-500 italic">
+        <span className="text-[10px] font-mono text-zinc-500 font-bold tracking-widest">
           {fileName}
         </span>
       </div>
       
-      <div className="p-6 overflow-y-auto flex-1 space-y-8 scrollbar-hide">
+      <div className="p-8 overflow-y-auto flex-1 space-y-10 scrollbar-hide">
         {cells.map((cell, idx) => (
           <div key={idx} className="relative group">
-            {/* Cell Type Badge */}
-            <div className="absolute -top-3 right-4 px-2 py-0.5 rounded bg-ink border border-white/10 text-[8px] font-bold text-zinc-500 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-              {cell.cell_type}
-            </div>
-
-            <div className={`p-4 rounded-xl border-l-2 transition-colors ${
+            <div className={`p-5 rounded-[20px] border-l-4 transition-all duration-300 ${
               cell.cell_type === 'code' 
-                ? 'bg-ink/60 border-sage/40 hover:border-sage' 
-                : 'bg-transparent border-zinc-800 hover:border-zinc-700'
+                ? 'bg-ink border-gh-blue/40 group-hover:border-gh-blue' 
+                : 'bg-transparent border-white/5 group-hover:border-white/10'
             }`}>
-              <div className="flex gap-4">
+              <div className="flex gap-6">
                 {cell.cell_type === 'code' && (
-                  <div className="text-[10px] font-mono text-zinc-600 w-6 pt-1 text-right select-none">
+                  <div className="text-[11px] font-mono text-zinc-800 w-8 pt-1 text-right select-none font-black">
                     [{cell.execution_count || ' '}]
                   </div>
                 )}
-                <div className={`flex-1 font-mono text-[13px] leading-relaxed ${
-                  cell.cell_type === 'code' ? 'text-zinc-200' : 'text-zinc-400 italic'
+                <div className={`flex-1 font-mono text-[13px] leading-relaxed tracking-tight ${
+                  cell.cell_type === 'code' ? 'text-gh-text font-bold' : 'text-zinc-600 font-light'
                 }`}>
                   {cell.source.map((line, lIdx) => (
-                    <div key={lIdx} className="min-h-[1.2em]">{line}</div>
+                    <div key={lIdx} className="min-h-[1.5em]">{line}</div>
                   ))}
                 </div>
               </div>
@@ -74,10 +69,10 @@ export function NotebookViewer({ content, fileName }: NotebookViewerProps) {
         ))}
       </div>
 
-      <div className="px-5 py-3 bg-white/[0.02] border-t border-white/5 flex items-center justify-between">
-        <div className="flex items-center gap-2 text-[9px] font-mono text-zinc-600 uppercase tracking-widest italic">
-          <Code2 size={10} />
-          Artifact verified via G4D Kernel
+      <div className="px-6 py-4 bg-ink-3 border-t border-gh-border flex items-center justify-between">
+        <div className="flex items-center gap-3 text-[10px] font-mono text-zinc-600 uppercase tracking-[0.4em] font-black">
+          <Code2 size={12} className="text-gh-blue" />
+          Artifact Analysis Verified
         </div>
       </div>
     </div>

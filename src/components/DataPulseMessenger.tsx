@@ -32,17 +32,11 @@ export function DataPulseMessenger({ messages, onComplete }: DataPulseMessengerP
 
   // Handle Hassan's typing sequence
   useEffect(() => {
-    if (currentMessageIndex >= messages.length) {
-      if (onComplete && displayedMessages.length === messages.length) {
-         // All messages displayed
-      }
-      return;
-    }
+    if (currentMessageIndex >= messages.length) return;
 
     const startTyping = async () => {
       setIsTyping(true);
-      // Simulate "Thinking" delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 800));
       
       const fullText = messages[currentMessageIndex];
       let charIndex = 0;
@@ -50,7 +44,6 @@ export function DataPulseMessenger({ messages, onComplete }: DataPulseMessengerP
 
       const typingInterval = setInterval(() => {
         if (charIndex < fullText.length) {
-          // Fix: Ensure we don't append undefined by checking charIndex again
           const char = fullText.charAt(charIndex);
           if (char !== undefined) {
             setCurrentText(prev => prev + char);
@@ -68,7 +61,7 @@ export function DataPulseMessenger({ messages, onComplete }: DataPulseMessengerP
           setCurrentText('');
           setCurrentMessageIndex(prev => prev + 1);
         }
-      }, 30);
+      }, 25);
 
       return () => clearInterval(typingInterval);
     };
@@ -77,56 +70,57 @@ export function DataPulseMessenger({ messages, onComplete }: DataPulseMessengerP
   }, [currentMessageIndex, messages]);
 
   return (
-    <div className="flex flex-col h-full bg-ink-2/40 backdrop-blur-xl border-l border-white/5 font-sans relative">
-      {/* Header (WhatsApp Style) */}
-      <div className="px-5 py-4 bg-white/5 border-b border-white/5 flex items-center justify-between shrink-0">
-        <div className="flex items-center gap-3">
+    <div className="flex flex-col h-full bg-ink-2/50 backdrop-blur-xl border-l border-gh-border font-sans relative">
+      {/* Header (Professional Dashboard Style) */}
+      <div className="px-6 py-5 bg-ink-3 border-b border-gh-border flex items-center justify-between shrink-0">
+        <div className="flex items-center gap-4">
           <div className="relative">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-zinc-800 to-zinc-900 border border-white/10 flex items-center justify-center shadow-inner">
-              <span className="font-mono text-[10px] font-bold text-zinc-300 tracking-widest">DRH</span>
+            <div className="w-11 h-11 rounded-full bg-gradient-to-br from-zinc-800 to-zinc-900 border border-white/10 flex items-center justify-center shadow-inner relative overflow-hidden group">
+              <span className="font-mono text-[10px] font-black text-gh-blue tracking-widest italic">DRH</span>
+              <div className="absolute inset-0 bg-gh-blue/5 group-hover:bg-gh-blue/10 transition-colors" />
             </div>
-            <div className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-ink-2 shadow-sm" />
+            <div className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-gh-green border-2 border-ink shadow-sm" />
           </div>
           <div>
-            <div className="text-[13px] font-bold text-white leading-tight">Dr. Hassan</div>
-            <div className="text-[10px] text-zinc-500 font-medium uppercase tracking-widest">Online • Sage Node</div>
+            <div className="text-[14px] font-black text-white leading-tight italic tracking-tight">Dr. Hassan</div>
+            <div className="text-[9px] text-gh-blue font-bold uppercase tracking-[0.2em] mt-0.5 italic">Head of Data • Online</div>
           </div>
         </div>
-        <div className="flex items-center gap-4 text-zinc-500">
-          <Video size={18} className="cursor-not-allowed opacity-30" />
-          <Phone size={17} className="cursor-not-allowed opacity-30" />
+        <div className="flex items-center gap-5 text-zinc-600">
+          <Video size={18} className="cursor-not-allowed opacity-20" />
+          <Phone size={17} className="cursor-not-allowed opacity-20" />
           <MoreVertical size={18} className="cursor-pointer hover:text-white transition-colors" />
         </div>
       </div>
 
-      {/* Security Banner */}
-      <div className="px-4 py-2 bg-amber-500/5 border-b border-white/5 flex items-center justify-center gap-2">
-        <ShieldCheck size={12} className="text-amber-500" />
-        <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-tighter italic">
-          Messages are end-to-end encrypted for audit safety
+      {/* Security Status */}
+      <div className="px-5 py-2.5 bg-gh-blue/5 border-b border-gh-border flex items-center justify-center gap-3">
+        <ShieldCheck size={14} className="text-gh-blue/60 animate-pulse" />
+        <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-black italic">
+          Audit-Verified Encrypted Link
         </span>
       </div>
 
       {/* Chat Area */}
       <div 
         ref={scrollRef}
-        className="flex-1 overflow-y-auto p-5 space-y-4 scrollbar-hide"
+        className="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-hide text-left"
       >
         <AnimatePresence initial={false}>
           {displayedMessages.map((msg) => (
             <motion.div
               key={msg.id}
-              initial={{ opacity: 0, y: 10, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
+              initial={{ opacity: 0, x: -10, scale: 0.98 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
               className={`flex ${msg.sender === 'HASSAN' ? 'justify-start' : 'justify-end'}`}
             >
-              <div className={`max-w-[85%] p-3 rounded-2xl text-[13px] leading-relaxed shadow-lg ${
+              <div className={`max-w-[90%] p-4 rounded-2xl text-[13px] leading-relaxed shadow-xl italic ${
                 msg.sender === 'HASSAN' 
-                  ? 'bg-zinc-800/80 text-zinc-100 rounded-tl-none border border-white/5' 
-                  : 'bg-sage text-white rounded-tr-none'
+                  ? 'bg-ink-3/80 text-gh-text rounded-tl-none border border-white/5 font-light border-l-gh-blue border-l-2' 
+                  : 'bg-gh-blue text-white rounded-tr-none font-bold'
               }`}>
                 {msg.text}
-                <div className={`text-[9px] mt-1.5 text-right opacity-50 font-mono italic`}>
+                <div className={`text-[9px] mt-2 text-right opacity-40 font-mono italic font-black`}>
                   {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </div>
               </div>
@@ -141,19 +135,21 @@ export function DataPulseMessenger({ messages, onComplete }: DataPulseMessengerP
             animate={{ opacity: 1, y: 0 }}
             className="flex justify-start"
           >
-            <div className="max-w-[85%] p-3 rounded-2xl rounded-tl-none bg-zinc-800/40 text-zinc-400 text-[13px] leading-relaxed border border-white/5 italic">
+            <div className="max-w-[90%] p-4 rounded-2xl rounded-tl-none bg-ink-3/40 text-gh-text-sec text-[13px] leading-relaxed border border-white/5 italic font-light">
               {currentText}
-              <span className="inline-block w-1 h-3 bg-sage ml-1 animate-pulse" />
+              <span className="inline-block w-1.5 h-3.5 bg-gh-blue ml-1 animate-pulse" />
             </div>
           </motion.div>
         )}
       </div>
 
-      {/* Input Area (Fake for simulation) */}
-      <div className="p-4 bg-white/[0.02] border-t border-white/5">
-        <div className="flex items-center gap-3 bg-ink-3/60 rounded-xl px-4 py-3 border border-white/5 opacity-50">
-          <div className="flex-1 text-zinc-600 text-xs italic">Awaiting technical output...</div>
-          <Send size={16} className="text-zinc-700" />
+      {/* Input Placeholder */}
+      <div className="p-6 bg-ink border-t border-gh-border">
+        <div className="flex items-center gap-4 bg-ink-3 rounded-2xl px-5 py-4 border border-white/5 opacity-40 cursor-not-allowed group">
+          <div className="flex-1 text-zinc-700 text-xs italic font-bold uppercase tracking-widest">
+             Awaiting system acknowledgement...
+          </div>
+          <Send size={18} className="text-zinc-800" />
         </div>
       </div>
     </div>
