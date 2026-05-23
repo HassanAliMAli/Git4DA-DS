@@ -212,6 +212,14 @@ export class CommandProcessor {
         }
         return `Updating ${this.git.getCurrentCommit()?.substring(0, 7)}..${mergeResult.hash?.substring(0, 7)}\nFast-forward\n 1 file changed`;
 
+      case "sparse-checkout":
+        if (subArgs[0] === "set") {
+          const path = subArgs[1];
+          if (!path) return "error: sparse-checkout set requires a target path";
+          return `✓ Successfully initialized sparse-checkout.\n✓ Restricted focus to: ${path}\n✓ Dropped 1,429,203 files from working tree (simulated).`;
+        }
+        return "usage: git sparse-checkout <set|list|disable> <path>";
+
       case "pr":
         const prAction = subArgs[0];
         if (prAction === "open") {
