@@ -84,7 +84,7 @@
 - [x] **Level 16**: Implement `git filter-repo` (Purging sensitive CSVs)
 - [x] **Level 17**: **Legendary**: Implement `reflog` recovery of uncommitted work
 - [x] **Level 18**: **Legendary**: Implement `git worktree` UI (Parallel experimentation)
-- [ ] **Level 19**: **Legendary**: Implement GPG Signing workflow
+- [x] **Level 19**: **Legendary**: Implement GPG Signing workflow
 - [ ] **Level 20**: **Legendary**: Final Capstone: Managing a simulated monorepo with VFS
 
 ---

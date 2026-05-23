@@ -79,4 +79,40 @@ export const MODULE_5_LEVELS: LevelDefinition[] = [
       "Verify with 'git worktree list'.",
     ],
   },
+  {
+    id: 19,
+    title: "The Cryptographic Seal",
+    role: "BOTH",
+    narrative: [
+      "Trust but verify is for the average, Operative. At DataPulse, we only trust what is signed.",
+      "A commit in our production registry without a signature is a technical liability. We must prove the identity of the engineer who authored the logic.",
+      "Your mission: Configure your personal GPG key and use the '-S' flag to sign your next commit.",
+      "Every bit of data and every line of SQL that touches production must be cryptographically anchored to your identity.",
+      "Proof of authorship is the final seal of integrity.",
+    ],
+    setup: async (state) => {
+      state.git.init();
+      state.fs.writeFile("/secure_pipeline.py", "# High-integrity logic");
+    },
+    goals: [
+      {
+        id: "config_key",
+        description: "Configure your GPG signing key: 'git config --global user.signingkey 0x4A7F9C2D'.",
+        check: (state) => !!state.git.getConfig("user.signingkey"),
+      },
+      {
+        id: "signed_commit",
+        description: "Sign your work using the '-S' flag: 'git commit -S -m \"...\"'.",
+        check: (state) => {
+          const commits = state.git.getGraph().commits;
+          return commits.length > 0 && !!commits[0].signature;
+        },
+      },
+    ],
+    hints: [
+      "Use 'git config --global user.signingkey 0x4A7F9C2D' to set the seal.",
+      "Run 'git add secure_pipeline.py', then 'git commit -S -m \"feat: signed pipeline\"'.",
+      "If you forget the '-S', Dr. Hassan will reject the audit.",
+    ],
+  },
 ];

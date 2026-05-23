@@ -159,8 +159,17 @@ export class CommandProcessor {
           return "Aborting commit due to empty commit message.";
         }
         const message = subArgs[msgFlagIdx + 1].replace(/['"]/g, "");
-        const hash = await this.git.commit(message, this.author);
-        return `[master (root-commit) ${hash.substring(0, 7)}] ${message}\n 1 file changed`;
+
+        let signature: string | undefined = undefined;
+        if (subArgs.includes("-S")) {
+          signature = this.git.getConfig("user.signingkey");
+          if (!signature) {
+            return "error: gpg: no default secret key. ensure user.signingkey is configured.";
+          }
+        }
+
+        const hash = await this.git.commit(message, this.author, signature);
+        return `[master (root-commit) ${hash.substring(0, 7)}] ${message}\n 1 file changed${signature ? "\n✓ GPG: VALID SIGNATURE" : ""}`;
 
       case "log":
         const history = this.git.getGraph().commits;
@@ -178,6 +187,17 @@ export class CommandProcessor {
           return "fatal: checkout requires a branch name or commit hash";
         this.git.checkout(subArgs[0]);
         return `Switched to ${this.git.getBranches().has(subArgs[0]) ? "branch" : "detached commit"} '${subArgs[0]}'`;
+
+      case "config":
+        if (subArgs.includes("--global")) {
+          const key = subArgs[subArgs.indexOf("--global") + 1];
+          const value = subArgs[subArgs.indexOf("--global") + 2];
+          if (key && value) {
+            this.git.setConfig(key, value);
+            return "";
+          }
+        }
+        return "usage: git config --global <key> <value>";
 
       case "branch":
         if (!subArgs[0]) {

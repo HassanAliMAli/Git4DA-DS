@@ -42,6 +42,9 @@ export class GitRepository {
     { path: "/repo", branch: "master" },
   ];
 
+  // Config state for Level 19
+  private config: Map<string, string> = new Map();
+
   constructor(private fs: FileSystem) {
     this.remotes.set("origin", new Map());
     this.core = new GitCore(this.fs, this.objects);
@@ -300,6 +303,14 @@ export class GitRepository {
 
   public async fetch(remote: string): Promise<void> {
     return await this.sync.fetch(remote);
+  }
+
+  public setConfig(key: string, value: string): void {
+    this.config.set(key, value);
+  }
+
+  public getConfig(key: string): string | undefined {
+    return this.config.get(key);
   }
 
   public getWorktrees(): Array<{ path: string; branch: string }> {
