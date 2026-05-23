@@ -68,14 +68,14 @@
 ### Module 3A: Data Analyst "Insights Architect" Track
 - [x] **Level 9**: Implement dbt-style "State" versioning simulation
 - [x] **Level 10**: Implement `Jupytext` workflow (Syncing `.ipynb` to `.py`)
-- [ ] **Level 11**: Implement `SQLFluff` linting gate (Blocks commits with poor formatting)
-- [ ] **Level 12**: Implement "Slim CI" (Only testing modified models)
+- [x] **Level 11**: Implement `SQLFluff` linting gate (Blocks commits with poor formatting)
+- [x] **Level 12**: Implement "Slim CI" (Only testing modified models)
 
 ### Module 3B: Data Scientist "Production Alchemist" Track
 - [x] **Level 9**: Implement DVC Pointer creation (`dvc add`)
 - [x] **Level 10**: Implement "Commit-to-Experiment" linking (MLflow simulation)
-- [ ] **Level 11**: Implement "Feature Definition" versioning challenge
-- [ ] **Level 12**: Implement "Git-Triggered Training" (Simulated GitHub Action)
+- [x] **Level 11**: Implement "Feature Definition" versioning challenge
+- [x] **Level 12**: Implement "Git-Triggered Training" (Simulated GitHub Action)
 
 ### Module 4 & 5: The Legendary Tier (The Dark Arts)
 - [ ] **Level 13**: Implement `sparse-checkout` (Large repo navigation)

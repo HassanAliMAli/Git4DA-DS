@@ -110,9 +110,20 @@ export class CommandProcessor {
           }
           return "usage: feast apply";
 
+        case "dbt":
+          if (args[0] === "clone" && args.includes("--state")) {
+            return "✓ State identified. Cloned only modified nodes for Slim CI run.\n✓ Optimization: 85% reduction in compute cost.";
+          }
+          return "usage: dbt clone --state <path>";
+
+        case "workflow":
+          if (args[0] === "trigger" && args[1] === "train") {
+            return "✓ GitHub Action Triggered: 'Automated Training Run'\n✓ Status: Pending acknowledgement from GPU cluster...";
+          }
+          return "usage: workflow trigger <name>";
+
         default:
           return `command not found: ${command}`;
-
   private async handleGit(args: string[]): Promise<string> {
     const subCommand = args[0];
     const subArgs = args.slice(1);

@@ -240,4 +240,77 @@ export const MODULE_3_LEVELS: LevelDefinition[] = [
       "Run the custom 'feast apply' command to generate the simulation config.",
     ],
   },
+  {
+    id: 12,
+    title: "Continuous Integrity",
+    role: "DATA_ANALYST",
+    narrative: [
+      "Efficiency is an engineering virtue, Analyst. Testing everything on every commit is a waste of the firm's compute resources.",
+      "We use 'Slim CI'—a state-aware pipeline that identifies exactly which SQL models have changed and tests only those.",
+      "Your mission: You've updated 'models/stg_revenue.sql'. Use the 'dbt clone' command with the '--state' flag to simulate a Slim CI run.",
+      "Precision in automation allows us to ship faster without sacrificing the ledger's integrity.",
+    ],
+    setup: async (state) => {
+      state.git.init();
+      state.fs.mkdir("models");
+      state.fs.writeFile("/models/stg_revenue.sql", "SELECT * FROM raw_rev;");
+      await state.git.add("models/stg_revenue.sql");
+      await state.git.commit("feat: initial revenue model", "User");
+    },
+    goals: [
+      {
+        id: "trigger_slim_ci",
+        description: "Simulate a Slim CI run using 'dbt clone --state prod'.",
+        check: (state) => true, // We allow the command trigger to pass
+      },
+      {
+        id: "push_automation",
+        description: "Push your optimized pipeline changes to the central registry.",
+        check: (state) => {
+          const remotes = state.git.getRemoteBranches("origin");
+          return remotes.has("master");
+        },
+      },
+    ],
+    hints: [
+      "Run 'dbt clone --state prod' to see the compute optimization in action.",
+      "Don't forget to 'git push origin master' to finalize the mission.",
+    ],
+  },
+  {
+    id: 12,
+    title: "The Training Trigger",
+    role: "DATA_SCIENTIST",
+    narrative: [
+      "Manual work is the enemy of scale, Scientist. If you have to click a button to train a model, you have already lost.",
+      "At DataPulse, our code *is* the trigger. We use GitHub Actions to automate training the moment your logic hits the registry.",
+      "Your mission: You have a 'train.py'. Simulate an automated workflow trigger by running the 'workflow' command.",
+      "Automation ensures that our models are always in sync with our formulas. Move from artisan to industrialist.",
+    ],
+    setup: async (state) => {
+      state.git.init();
+      state.fs.writeFile("/train.py", "model.fit()");
+      await state.git.add("train.py");
+      await state.git.commit("feat: production training script", "User");
+    },
+    goals: [
+      {
+        id: "trigger_workflow",
+        description: "Simulate an automated training run using 'workflow trigger train'.",
+        check: (state) => true,
+      },
+      {
+        id: "push_trigger",
+        description: "Push your production logic to activate the live central pipeline.",
+        check: (state) => {
+          const remotes = state.git.getRemoteBranches("origin");
+          return remotes.has("master");
+        },
+      },
+    ],
+    hints: [
+      "Run 'workflow trigger train' to initiate the simulated GPU run.",
+      "Push your work with 'git push origin master' to complete the loop.",
+    ],
+  },
 ];
