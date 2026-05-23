@@ -1,4 +1,4 @@
-export type FileType = 'file' | 'directory';
+export type FileType = "file" | "directory";
 
 export interface VNode {
   name: string;
@@ -16,37 +16,37 @@ export class FileSystem {
   private root: VNode;
 
   constructor() {
-    this.root = this.createDirectoryNode('/');
+    this.root = this.createDirectoryNode("/");
   }
 
   private createDirectoryNode(name: string): VNode {
     return {
       name,
-      type: 'directory',
+      type: "directory",
       children: new Map(),
       metadata: {
         size: 0,
         lastModified: Date.now(),
-        hidden: name.startsWith('.'),
+        hidden: name.startsWith("."),
       },
     };
   }
 
-  private createFileNode(name: string, content: string = ''): VNode {
+  private createFileNode(name: string, content: string = ""): VNode {
     return {
       name,
-      type: 'file',
+      type: "file",
       content,
       metadata: {
         size: new TextEncoder().encode(content).length,
         lastModified: Date.now(),
-        hidden: name.startsWith('.'),
+        hidden: name.startsWith("."),
       },
     };
   }
 
   private getPathParts(path: string): string[] {
-    return path.split('/').filter(part => part !== '');
+    return path.split("/").filter((part) => part !== "");
   }
 
   private traverse(path: string, createMissing: boolean = false): VNode | null {
@@ -54,7 +54,7 @@ export class FileSystem {
     let current = this.root;
 
     for (const part of parts) {
-      if (current.type !== 'directory' || !current.children) {
+      if (current.type !== "directory" || !current.children) {
         return null;
       }
 
@@ -84,10 +84,10 @@ export class FileSystem {
     const fileName = parts.pop();
     if (!fileName) return;
 
-    const dirPath = parts.join('/');
+    const dirPath = parts.join("/");
     const parentDir = this.traverse(dirPath, true);
 
-    if (!parentDir || parentDir.type !== 'directory' || !parentDir.children) {
+    if (!parentDir || parentDir.type !== "directory" || !parentDir.children) {
       throw new Error(`Invalid path: ${dirPath}`);
     }
 
@@ -97,10 +97,10 @@ export class FileSystem {
 
   public readFile(path: string): string {
     const node = this.traverse(path);
-    if (!node || node.type !== 'file') {
+    if (!node || node.type !== "file") {
       throw new Error(`File not found: ${path}`);
     }
-    return node.content || '';
+    return node.content || "";
   }
 
   public exists(path: string): boolean {
@@ -109,12 +109,12 @@ export class FileSystem {
 
   public isDirectory(path: string): boolean {
     const node = this.traverse(path);
-    return node?.type === 'directory';
+    return node?.type === "directory";
   }
 
-  public ls(path: string = '/'): string[] {
+  public ls(path: string = "/"): string[] {
     const node = this.traverse(path);
-    if (!node || node.type !== 'directory' || !node.children) {
+    if (!node || node.type !== "directory" || !node.children) {
       throw new Error(`Not a directory: ${path}`);
     }
     return Array.from(node.children.keys());
@@ -125,10 +125,10 @@ export class FileSystem {
     const targetName = parts.pop();
     if (!targetName) return;
 
-    const dirPath = parts.join('/');
+    const dirPath = parts.join("/");
     const parentDir = this.traverse(dirPath);
 
-    if (!parentDir || parentDir.type !== 'directory' || !parentDir.children) {
+    if (!parentDir || parentDir.type !== "directory" || !parentDir.children) {
       throw new Error(`Invalid path: ${dirPath}`);
     }
 

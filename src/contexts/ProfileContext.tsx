@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { UserProfile, UserRole, INITIAL_PROFILE } from '@/models/Profile';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { UserProfile, UserRole, INITIAL_PROFILE } from "@/models/Profile";
 
 interface ProfileContextType {
   profile: UserProfile | null;
@@ -12,12 +12,14 @@ interface ProfileContextType {
 
 const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
 
-export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const savedProfile = localStorage.getItem('datapulse_profile');
+    const savedProfile = localStorage.getItem("datapulse_profile");
     if (savedProfile) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setProfile(JSON.parse(savedProfile));
@@ -36,10 +38,9 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({ child
     } as UserProfile;
 
     setProfile(newProfile);
-    localStorage.setItem('datapulse_profile', JSON.stringify(newProfile));
+    localStorage.setItem("datapulse_profile", JSON.stringify(newProfile));
 
     // TODO: In production, sync with Cloudflare D1 here
-    console.log(`Profile created for ${name} as ${role}`);
   };
 
   const updateXP = async (amount: number) => {
@@ -52,7 +53,7 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({ child
     };
 
     setProfile(updatedProfile);
-    localStorage.setItem('datapulse_profile', JSON.stringify(updatedProfile));
+    localStorage.setItem("datapulse_profile", JSON.stringify(updatedProfile));
   };
 
   return (
@@ -62,11 +63,10 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({ child
   );
 };
 
-
 export const useProfile = (): ProfileContextType => {
   const context = useContext(ProfileContext);
   if (context === undefined) {
-    throw new Error('useProfile must be used within a ProfileProvider');
+    throw new Error("useProfile must be used within a ProfileProvider");
   }
   return context;
 };

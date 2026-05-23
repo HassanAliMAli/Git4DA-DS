@@ -1,20 +1,23 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from 'react';
-import { Terminal as TerminalIcon, ChevronRight } from 'lucide-react';
+import React, { useState, useRef, useEffect } from "react";
+import { Terminal as TerminalIcon, ChevronRight } from "lucide-react";
 
 interface TerminalProps {
   onCommand: (command: string) => Promise<void>;
-  history: Array<{ type: 'command' | 'output' | 'error', text: string | React.ReactNode }>;
+  history: Array<{
+    type: "command" | "output" | "error";
+    text: string | React.ReactNode;
+  }>;
 }
 
 export function Terminal({ onCommand, history }: TerminalProps) {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const terminalEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const scrollToBottom = (): void => {
-    terminalEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    terminalEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -26,12 +29,12 @@ export function Terminal({ onCommand, history }: TerminalProps) {
     if (!input.trim()) return;
 
     const cmd = input;
-    setInput('');
+    setInput("");
     await onCommand(cmd);
   };
 
   return (
-    <div 
+    <div
       className="flex flex-col h-full bg-ink-2 border border-gh-border rounded-2xl overflow-hidden shadow-terminal min-h-[500px]"
       onClick={() => inputRef.current?.focus()}
     >
@@ -48,25 +51,35 @@ export function Terminal({ onCommand, history }: TerminalProps) {
             DataPulse • Secure Shell • node-v2.4
           </div>
         </div>
-        <div className="text-[10px] font-mono text-zinc-600 font-bold italic uppercase tracking-tighter">Verified Connection</div>
+        <div className="text-[10px] font-mono text-zinc-600 font-bold italic uppercase tracking-tighter">
+          Verified Connection
+        </div>
       </div>
 
       {/* Output Area */}
       <div className="flex-1 p-8 overflow-y-auto font-mono text-[14px] leading-relaxed scrollbar-hide text-left">
         <div className="space-y-3">
           {history.map((entry, idx) => (
-            <div key={idx} className={
-              entry.type === 'command' ? 'text-white' : 
-              entry.type === 'error' ? 'text-gh-danger' : 'text-white opacity-90'
-            }>
-              {entry.type === 'command' && (
+            <div
+              key={idx}
+              className={
+                entry.type === "command"
+                  ? "text-white"
+                  : entry.type === "error"
+                    ? "text-gh-danger"
+                    : "text-white opacity-90"
+              }
+            >
+              {entry.type === "command" && (
                 <div className="flex items-center gap-3 mb-1.5">
                   <span className="text-gh-blue font-black italic">❯</span>
                   <span className="font-bold italic">{entry.text}</span>
                 </div>
               )}
-              {entry.type !== 'command' && (
-                <div className="whitespace-pre-wrap pl-6 font-medium border-l border-white/10 ml-1">{entry.text}</div>
+              {entry.type !== "command" && (
+                <div className="whitespace-pre-wrap pl-6 font-medium border-l border-white/10 ml-1">
+                  {entry.text}
+                </div>
               )}
             </div>
           ))}
@@ -75,7 +88,10 @@ export function Terminal({ onCommand, history }: TerminalProps) {
       </div>
 
       {/* Input Area */}
-      <form onSubmit={handleSubmit} className="px-8 py-5 bg-ink border-t border-gh-border flex items-center gap-3">
+      <form
+        onSubmit={handleSubmit}
+        className="px-8 py-5 bg-ink border-t border-gh-border flex items-center gap-3"
+      >
         <span className="text-gh-blue font-black italic text-[15px]">❯</span>
         <input
           ref={inputRef}

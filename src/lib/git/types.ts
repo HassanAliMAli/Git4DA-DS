@@ -1,4 +1,4 @@
-export type GitObjectType = 'blob' | 'tree' | 'commit';
+export type GitObjectType = "blob" | "tree" | "commit";
 
 export interface GitObject {
   hash: string;
@@ -18,7 +18,7 @@ export interface GitCommit {
 export interface GitTreeEntry {
   name: string;
   hash: string;
-  type: 'blob' | 'tree';
+  type: "blob" | "tree";
 }
 
 export interface ReflogEntry {

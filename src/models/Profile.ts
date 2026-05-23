@@ -1,4 +1,4 @@
-export type UserRole = 'DATA_ANALYST' | 'DATA_SCIENTIST';
+export type UserRole = "DATA_ANALYST" | "DATA_SCIENTIST";
 
 export interface UserProfile {
   id: string;
@@ -15,6 +15,6 @@ export interface UserProfile {
 export const INITIAL_PROFILE: Partial<UserProfile> = {
   xp: 0,
   level: 1,
-  unlockedThemes: ['default'],
+  unlockedThemes: ["default"],
   achievements: [],
 };
