@@ -84,6 +84,11 @@ export class CommandProcessor {
         if (history.length === 0) return 'fatal: your current branch master does not have any commits yet';
         return history.map(c => `commit ${c.hash}\nAuthor: ${c.author}\nDate: ${new Date(c.timestamp).toLocaleString()}\n\n    ${c.message}`).join('\n\n');
 
+      case 'checkout':
+        if (!subArgs[0]) return 'fatal: checkout requires a branch name or commit hash';
+        this.git.checkout(subArgs[0]);
+        return `Switched to ${this.git.getBranches().has(subArgs[0]) ? 'branch' : 'detached commit'} '${subArgs[0]}'`;
+
       default:
         return `git: '${subCommand}' is not a git command. See 'git --help'.`;
     }

@@ -182,11 +182,17 @@ export class GitRepository {
   }
 
   public checkout(name: string): void {
-    if (!this.refs.has(name)) {
-      throw new Error(`Branch not found: ${name}`);
+    if (this.refs.has(name)) {
+      this.head = name;
+      this.addToReflog('HEAD', this.refs.get(this.head) || null, this.refs.get(name) || '', `checkout: moving from ${this.head} to ${name}`);
+    } else if (this.objects.has(name) && this.objects.get(name)?.type === 'commit') {
+      // Detached HEAD state
+      const oldHead = this.head;
+      this.head = name;
+      this.addToReflog('HEAD', oldHead, name, `checkout: moving from ${oldHead} to ${name.substring(0, 7)} (detached)`);
+    } else {
+      throw new Error(`error: pathspec '${name}' did not match any file(s) known to git`);
     }
-    this.head = name;
-    this.addToReflog('HEAD', this.refs.get(this.head) || null, this.refs.get(name) || '', `checkout: moving from ${this.head} to ${name}`);
   }
 
   public getGraph(): { commits: (GitCommit & { hash: string })[], branches: { name: string, hash: string }[] } {

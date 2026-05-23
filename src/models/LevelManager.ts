@@ -101,5 +101,53 @@ export const LEVELS: LevelDefinition[] = [
       "Standard patterns: '*.csv' and '.env'",
       "Use 'git add analysis.py' and commit it."
     ]
+  },
+  {
+    id: 3,
+    title: 'The Time Machine',
+    role: 'BOTH',
+    narrative: [
+      "Trust is good. Verification is better.",
+      "A client is questioning the insights we delivered yesterday. They claim the revenue numbers don't match their internal audit.",
+      "To resolve this, you must travel back to our 'baseline' state—the very first commit—and verify exactly what the logic was before our recent changes.",
+      "Use 'git log' to find the hash of the first commit, and 'git checkout' to travel back in time."
+    ],
+    setup: async (state) => {
+      // Create a project with history
+      state.git.init();
+      state.fs.writeFile('/README.md', '# DataPulse Baseline\nInitial logic: Revenue = Sales * 1.0');
+      await state.git.add('README.md');
+      await state.git.commit('feat: establish baseline revenue logic', 'Dr. Hassan');
+
+      state.fs.writeFile('/README.md', '# DataPulse Updated\nUpdated logic: Revenue = Sales * 1.2 (experimental)');
+      await state.git.add('README.md');
+      await state.git.commit('feat: update revenue multiplier for Q4', 'Dr. Hassan');
+    },
+    goals: [
+      {
+        id: 'view_history',
+        description: 'Use git log to inspect the project history.',
+        check: (state) => {
+          // This is a behavioral goal. We'll mark it true if they run the command.
+          // For simplicity in this mock, we check if they are at least aware of the commits.
+          return state.git.getGraph().commits.length >= 2;
+        }
+      },
+      {
+        id: 'travel_back',
+        description: 'Checkout the first commit (the baseline) to verify the original logic.',
+        check: (state) => {
+          const commits = state.git.getGraph().commits;
+          if (commits.length < 2) return false;
+          const firstCommitHash = commits[commits.length - 1].hash;
+          return state.git.getHead() === firstCommitHash;
+        }
+      }
+    ],
+    hints: [
+      "Run 'git log' to see the list of all snapshots.",
+      "Find the long string of letters and numbers (the hash) for the first commit.",
+      "Use 'git checkout <hash>' to move the repository back to that state."
+    ]
   }
 ];
