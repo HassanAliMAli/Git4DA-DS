@@ -1,25 +1,27 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif';
-  --font-mono: 'JetBrains Mono', 'SF Mono', 'Monaco', 'monospace';
+  --font-sans: var(--font-sans), 'system-ui', 'sans-serif';
+  --font-mono: var(--font-mono), 'monospace';
 
-  /* GitHub Dark Palette with High Contrast White Text */
-  --color-ink: #0d1117;
-  --color-ink-2: #161b22;
-  --color-ink-3: #21262d;
-  --color-gh-blue: #1f6feb;
-  --color-gh-green: #238636;
-  --color-gh-gray: #30363d;
-  --color-gh-text: #ffffff; /* Absolute White */
-  --color-gh-text-sec: #d1d7e0; /* Brightened Secondary */
-  --color-gh-border: #30363d;
-  --color-gh-danger: #ff7b72; /* Brightened Red */
-  --color-gh-warn: #e3b341; /* Brightened Yellow */
-  --color-gh-indigo: #58a6ff; /* Brightened Indigo */
-  --color-gh-violet: #bc8cff; /* Brightened Violet */
+  /* DataPulse Brand Palette */
+  --color-ink: #0F172A; /* Dark */
+  --color-ink-2: #1E293B;
+  --color-ink-3: #334155;
+  
+  --color-gh-blue: #0D9488; /* Teal replacing Blue */
+  --color-gh-green: #22C55E; /* Success */
+  --color-gh-gray: #475569; /* Slate */
+  --color-gh-text: #F8FAFC; /* Light */
+  --color-gh-text-sec: #94A3B8; 
+  --color-gh-border: #334155;
+  
+  --color-gh-danger: #EF4444; /* Danger */
+  --color-gh-warn: #F59E0B; /* Gold */
+  --color-gh-indigo: #0D9488; /* Teal replacing Indigo */
+  --color-gh-violet: #0D9488; /* Teal replacing Violet */
 
-  --shadow-glow: 0 0 0 1px rgba(31,111,235,0.2), 0 8px 40px rgba(31,111,235,0.12), 0 2px 8px rgba(0,0,0,0.4);
+  --shadow-glow: 0 0 0 1px rgba(13, 148, 136, 0.2), 0 8px 40px rgba(13, 148, 136, 0.12), 0 2px 8px rgba(0,0,0,0.4);
   --shadow-terminal: 0 0 0 1px rgba(255,255,255,0.05), 0 20px 60px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.02);
 
   --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;

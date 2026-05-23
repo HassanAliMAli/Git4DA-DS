@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { GitPullRequest, CheckCircle2, User, MessageSquare, ShieldCheck, Activity } from 'lucide-react';
+import { GitPullRequest, CheckCircle2, User, MessageSquare, ShieldCheck, Activity, Database } from 'lucide-react';
 
 interface PullRequestViewProps {
   title: string;

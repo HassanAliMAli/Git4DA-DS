@@ -1,5 +1,5 @@
 import { GitRepository } from './GitRepository';
-import { FileSystem } from './FileSystem';
+import { FileSystem } from '../vfs/FileSystem';
 
 export class CommandProcessor {
   constructor(

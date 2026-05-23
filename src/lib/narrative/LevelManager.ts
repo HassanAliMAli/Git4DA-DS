@@ -1,9 +1,9 @@
-import { UserRole } from './Profile';
+import { UserRole } from '@/models/Profile';
 
 export interface LevelGoal {
   id: string;
   description: string;
-  check: (state: any) => boolean;
+  check: (state: { fs: import("@/lib/vfs/FileSystem").FileSystem, git: import("@/lib/git/GitRepository").GitRepository, prOpened?: boolean }) => boolean;
 }
 
 export interface LevelDefinition {
@@ -11,7 +11,7 @@ export interface LevelDefinition {
   title: string;
   role: UserRole | 'BOTH';
   narrative: string[];
-  setup: (state: any) => Promise<void>;
+  setup: (state: { fs: import("@/lib/vfs/FileSystem").FileSystem, git: import("@/lib/git/GitRepository").GitRepository, prOpened?: boolean }) => Promise<void>;
   goals: LevelGoal[];
   hints: string[];
 }

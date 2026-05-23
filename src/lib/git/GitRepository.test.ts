@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { GitRepository } from './GitRepository';
-import { FileSystem } from './FileSystem';
+import { FileSystem } from '../vfs/FileSystem';
 
 describe('GitRepository', () => {
   let fs: FileSystem;
@@ -35,7 +35,7 @@ describe('GitRepository', () => {
     
     const commitObj = git.getObject(commitHash);
     expect(commitObj?.type).toBe('commit');
-    const commitData = JSON.parse(commitObj?.data);
+    const commitData = JSON.parse(commitObj?.data || '{}');
     expect(commitData.message).toBe(message);
     expect(commitData.author).toBe(author);
   });

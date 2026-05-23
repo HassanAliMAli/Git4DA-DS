@@ -1,11 +1,11 @@
-import { FileSystem } from './FileSystem';
+import { FileSystem } from '../vfs/FileSystem';
 
 export type GitObjectType = 'blob' | 'tree' | 'commit';
 
 export interface GitObject {
   hash: string;
   type: GitObjectType;
-  data: any;
+  data: string;
 }
 
 export interface GitCommit {
@@ -55,9 +55,9 @@ export class GitRepository {
     
     try {
       const ignoreContent = this.fs.readFile('/.gitignore');
-      const patterns = ignoreContent.split('\n').map(p => p.trim()).filter(p => p && !p.startsWith('#'));
+      const patterns = ignoreContent.split('\n').map((p: string) => p.trim()).filter((p: string) => p && !p.startsWith('#'));
       
-      return patterns.some(pattern => {
+      return patterns.some((pattern: string) => {
         const regexPattern = pattern
           .replace(/\./g, '\\.')
           .replace(/\*/g, '.*');

@@ -3,10 +3,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useProfile } from '@/contexts/ProfileContext';
-import { FileSystem } from '@/models/FileSystem';
-import { GitRepository } from '@/models/GitRepository';
-import { CommandProcessor } from '@/models/CommandProcessor';
-import { LEVELS } from '@/models/LevelManager';
+import { FileSystem } from '@/lib/vfs/FileSystem';
+import { GitRepository } from '@/lib/git/GitRepository';
+import { CommandProcessor } from '@/lib/git/CommandProcessor';
+import { LEVELS } from '@/lib/narrative/LevelManager';
 import { Terminal } from '@/components/Terminal';
 import { DataPulseMessenger } from '@/components/DataPulseMessenger';
 import { GitGraphVisualizer } from '@/components/GitGraphVisualizer';
@@ -102,8 +102,8 @@ export default function TerminalPage() {
       }
       
       checkLevelProgress();
-    } catch (error: any) {
-      setTerminalHistory(prev => [...prev, { type: 'error', text: error.message }]);
+    } catch (error: unknown) {
+      setTerminalHistory(prev => [...prev, { type: 'error', text: error instanceof Error ? error.message : String(error) }]);
     }
   };
 

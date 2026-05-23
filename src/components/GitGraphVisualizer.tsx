@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { GitCommit } from '@/models/GitRepository';
+import { GitCommit } from '@/lib/git/GitRepository';
 import { GitBranch, User, Hash } from 'lucide-react';
 
 interface GraphCommit extends GitCommit {
@@ -22,8 +22,8 @@ export function GitGraphVisualizer({
   if (commits.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center p-8 bg-ink-2/30 border border-white/5 rounded-2xl border-dashed">
-        <GitBranch className="text-zinc-800 mb-3" size={24} />
-        <p className="text-zinc-600 text-[10px] font-mono uppercase tracking-[0.2em] italic font-bold">No history detected</p>
+        <GitBranch className="text-zinc-600 mb-3" size={24} />
+        <p className="text-white text-[10px] font-mono uppercase tracking-[0.2em] italic font-bold">No history detected</p>
       </div>
     );
   }
@@ -35,8 +35,8 @@ export function GitGraphVisualizer({
   return (
     <div className="bg-ink-2/50 backdrop-blur-xl border border-gh-border rounded-2xl overflow-hidden shadow-inner h-full flex flex-col font-sans">
       <div className="px-5 py-3.5 bg-ink-3 border-b border-gh-border flex items-center justify-between">
-        <div className="flex items-center gap-2.5 text-[9px] font-black text-gh-text-sec uppercase tracking-[0.2em] italic">
-          <GitBranch size={13} className="text-gh-blue" />
+        <div className="flex items-center gap-2.5 text-[9px] font-black text-white uppercase tracking-[0.2em] italic">
+          <GitBranch size={13} className="text-gh-blue shadow-glow" />
           Branch Lineage
         </div>
         <span className="text-[9px] font-mono text-gh-blue px-2 py-0.5 rounded-full bg-gh-blue/10 border border-gh-blue/20 uppercase font-black italic">
@@ -79,10 +79,10 @@ export function GitGraphVisualizer({
                       {commit.message}
                     </span>
                     <div className="flex items-center gap-4">
-                      <span className="text-[9px] font-mono text-zinc-600 flex items-center gap-1.5 uppercase tracking-widest font-black italic">
+                      <span className="text-[9px] font-mono text-zinc-400 flex items-center gap-1.5 uppercase tracking-widest font-black italic">
                         <Hash size={10} /> {commit.hash.substring(0, 7)}
                       </span>
-                      <span className="text-[9px] font-mono text-zinc-600 flex items-center gap-1.5 uppercase tracking-widest font-black italic">
+                      <span className="text-[9px] font-mono text-zinc-400 flex items-center gap-1.5 uppercase tracking-widest font-black italic">
                         <User size={10} /> {commit.author.split(' ')[0]}
                       </span>
                     </div>
@@ -96,7 +96,7 @@ export function GitGraphVisualizer({
                       inline-flex items-center px-2 py-0.5 rounded border text-[8px] font-black uppercase tracking-tighter italic
                       ${branch.name === currentBranch 
                         ? 'bg-gh-blue/10 border-gh-blue/30 text-gh-blue' 
-                        : 'bg-zinc-900 border-white/5 text-zinc-600'}
+                        : 'bg-zinc-900 border-white/5 text-zinc-400'}
                     `}>
                       {branch.name}
                     </div>

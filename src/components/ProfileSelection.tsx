@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useProfile } from '@/contexts/ProfileContext';
 import { UserRole } from '@/models/Profile';
-import { ChevronRight, Database, FlaskConical, ShieldAlert, Cpu } from 'lucide-react';
+import { Lock, ChevronRight, Database, FlaskConical, ShieldAlert, Cpu } from 'lucide-react';
 
 export function ProfileSelection() {
   const { setRole } = useProfile();
@@ -26,7 +26,7 @@ export function ProfileSelection() {
     <div className="min-h-screen bg-ink flex items-center justify-center p-6 relative overflow-hidden font-sans selection:bg-gh-blue/30 selection:text-white">
       <div className="scanline" />
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-[radial-gradient(ellipse_at_center,_rgba(31,111,235,0.08),_transparent_60%)] blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-[radial-gradient(ellipse_at_center,_rgba(13, 148, 136,0.08),_transparent_60%)] blur-3xl pointer-events-none" />
 
       <motion.div 
         initial={{ opacity: 0, scale: 0.98 }}
@@ -36,7 +36,7 @@ export function ProfileSelection() {
       >
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-gh-blue to-violet flex items-center justify-center shadow-glow">
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-gh-blue to-teal-600 flex items-center justify-center shadow-glow">
               <span className="font-mono font-black text-xs text-white uppercase tracking-widest">G4D</span>
             </div>
             <span className="text-xs font-black tracking-[0.4em] text-zinc-500 uppercase italic">DataPulse Registry</span>
@@ -117,13 +117,13 @@ export function ProfileSelection() {
                   onClick={() => setSelectedRole('DATA_SCIENTIST')}
                   className={`text-left relative p-8 rounded-3xl border-2 transition-all duration-500 overflow-hidden group ${
                     selectedRole === 'DATA_SCIENTIST' 
-                      ? 'border-violet bg-violet/5 shadow-glow-violet' 
+                      ? 'border-violet bg-violet/5 shadow-glow' 
                       : 'border-white/5 bg-white/[0.01] hover:border-white/10'
                   }`}
                 >
                   <div className="flex items-start justify-between mb-6">
                     <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 shadow-inner ${
-                      selectedRole === 'DATA_SCIENTIST' ? 'bg-violet/20 text-violet-400 scale-110' : 'bg-white/5 text-zinc-600 group-hover:text-zinc-500'
+                      selectedRole === 'DATA_SCIENTIST' ? 'bg-violet/20 text-teal-400 scale-110' : 'bg-white/5 text-zinc-600 group-hover:text-zinc-500'
                     }`}>
                       <FlaskConical size={28} />
                     </div>
