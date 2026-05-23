@@ -24,6 +24,7 @@ export function ProfileSelection() {
 
   return (
     <div className="min-h-screen bg-ink flex items-center justify-center p-6 relative overflow-hidden font-sans selection:bg-gh-blue/30 selection:text-white">
+      <div className="scanline" />
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-[radial-gradient(ellipse_at_center,_rgba(31,111,235,0.08),_transparent_60%)] blur-3xl pointer-events-none" />
 

@@ -115,9 +115,11 @@ export default function TerminalPage() {
   const graphData = git.getGraph();
 
   return (
-    <div className="flex h-screen bg-ink text-gh-text overflow-hidden font-sans selection:bg-gh-blue/30 selection:text-white">
+    <div className="flex h-screen bg-ink text-zinc-100 overflow-hidden font-sans selection:bg-gh-blue/30 selection:text-white">
+      <div className="scanline" />
       {/* 
         LEFT PANE: Intelligence (22%)
+
       */}
       <aside className="w-[22%] border-r border-white/5 bg-ink-2/50 backdrop-blur-md flex flex-col overflow-hidden shrink-0">
          <div className="p-6 h-full flex flex-col space-y-8 overflow-y-auto scrollbar-hide">

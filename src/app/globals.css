@@ -16,16 +16,25 @@
   --color-gh-border: #30363d;
   --color-gh-danger: #f85149;
   --color-gh-warn: #d29922;
+  --color-gh-indigo: #388bfd;
+  --color-gh-violet: #8957e5;
 
   --shadow-glow: 0 0 0 1px rgba(31,111,235,0.2), 0 8px 40px rgba(31,111,235,0.12), 0 2px 8px rgba(0,0,0,0.4);
   --shadow-terminal: 0 0 0 1px rgba(255,255,255,0.05), 0 20px 60px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.02);
 
   --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --animate-float: float 6s ease-in-out infinite;
+  --animate-scanline: scanline 12s linear infinite;
 
   @keyframes float {
     0%, 100% { transform: translateY(0) rotate(0deg); }
     50% { transform: translateY(-10px) rotate(1deg); }
+  }
+
+  @keyframes scanline {
+    0% { transform: translateY(-100vh); opacity: 0; }
+    10%, 90% { opacity: 0.3; }
+    100% { transform: translateY(100vh); opacity: 0; }
   }
 }
 
@@ -46,30 +55,39 @@
     @apply bg-ink text-gh-text antialiased selection:bg-gh-blue/30 selection:text-white;
     position: relative;
     min-height: 100vh;
+    overflow-x: hidden;
   }
 
-  /* Deep Atmosphere: Noise & GitHub Gradient Layers */
+  /* Metadata Fabric: Noise & Technical Data Layers */
   body::before {
-    content: "";
+    content: "GPG_VERIFIED: 0x4A7F9C2D [DATAPULSE_NODE_V2.4] STATUS: NOMINAL • LINEAGE_AUDIT_ACTIVE • CRYPTO_HANDSHAKE_READY";
     position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    opacity: 0.03;
+    bottom: 24px;
+    right: 32px;
+    font-family: var(--font-mono);
+    font-size: 8px;
+    color: var(--color-gh-text-sec);
+    letter-spacing: 0.4em;
+    opacity: 0.15;
     pointer-events: none;
-    z-index: 1;
+    z-index: 50;
+    white-space: nowrap;
+    text-transform: uppercase;
+    font-weight: 900;
+    font-style: italic;
   }
 
+  /* Noise Overlay */
   body::after {
     content: "";
     position: fixed;
     inset: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at 50% 50%, rgba(31, 111, 235, 0.02) 0%, transparent 80%);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.04;
     pointer-events: none;
-    z-index: 0;
+    z-index: 1;
   }
 
   ::-webkit-scrollbar { width: 10px; height: 10px; }
@@ -79,17 +97,60 @@
 }
 
 @layer components {
+  /* Multi-Scale Technical Grid */
   .grid-bg {
     background-image: 
-        linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px);
-    background-size: 32px 32px;
+        /* Cell Grid (16px) */
+        linear-gradient(rgba(255,255,255,0.008) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.008) 1px, transparent 1px),
+        /* Sector Grid (128px) */
+        linear-gradient(rgba(31,111,235,0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(31,111,235,0.015) 1px, transparent 1px);
+    background-size: 16px 16px, 16px 16px, 128px 128px, 128px 128px;
+    position: relative;
+  }
+
+  /* Corner Nebulas */
+  .grid-bg::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60%;
+    height: 60%;
+    background: radial-gradient(circle at 100% 0%, rgba(56, 139, 253, 0.04) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .grid-bg::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60%;
+    height: 60%;
+    background: radial-gradient(circle at 0% 100%, rgba(137, 87, 229, 0.03) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* Scanline Pulse */
+  .scanline {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(31, 111, 235, 0.1), transparent);
+    z-index: 2;
+    pointer-events: none;
+    @apply animate-scanline;
   }
 
   .glass {
     background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-    backdrop-filter: blur(32px);
-    -webkit-backdrop-filter: blur(32px);
+    backdrop-filter: blur(48px);
+    -webkit-backdrop-filter: blur(48px);
   }
 
   .sheen {
@@ -100,7 +161,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
     animation: sheen-anim 2.5s infinite;
   }
 }

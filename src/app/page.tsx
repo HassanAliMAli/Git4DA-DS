@@ -115,6 +115,9 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-ink text-gh-text antialiased overflow-x-hidden selection:bg-gh-blue/30 selection:text-white font-sans">
+      {/* Visual Infrastructure */}
+      <div className="scanline" />
+      
       {/* Top navigation */}
       <header className="sticky top-0 z-50 border-b border-white/5 bg-ink/80 backdrop-blur-2xl">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
