@@ -189,5 +189,47 @@ export const LEVELS: LevelDefinition[] = [
       "Run 'git revert <hash>' to automatically create a new commit that undoes the damage.",
       "Verify the file is back with 'ls'."
     ]
+  },
+  {
+    id: 5,
+    title: 'Branching for Hypotheses',
+    role: 'BOTH',
+    narrative: [
+      "Linear thinking is for robots. Professionals work in parallel.",
+      "We need to test a new 'Linear Regression' model for our churn analysis. However, we cannot disrupt the current production state.",
+      "You must create an isolated workspace—a 'branch'—where you can experiment freely without touching the main project.",
+      "Create a branch named 'experiment-v2', switch to it, and take your first experimental snapshot."
+    ],
+    setup: async (state) => {
+      state.git.init();
+      state.fs.writeFile('/README.md', '# Churn Analysis Project');
+      await state.git.add('README.md');
+      await state.git.commit('feat: init project', 'Dr. Hassan');
+    },
+    goals: [
+      {
+        id: 'create_branch',
+        description: 'Create a new branch named experiment-v2.',
+        check: (state) => state.git.getBranches().has('experiment-v2')
+      },
+      {
+        id: 'checkout_branch',
+        description: 'Switch (checkout) to the experiment-v2 branch.',
+        check: (state) => state.git.getHead() === 'experiment-v2'
+      },
+      {
+        id: 'experimental_commit',
+        description: 'Make a commit on the new branch.',
+        check: (state) => {
+          const commits = state.git.getGraph().commits;
+          return commits.length >= 2 && state.git.getHead() === 'experiment-v2';
+        }
+      }
+    ],
+    hints: [
+      "Use 'git branch experiment-v2' to create the new workspace.",
+      "Use 'git checkout experiment-v2' to enter it.",
+      "Create a file, add it, and commit it with a 'feat:' message."
+    ]
   }
 ];

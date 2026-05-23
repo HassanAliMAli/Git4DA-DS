@@ -89,6 +89,17 @@ export class CommandProcessor {
         this.git.checkout(subArgs[0]);
         return `Switched to ${this.git.getBranches().has(subArgs[0]) ? 'branch' : 'detached commit'} '${subArgs[0]}'`;
 
+      case 'branch':
+        if (!subArgs[0]) {
+          // List branches
+          const branches = Array.from(this.git.getBranches().keys());
+          const head = this.git.getHead();
+          return branches.map(b => `${b === head ? '*' : ' '} ${b}`).join('\n');
+        }
+        // Create branch
+        await this.git.branch(subArgs[0]);
+        return '';
+
       case 'reset':
         const mode = subArgs.includes('--hard') ? 'hard' : 'soft';
         const target = subArgs.find(a => !a.startsWith('--')) || 'HEAD';
