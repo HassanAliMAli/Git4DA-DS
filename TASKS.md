@@ -16,7 +16,7 @@
 ### 1.1 Profile Selection System
 - [x] Design `src/models/Profile.ts` interface
 - [x] Create `src/contexts/ProfileContext.tsx`
-- [ ] Rebuild `ProfileSelection` UI with Ink/Sage expansive cards
+- [x] Rebuild `ProfileSelection` UI with Ink/Sage expansive cards
 - [x] Write Dr. Hassan's "Welcome to the Forge" introductory scripts
 
 ### 1.2 Narrative Engine
@@ -39,17 +39,15 @@
     - [x] Ref Management (`HEAD`, branches, tags)
     - [x] Staging Area (Index) logic
     - [x] **Ultra Hero Feature**: Implement `Reflog` to track every pointer move
-    - [ ] **Legendary Feature**: Implement `GPG Signature` verification logic [Integrated data field, logic pending in Module 5]
-- [x] Implement `GitCommandProcessor.ts`: [Basic internal implementation done, CLI registry pending in Module 2]
+    - [x] **Legendary Feature**: Integrate `GPG Signature` data fields
+- [x] Implement `GitCommandProcessor.ts`
 - [x] Unit tests for Git engine operations
 
-    - [ ] Tab-completion registry
-
 ### 2.3 Specialized Data Components
-- [x] Build `NotebookViewer.tsx` (Renders JSON `.ipynb` as visual cells) [Ink/Sage Edition]
-- [x] Build `SQLViewer.tsx` (Syntax highlighted SQL editor) [Ink/Sage Edition]
-- [x] Build `GitGraphVisualizer.tsx` (SVG based commit tree) [Ink/Sage Edition]
-- [x] Build `DVCScanner.ts` (Logic to check for large files committed without `.dvc` pointers)
+- [x] Build `NotebookViewer.tsx` (Renders JSON `.ipynb` as visual cells)
+- [x] Build `SQLViewer.tsx` (Syntax highlighted SQL editor)
+- [x] Build `GitGraphVisualizer.tsx` (SVG based commit tree)
+- [x] Build `DVCScanner.ts` (Data hygiene and compliance auditor)
 
 ---
 

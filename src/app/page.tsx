@@ -2,19 +2,33 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useProfile } from "@/contexts/ProfileContext";
 
 // Extracted Features
+import { Navigation } from "@/components/features/Navigation";
 import { HeroSection } from "@/components/features/HeroSection";
 import { RoadmapSection } from "@/components/features/RoadmapSection";
 import { LabSection } from "@/components/features/LabSection";
 import { SignatureSection } from "@/components/features/SignatureSection";
 import { FooterSection } from "@/components/features/FooterSection";
 
-export default function LandingPage() {
-  const router = useRouter();
+/**
+ * Main Landing Page Orchestrator
+ * 
+ * ARCHITECTURAL PHILOSOPHY:
+ * This page serves as the entry point to the Git4Data universe. It utilizes
+ * a modular feature-based architecture where individual sections are extracted
+ * into standalone components to maintain strict file length limits (<300 lines).
+ * 
+ * It manages the high-level 'Legendary Lab' terminal state used in the hero 
+ * and interactive sections to provide a seamless preview of the PhD-level simulation.
+ */
+export default function LandingPage(): React.ReactNode {
+  const router: AppRouterInstance = useRouter();
   const { isLoaded } = useProfile();
+  
+  // Terminal state for the interactive lab preview
   const [terminalInput, setTerminalInput] = useState("");
   const [terminalHistory, setTerminalHistory] = useState<
     Array<{ type: "cmd" | "output"; content: string | React.ReactNode }>
@@ -22,9 +36,9 @@ export default function LandingPage() {
     {
       type: "output",
       content: (
-        <span className="text-white font-mono opacity-90">
-          Git4Data Lab v2.4.1 • Legendary Tier simulation • type
-          &quot;help&quot; for commands
+        <span className="text-white font-mono font-bold">
+          Git4Data Lab v2.4.1 • Legendary Tier simulation • type "help" for
+          commands
         </span>
       ),
     },
@@ -68,12 +82,17 @@ export default function LandingPage() {
       ),
     },
   ]);
+  
   const terminalEndRef = useRef<HTMLDivElement>(null);
 
+  // Maintain visual focus on the latest terminal movement
   useEffect(() => {
     terminalEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [terminalHistory]);
 
+  /**
+   * Safe-guard: Ensure user profile is hydrated before rendering the simulation.
+   */
   if (!isLoaded) {
     return (
       <div className="min-h-screen bg-ink flex items-center justify-center">
@@ -87,9 +106,10 @@ export default function LandingPage() {
     );
   }
 
+  // Pre-configured simulated command responses for the Landing Page interactive lab
   const commands: Record<string, React.ReactNode> = {
     help: (
-      <div className="space-y-2">
+      <div className="space-y-2 text-left">
         <div className="text-white font-bold uppercase tracking-widest text-xs italic">
           Available commands in Legendary Lab:
         </div>
@@ -98,7 +118,7 @@ export default function LandingPage() {
             <span className="text-gh-blue font-black tracking-widest">
               git reflog
             </span>{" "}
-            — Show all HEAD movements, even deleted commits
+            — Show all HEAD movements
           </div>
           <div>
             <span className="text-gh-blue font-black tracking-widest">
@@ -122,164 +142,90 @@ export default function LandingPage() {
       </div>
     ),
     "git reflog": (
-      <div className="space-y-1 text-xs font-mono">
-        <div className="text-zinc-400">
+      <div className="space-y-1 text-xs font-mono text-left">
+        <div className="text-zinc-500 italic">
           a7f3c9d HEAD@{0}: reset: moving to HEAD~3
         </div>
         <div className="text-gh-blue font-bold italic underline decoration-white/10">
-          4b2e1a0 HEAD@{1}: commit: feat: customer 360 features • 847 lines
+          4b2e1a0 HEAD@{1}: commit: feat: customer 360 features
         </div>
         <div className="text-gh-blue font-bold italic underline decoration-white/10">
-          9c1d4f2 HEAD@{2}: commit: feat: uplift v3 model • DVC tracked
+          9c1d4f2 HEAD@{2}: commit: feat: uplift v3 model • DVC
         </div>
         <div className="text-gh-blue font-bold italic underline decoration-white/10">
-          f3a8b91 HEAD@{3}: commit: feat: add revenue guardrail tests
+          f3a8b91 HEAD@{3}: commit: feat: add revenue guardrails
         </div>
-        <div className="text-white">
-          9f2a1b4 HEAD@{4}: commit: chore: bump dbt version
-        </div>
-        <div className="mt-3 text-gh-green font-black uppercase tracking-widest">
-          ✓ Found 3 commits not in current branch history. Recoverable.
+        <div className="mt-2 text-gh-green font-black uppercase tracking-widest">
+          ✓ Found 3 commits recoverable history.
         </div>
       </div>
     ),
     "git fsck --lost-found": (
-      <div className="text-white font-mono text-xs opacity-90">
+      <div className="text-white font-mono text-xs opacity-90 text-left">
         Checking object directories: 100% (256/256), done.
         <br />
         dangling commit 4b2e1a07d3f9a2c1b8e4
         <br />
-        dangling blob f9a2c1b8e4d3f9a2c1b8e4d3f9a2c1b8e4d3f9a2 •
-        (features/customer_360.sql)
-        <div className="mt-3 text-gh-warn font-black italic uppercase tracking-widest">
+        dangling blob f9a2c1b8e4d3f9a2 • (customer_360.sql)
+        <div className="mt-2 text-gh-warn font-black italic uppercase tracking-widest">
           ⚠ Objects exist but no ref points to them. Recovery begins.
         </div>
       </div>
     ),
     "git show a7f3c9d": (
-      <div className="text-white font-mono text-xs leading-relaxed font-bold italic">
-        commit a7f3c9d4b2e1a07d3f9a2c1b8e4f3a8b91 (HEAD)
+      <div className="text-white font-mono text-[11px] leading-relaxed font-bold italic text-left border-l-2 border-white/5 pl-4">
+        commit a7f3c9d4b2e1a07d3f9a2c1b8e4f3a8b91
         <br />
         Author: Dr. Hassan &lt;hassan@datapulse.ai&gt;
         <br />
-        GPG: 4096R/4A7F9C2D VALID • Signed 2 hours ago
+        GPG: VALID SIGNATURE • Deployed
         <br />
         <br />
-        feat: cascade uplift model v3 • production deploy
-        <br />
-        <br />
-        models/uplift_v3.pkl | 1142 ++
-        <br />
-        features/customer_360.sql | 847 ++
-        <br />
-        <div className="text-gh-green mt-3 font-black uppercase tracking-widest underline decoration-gh-green/30">
-          ✓ Verified • DVC tracked • Great Expectations passed • Deployed
+        <div className="text-gh-green font-black uppercase tracking-widest text-[9px]">
+          ✓ Verified • DVC tracked
         </div>
       </div>
     ),
     "git worktree list": (
-      <div className="text-white font-mono text-xs leading-relaxed italic font-bold">
+      <div className="text-white font-mono text-[11px] leading-relaxed italic font-bold text-left">
         /repo/data-platform 9f2a1b4 [main]
         <br />
-        /repo/../dt-worktrees/uplift-v3 4b2e1a0 [feat/uplift-cascade]
-        <br />
-        /repo/../dt-worktrees/uplift-v3-causal 9c1d4f2 [feat/uplift-causal]
-        <br />
-        /repo/../dt-worktrees/baseline a7f3c9d [main]
+        /repo/../dt-worktrees/uplift-v3 4b2e1a0 [feat/uplift]
         <br />
         <br />
         <span className="text-gh-blue font-black uppercase tracking-widest text-[11px]">
-          3 worktrees • 0 context switches • parallel experiments running
+          Parallel experiments running
         </span>
       </div>
     ),
   };
 
+  /**
+   * Command dispatcher for the Landing Page terminal preview.
+   * Provides immediate feedback to hook the user into the simulation experience.
+   */
   const handleCommand = (cmd: string): void => {
     if (!cmd) return;
     const normalizedCmd = cmd.trim();
-    setTerminalHistory((prev) => [
-      ...prev,
-      { type: "cmd", content: normalizedCmd },
-    ]);
+    setTerminalHistory((prev) => [...prev, { type: "cmd", content: normalizedCmd }]);
 
     setTimeout(() => {
-      const output = commands[normalizedCmd] || (
-        <div className="text-zinc-500 font-mono italic font-bold uppercase tracking-widest text-[10px]">
-          Command not in Legendary Lab. Try: help, git reflog, git fsck
-          --lost-found
-        </div>
-      );
-      setTerminalHistory((prev) => [
-        ...prev,
-        { type: "output", content: output },
-      ]);
+      const output =
+        commands[normalizedCmd] || (
+          <div className="text-zinc-500 font-mono italic font-bold uppercase tracking-widest text-[10px]">
+            Unknown command. Try: help, git reflog
+          </div>
+        );
+      setTerminalHistory((prev) => [...prev, { type: "output", content: output }]);
       setTerminalInput("");
     }, 100);
   };
 
   return (
-    <div className="min-h-screen bg-ink text-white antialiased overflow-x-hidden selection:bg-gh-blue/30 selection:text-white font-sans">
-      {/* Visual Infrastructure */}
-      <div className="scanline" />
+    <div className="min-h-screen bg-ink text-gh-text antialiased overflow-x-hidden selection:bg-gh-blue selection:text-white font-sans">
+      <div className="scanline opacity-40" />
 
-      {/* Top navigation */}
-      <header className="sticky top-0 z-50 border-b border-white/5 bg-ink/80 backdrop-blur-2xl text-left">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-3 text-left justify-start">
-            <div className="relative text-left">
-              <img
-                src="/logo.png"
-                alt="Git4Data Logo"
-                className="h-[49px] w-auto object-contain"
-              />
-              <div className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-gh-green shadow-[0_0_16px_#238636]"></div>
-            </div>
-
-            <div className="leading-tight text-left">
-              <div className="text-[10px] text-white font-mono -mt-0.5 uppercase font-black tracking-widest opacity-60">
-                PHD+ • LEGENDARY TIER
-              </div>
-            </div>
-          </div>
-
-
-          <nav className="hidden md:flex items-center gap-7 text-[13px] text-white font-bold italic opacity-80 uppercase tracking-widest">
-            <Link
-              href="#roadmap"
-              className="hover:text-gh-blue transition-colors"
-            >
-              Roadmap
-            </Link>
-            <Link href="#lab" className="hover:text-gh-blue transition-colors">
-              Lab
-            </Link>
-            <Link
-              href="#modules"
-              className="hover:text-gh-blue transition-colors"
-            >
-              Modules
-            </Link>
-            <span className="text-zinc-800">/</span>
-            <span className="font-mono text-xs text-gh-blue italic font-black">
-              v2.4.1 • main
-            </span>
-          </nav>
-
-          <div className="flex items-center gap-2.5">
-            <div className="hidden sm:flex items-center gap-2 pl-3 pr-2.5 h-8 rounded-full bg-white/5 border border-white/10 text-[10px] text-white font-mono uppercase tracking-widest font-black italic">
-              <span className="w-1.5 h-1.5 rounded-full bg-gh-green animate-pulse"></span>
-              Agents: 1,247
-            </div>
-            <button
-              onClick={() => router.push("/terminal")}
-              className="h-9 px-4 rounded-lg bg-gh-blue text-white font-black text-[11px] hover:bg-blue-500 transition-all active:scale-[0.98] shadow-sm uppercase tracking-widest italic border border-white/10"
-            >
-              Enter Hub
-            </button>
-          </div>
-        </div>
-      </header>
+      <Navigation />
 
       <HeroSection />
 

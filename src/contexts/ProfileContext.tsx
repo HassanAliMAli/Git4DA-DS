@@ -41,7 +41,10 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({
     setIsLoaded(true);
   }, []);
 
-  const setRole = async (role: UserRole, name: string) => {
+  const setRole = async (
+    role: UserRole,
+    name: string,
+  ): Promise<void> => {
     const newProfile: UserProfile = {
       ...INITIAL_PROFILE,
       id: crypto.randomUUID(),
@@ -57,7 +60,7 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({
     // TODO: In production, sync with Cloudflare D1 here
   };
 
-  const updateXP = async (amount: number) => {
+  const updateXP = async (amount: number): Promise<void> => {
     if (!profile) return;
 
     const updatedProfile = {

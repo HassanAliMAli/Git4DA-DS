@@ -17,7 +17,9 @@ import {
   GitTreeEntry,
   ReflogEntry,
 } from "./types";
-import { calculateHash, matchesPattern } from "./GitUtils";
+import { matchesPattern } from "./GitUtils";
+import { GitCore } from "./GitCore";
+import { GitRemote } from "./GitRemote";
 
 export class GitRepository {
   private objects: Map<string, GitObject> = new Map();
@@ -26,9 +28,15 @@ export class GitRepository {
   private index: Map<string, string> = new Map(); // path -> blob hash
   private reflog: ReflogEntry[] = [];
   private remotes: Map<string, Map<string, string>> = new Map(); // remote name -> { branch -> hash }
+  private core: GitCore;
+  private sync: GitRemote;
 
   constructor(private fs: FileSystem) {
     this.remotes.set("origin", new Map());
+    this.core = new GitCore(this.fs, this.objects);
+    this.sync = new GitRemote(this.refs, this.remotes, (r, oh, nh, m) =>
+      this.addToReflog(r, oh, nh, m),
+    );
   }
 
   public init(): void {
@@ -56,11 +64,7 @@ export class GitRepository {
     type: GitObjectType = "blob",
     store: boolean = true,
   ): Promise<string> {
-    const hash = await calculateHash(type, content);
-    if (store) {
-      this.objects.set(hash, { hash, type, data: content });
-    }
-    return hash;
+    return await this.core.hashObject(content, type, store);
   }
 
   public getObject(hash: string): GitObject | undefined {
@@ -90,7 +94,7 @@ export class GitRepository {
   ): Promise<string> {
     if (this.index.size === 0)
       throw new Error('Nothing to commit (use "git add" first)');
-    const rootTreeHash = await this.writeTree();
+    const rootTreeHash = await this.core.writeTree(this.index);
     const parentHash = this.refs.get(this.head) || null;
     const commitData: GitCommit = {
       tree: rootTreeHash,
@@ -111,20 +115,12 @@ export class GitRepository {
     return commitHash;
   }
 
-  private async writeTree(): Promise<string> {
-    const entries: GitTreeEntry[] = [];
-    for (const [path, hash] of this.index.entries()) {
-      entries.push({ name: path, hash, type: "blob" });
-    }
-    return await this.hashObject(JSON.stringify(entries), "tree");
-  }
-
   private addToReflog(
     ref: string,
     oldHash: string | null,
     newHash: string,
     message: string,
-  ) {
+  ): void {
     this.reflog.push({ ref, oldHash, newHash, message, timestamp: Date.now() });
   }
 
@@ -187,7 +183,7 @@ export class GitRepository {
     this.refs.set(this.head, targetHash);
     if (mode === "hard") {
       this.index.clear();
-      await this.restoreStateFromCommit(targetHash);
+      await this.core.restoreStateFromCommit(targetHash);
     }
     this.addToReflog(
       this.head,
@@ -202,13 +198,13 @@ export class GitRepository {
       throw new Error(`fatal: bad revision '${target}'`);
     const commitData = JSON.parse(this.objects.get(target)!.data) as GitCommit;
     if (!commitData.parent) throw new Error("fatal: cannot revert root commit");
-    await this.restoreStateFromCommit(commitData.parent);
+    await this.core.restoreStateFromCommit(commitData.parent);
     this.index.clear();
+    const parentCommit = JSON.parse(
+      this.objects.get(commitData.parent)!.data,
+    ) as GitCommit;
     const parentTree = JSON.parse(
-      this.objects.get(
-        (JSON.parse(this.objects.get(commitData.parent)!.data) as GitCommit)
-          .tree,
-      )!.data,
+      this.objects.get(parentCommit.tree)!.data,
     ) as GitTreeEntry[];
     for (const entry of parentTree) this.index.set(entry.name, entry.hash);
     return await this.commit(`revert: ${commitData.message}`, author);
@@ -226,8 +222,8 @@ export class GitRepository {
       this.refs.set(this.head, targetHash);
       return { status: "ff", hash: targetHash };
     }
-    const currentTree = await this.getTreeEntries(currentHash);
-    const targetTree = await this.getTreeEntries(targetHash);
+    const currentTree = await this.core.getTreeEntries(currentHash);
+    const targetTree = await this.core.getTreeEntries(targetHash);
     const conflicts: string[] = [];
     const mergedIndex = new Map(this.index);
     for (const targetEntry of targetTree) {
@@ -251,27 +247,6 @@ export class GitRepository {
         author,
       ),
     };
-  }
-
-  private async getTreeEntries(commitHash: string): Promise<GitTreeEntry[]> {
-    const commitObj = this.objects.get(commitHash);
-    if (!commitObj) return [];
-    const treeObj = this.objects.get(
-      (JSON.parse(commitObj.data) as GitCommit).tree,
-    );
-    return treeObj ? (JSON.parse(treeObj.data) as GitTreeEntry[]) : [];
-  }
-
-  private async restoreStateFromCommit(hash: string): Promise<void> {
-    const treeObj = this.objects.get(
-      (JSON.parse(this.objects.get(hash)!.data) as GitCommit).tree,
-    );
-    if (!treeObj) return;
-    const entries = JSON.parse(treeObj.data) as GitTreeEntry[];
-    for (const entry of entries) {
-      const blob = this.objects.get(entry.hash);
-      if (blob) this.fs.writeFile(entry.name, blob.data);
-    }
   }
 
   public getGraph(): {
@@ -309,29 +284,10 @@ export class GitRepository {
   }
 
   public async push(remote: string, branch: string): Promise<void> {
-    const localHash = this.refs.get(branch);
-    if (localHash === undefined)
-      throw new Error(`error: src refspec ${branch} does not match any`);
-    const remoteRefs = this.remotes.get(remote);
-    if (!remoteRefs) throw new Error(`fatal: '${remote}' not found`);
-    remoteRefs.set(branch, localHash);
-    this.addToReflog(
-      `${remote}/${branch}`,
-      null,
-      localHash,
-      `push: exported from ${branch}`,
-    );
+    return await this.sync.push(remote, branch);
   }
 
   public async fetch(remote: string): Promise<void> {
-    const remoteRefs = this.remotes.get(remote);
-    if (!remoteRefs) throw new Error(`fatal: '${remote}' not found`);
-    for (const [branch, hash] of remoteRefs.entries())
-      this.addToReflog(
-        `${remote}/${branch}`,
-        null,
-        hash,
-        `fetch: from ${remote}`,
-      );
+    return await this.sync.fetch(remote);
   }
 }

@@ -10,6 +10,7 @@ import { Terminal } from "@/components/Terminal";
 import { DataPulseMessenger } from "@/components/DataPulseMessenger";
 import { PullRequestView } from "@/components/PullRequestView";
 import { TerminalSidebar } from "@/components/features/TerminalSidebar";
+import { DrHassanAdvisor } from "@/components/DrHassanAdvisor";
 import { useRouter } from "next/navigation";
 
 /**
@@ -49,6 +50,7 @@ export default function TerminalPage() {
   );
   const [isLevelComplete, setIsLevelComplete] = useState(false);
   const [isPROpen, setIsPROpen] = useState(false);
+  const [activeAdvice, setActiveAdvice] = useState<string | null>(null);
 
   const currentLevel = LEVELS.find(
     (l) => l.id === currentLevelId && (l.role === "BOTH" || l.role === profile?.role),
@@ -178,6 +180,11 @@ export default function TerminalPage() {
   return (
     <div className="flex h-screen bg-ink text-white overflow-hidden font-sans selection:bg-gh-blue selection:text-white">
       <div className="scanline opacity-40" />
+
+      <DrHassanAdvisor
+        advice={activeAdvice}
+        onClose={() => setActiveAdvice(null)}
+      />
 
       <TerminalSidebar
         profile={profile}

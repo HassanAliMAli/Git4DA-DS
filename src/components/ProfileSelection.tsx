@@ -43,15 +43,8 @@ export function ProfileSelection() {
         className="w-full max-w-4xl relative z-10"
       >
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-gh-blue to-teal-600 flex items-center justify-center shadow-glow">
-              <span className="font-mono font-black text-xs text-white uppercase tracking-widest">
-                G4D
-              </span>
-            </div>
-            <span className="text-xs font-black tracking-[0.4em] text-zinc-500 uppercase italic">
-              DataPulse Registry
-            </span>
+          <div className="inline-flex flex-col items-center gap-6 mb-8">
+            <img src="/logo.png" alt="Git4Data Logo" className="h-16 w-auto object-contain" />
           </div>
           <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-white mb-6 italic uppercase">
             Initialize Lineage.
@@ -154,24 +147,24 @@ export function ProfileSelection() {
                     selectedRole === "DATA_SCIENTIST"
                       ? "border-gh-blue bg-gh-blue/5 shadow-glow"
                       : "bg-white/[0.02] border-white/5 hover:bg-white/[0.04] grayscale opacity-60 hover:grayscale-0 hover:opacity-100"
-                      }`}
-                      >
-                      <div className="flex items-center justify-between mb-8">
-                      <div
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-8">
+                    <div
                       className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 ${
                         selectedRole === "DATA_SCIENTIST"
                           ? "bg-gh-blue/20 text-gh-blue scale-110"
                           : "bg-white/5 text-zinc-600 group-hover:text-zinc-500"
                       }`}
-                      >
+                    >
                       <Zap size={28} />
-                      </div>
-                      {selectedRole === "DATA_SCIENTIST" && (
+                    </div>
+                    {selectedRole === "DATA_SCIENTIST" && (
                       <div className="px-3 py-1 rounded-full bg-gh-blue text-[8px] font-black text-white uppercase tracking-widest italic animate-pulse">
                         Selected
                       </div>
-                      )}
-                      </div>
+                    )}
+                  </div>
 
                   <h3 className="text-xl font-black text-white mb-3 italic tracking-tight uppercase">
                     Data Scientist
