@@ -240,5 +240,57 @@ export const LEVELS: LevelDefinition[] = [
     hints: [
       "Use 'git push origin master' to upload your work."
     ]
+  },
+  {
+    id: 7,
+    title: 'The Conflict Resolution',
+    role: 'BOTH',
+    narrative: [
+      "In a global firm, collisions are inevitable.",
+      "A colleague has already updated the 'revenue_q4.sql' file in the Central Registry. You have also made local changes.",
+      "When you try to 'merge' their work into yours, Git will hit a 'Conflict'. The data doesn't align.",
+      "Your task: Resolve the conflict manually by editing the file to keep the best logic from both sides, then commit the resolved state."
+    ],
+    setup: async (state) => {
+      state.git.init();
+      state.fs.writeFile('/revenue_q4.sql', 'SELECT SUM(amount) FROM sales;');
+      await state.git.add('revenue_q4.sql');
+      await state.git.commit('feat: init revenue script', 'Dr. Hassan');
+
+      // Create a conflicting branch 'colleague-work'
+      await state.git.branch('colleague-work');
+      state.git.checkout('colleague-work');
+      state.fs.writeFile('/revenue_q4.sql', 'SELECT SUM(amount) * 1.05 FROM sales; -- Colleague added tax');
+      await state.git.add('revenue_q4.sql');
+      await state.git.commit('feat: add tax adjustment', 'Colleague');
+
+      // Back to master to make our own change
+      state.git.checkout('master');
+      state.fs.writeFile('/revenue_q4.sql', 'SELECT SUM(amount) FROM sales WHERE region = \"US\"; -- Our local filter');
+      await state.git.add('revenue_q4.sql');
+      await state.git.commit('feat: filter by US region', 'User');
+    },
+    goals: [
+      {
+        id: 'trigger_conflict',
+        description: "Attempt to merge 'colleague-work' and trigger a conflict.",
+        check: (state) => state.fs.readFile('/revenue_q4.sql').includes('<<<<<<<')
+      },
+      {
+        id: 'resolve_conflict',
+        description: 'Edit the file to remove markers and keep valid SQL, then commit.',
+        check: (state) => {
+          const content = state.fs.readFile('/revenue_q4.sql');
+          const commits = state.git.getGraph().commits;
+          return !content.includes('<<<<<<<') && 
+                 commits.some(c => c.message.toLowerCase().includes('merge') || c.message.toLowerCase().includes('resolve'));
+        }
+      }
+    ],
+    hints: [
+      "Run 'git merge colleague-work' to start the process.",
+      "Open the 'revenue_q4.sql' file in your mind (or use 'ls' and 'cat' logic) and edit it to remove the HEAD and colleague markers.",
+      "Once the file is clean, 'git add' it and 'git commit' to finish the merge."
+    ]
   }
 ];

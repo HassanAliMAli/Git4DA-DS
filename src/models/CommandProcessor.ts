@@ -122,6 +122,14 @@ export class CommandProcessor {
         await this.git.fetch(fetchRemote);
         return `From ${fetchRemote}\n * [new branch]      master     -> origin/master`;
 
+      case 'merge':
+        if (!subArgs[0]) return 'fatal: merge requires a branch name';
+        const mergeResult = await this.git.merge(subArgs[0], this.author);
+        if (mergeResult.status === 'conflict') {
+          return `Auto-merging...\nCONFLICT (content): Merge conflict in files\nAutomatic merge failed; fix conflicts and then commit the result.`;
+        }
+        return `Updating ${this.git.getCurrentCommit()?.substring(0, 7)}..${mergeResult.hash?.substring(0, 7)}\nFast-forward\n 1 file changed`;
+
       default:
         return `git: '${subCommand}' is not a git command. See 'git --help'.`;
     }

@@ -58,13 +58,10 @@ export class GitRepository {
       const patterns = ignoreContent.split('\n').map(p => p.trim()).filter(p => p && !p.startsWith('#'));
       
       return patterns.some(pattern => {
-        // Simple glob-to-regex for .gitignore patterns
         const regexPattern = pattern
           .replace(/\./g, '\\.')
           .replace(/\*/g, '.*');
         const regex = new RegExp(`^${regexPattern}$`);
-        
-        // Check if the filename or the full path matches
         const fileName = path.split('/').pop() || '';
         return regex.test(fileName) || regex.test(path);
       });
@@ -115,10 +112,7 @@ export class GitRepository {
       throw new Error('Nothing to commit (create/copy files and use "git add" to track)');
     }
 
-    // 1. Create Tree objects from index
     const rootTreeHash = await this.writeTree();
-
-    // 2. Create Commit object
     const parentHash = this.refs.get(this.head) || null;
     const commitData: GitCommit = {
       tree: rootTreeHash,
@@ -130,15 +124,9 @@ export class GitRepository {
     };
 
     const commitHash = await this.hashObject(JSON.stringify(commitData), 'commit');
-    
-    // 3. Update Ref
     const oldHash = this.refs.get(this.head) || null;
     this.refs.set(this.head, commitHash);
-    
-    // 4. Update Reflog
     this.addToReflog(this.head, oldHash, commitHash, `commit: ${message}`);
-
-    // 5. Clear index
     this.index.clear();
 
     return commitHash;
@@ -189,7 +177,6 @@ export class GitRepository {
       this.head = name;
       this.addToReflog('HEAD', this.refs.get(this.head) || null, this.refs.get(name) || '', `checkout: moving from ${this.head} to ${name}`);
     } else if (this.objects.has(name) && this.objects.get(name)?.type === 'commit') {
-      // Detached HEAD state
       const oldHead = this.head;
       this.head = name;
       this.addToReflog('HEAD', oldHead, name, `checkout: moving from ${oldHead} to ${name.substring(0, 7)} (detached)`);
@@ -213,7 +200,6 @@ export class GitRepository {
 
     if (mode === 'hard') {
       this.index.clear();
-      // Restore files from target commit tree
       await this.restoreStateFromCommit(targetHash);
     }
 
@@ -233,7 +219,6 @@ export class GitRepository {
     }
 
     await this.restoreStateFromCommit(commitData.parent);
-    
     this.index.clear();
     const parentCommitObj = this.objects.get(commitData.parent)!;
     const parentCommitData = JSON.parse(parentCommitObj.data) as GitCommit;
@@ -244,6 +229,58 @@ export class GitRepository {
     }
 
     return await this.commit(`revert: ${commitData.message}`, author);
+  }
+
+  public async merge(sourceBranch: string, author: string): Promise<{ status: 'ff' | 'merged' | 'conflict', hash?: string }> {
+    const targetHash = this.refs.get(sourceBranch);
+    const currentHash = this.refs.get(this.head);
+
+    if (!targetHash) throw new Error(`fatal: ${sourceBranch} is not a valid branch`);
+    if (!currentHash) {
+      this.refs.set(this.head, targetHash);
+      return { status: 'ff', hash: targetHash };
+    }
+
+    const currentTree = await this.getTreeEntries(currentHash);
+    const targetTree = await this.getTreeEntries(targetHash);
+
+    const conflicts: string[] = [];
+    const mergedIndex = new Map(this.index);
+
+    for (const targetEntry of targetTree) {
+      const currentEntry = currentTree.find(e => e.name === targetEntry.name);
+      
+      if (currentEntry && currentEntry.hash !== targetEntry.hash) {
+        conflicts.push(targetEntry.name);
+      } else {
+        mergedIndex.set(targetEntry.name, targetEntry.hash);
+      }
+    }
+
+    if (conflicts.length > 0) {
+      for (const file of conflicts) {
+        const currentContent = this.fs.readFile(file);
+        const targetObj = this.objects.get(targetTree.find(e => e.name === file)!.hash);
+        const targetContent = targetObj?.data || '';
+        
+        const conflictMarker = `<<<<<<< HEAD\n${currentContent}\n=======\n${targetContent}\n>>>>>>> ${sourceBranch}`;
+        this.fs.writeFile(file, conflictMarker);
+      }
+      return { status: 'conflict' };
+    }
+
+    this.index = mergedIndex;
+    const mergeHash = await this.commit(`merge: branch '${sourceBranch}' into ${this.head}`, author);
+    return { status: 'merged', hash: mergeHash };
+  }
+
+  private async getTreeEntries(commitHash: string): Promise<GitTreeEntry[]> {
+    const commitObj = this.objects.get(commitHash);
+    if (!commitObj) return [];
+    const commitData = JSON.parse(commitObj.data) as GitCommit;
+    const treeObj = this.objects.get(commitData.tree);
+    if (!treeObj) return [];
+    return JSON.parse(treeObj.data) as GitTreeEntry[];
   }
 
   private async restoreStateFromCommit(hash: string): Promise<void> {

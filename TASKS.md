@@ -56,14 +56,14 @@
 ## Phase 3: The 20-Level Implementation (The Path)
 
 ### Module 1: The Safety Net (Foundation)
-- [ ] **Level 1**: Implement `init`, `add`, `commit` challenge
-- [ ] **Level 2**: Implement `.gitignore` auditor (Blocks commits if `.csv` is present)
-- [ ] **Level 3**: Implement `status`/`log` visualization
-- [ ] **Level 4**: Implement `revert` challenge (The "Data Disaster" recovery)
+- [x] **Level 1**: Implement `init`, `add`, `commit` challenge
+- [x] **Level 2**: Implement `.gitignore` auditor (Blocks commits if `.csv` is present)
+- [x] **Level 3**: Implement `status`/`log` visualization
+- [x] **Level 4**: Implement `revert` challenge (The "Data Disaster" recovery)
 
 ### Module 2: The Collaboration Protocol
-- [ ] **Level 5**: Implement basic branching (`git branch`, `git checkout`)
-- [ ] **Level 6**: Implement simulated `remote` and `push` to "DataPulse Central"
+- [x] **Level 5**: Implement basic branching (`git branch`, `git checkout`)
+- [x] **Level 6**: Implement simulated `remote` and `push` to "DataPulse Central"
 - [ ] **Level 7**: Implement Merge Conflict scenario (Simulated conflicting SQL files)
 - [ ] **Level 8**: Implement "Pull Request" UI (Dr. Hassan's logic audit)
 
