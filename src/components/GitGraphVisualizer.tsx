@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { GitCommit } from '@/lib/git/GitRepository';
+import { GitCommit } from '@/lib/git/types';
 import { GitBranch, User, Hash } from 'lucide-react';
 
 interface GraphCommit extends GitCommit {

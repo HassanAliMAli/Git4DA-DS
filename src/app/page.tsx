@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useProfile } from '@/contexts/ProfileContext';
 
 // Extracted Features
@@ -128,9 +129,9 @@ export default function LandingPage() {
           </div>
 
           <nav className="hidden md:flex items-center gap-7 text-[13px] text-white font-bold italic opacity-80 uppercase tracking-widest">
-            <a href="#roadmap" className="hover:text-gh-blue transition-colors">Roadmap</a>
-            <a href="#lab" className="hover:text-gh-blue transition-colors">Lab</a>
-            <a href="#modules" className="hover:text-gh-blue transition-colors">Modules</a>
+            <Link href="#roadmap" className="hover:text-gh-blue transition-colors">Roadmap</Link>
+            <Link href="#lab" className="hover:text-gh-blue transition-colors">Lab</Link>
+            <Link href="#modules" className="hover:text-gh-blue transition-colors">Modules</Link>
             <span className="text-zinc-800">/</span>
             <span className="font-mono text-xs text-gh-blue italic font-black">v2.4.1 • main</span>
           </nav>
