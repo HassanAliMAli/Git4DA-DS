@@ -195,6 +195,76 @@ export class GitRepository {
     }
   }
 
+  public async reset(target: string, mode: 'hard' | 'soft' = 'hard'): Promise<void> {
+    let targetHash = target;
+    if (this.refs.has(target)) {
+      targetHash = this.refs.get(target)!;
+    }
+
+    if (!this.objects.has(targetHash)) {
+      throw new Error(`fatal: ambiguous argument '${target}': unknown revision or path not in the working tree.`);
+    }
+
+    const oldHash = this.refs.get(this.head) || null;
+    this.refs.set(this.head, targetHash);
+
+    if (mode === 'hard') {
+      this.index.clear();
+      // Restore files from target commit tree
+      await this.restoreStateFromCommit(targetHash);
+    }
+
+    this.addToReflog(this.head, oldHash, targetHash, `reset: moving to ${target}`);
+  }
+
+  public async revert(target: string, author: string): Promise<string> {
+    if (!this.objects.has(target)) {
+      throw new Error(`fatal: bad revision '${target}'`);
+    }
+
+    const commitObj = this.objects.get(target)!;
+    const commitData = JSON.parse(commitObj.data) as GitCommit;
+    
+    if (!commitData.parent) {
+      throw new Error('fatal: cannot revert root commit');
+    }
+
+    // Simplified revert: just restore parent state and commit
+    await this.restoreStateFromCommit(commitData.parent);
+    
+    // Add all files from restored state to index
+    // (Simplified for simulation: we assume the whole working tree is now the reverted state)
+    this.index.clear();
+    // In a real simulation we'd walk the tree, but for now we'll just commit the VFS state
+    // We'll manually re-add the files that were in the parent tree
+    const parentTreeObj = this.objects.get(commitData.parent)!;
+    const parentCommitData = JSON.parse(parentTreeObj.data) as GitCommit;
+    const treeEntries = JSON.parse(this.objects.get(parentCommitData.tree)!.data) as GitTreeEntry[];
+    
+    for (const entry of treeEntries) {
+      this.index.set(entry.name, entry.hash);
+    }
+
+    return await this.commit(`revert: ${commitData.message}`, author);
+  }
+
+  private async restoreStateFromCommit(hash: string): Promise<void> {
+    const commitObj = this.objects.get(hash);
+    if (!commitObj) return;
+    const commitData = JSON.parse(commitObj.data) as GitCommit;
+    const treeObj = this.objects.get(commitData.tree);
+    if (!treeObj) return;
+    const entries = JSON.parse(treeObj.data) as GitTreeEntry[];
+
+    // Clear current VFS (simplified: just overwrite files from tree)
+    for (const entry of entries) {
+      const blob = this.objects.get(entry.hash);
+      if (blob) {
+        this.fs.writeFile(entry.name, blob.data);
+      }
+    }
+  }
+
   public getGraph(): { commits: (GitCommit & { hash: string })[], branches: { name: string, hash: string }[] } {
     const allCommits = new Map<string, GitCommit & { hash: string }>();
     const branches: { name: string, hash: string }[] = [];

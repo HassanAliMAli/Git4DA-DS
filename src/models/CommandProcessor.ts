@@ -89,6 +89,17 @@ export class CommandProcessor {
         this.git.checkout(subArgs[0]);
         return `Switched to ${this.git.getBranches().has(subArgs[0]) ? 'branch' : 'detached commit'} '${subArgs[0]}'`;
 
+      case 'reset':
+        const mode = subArgs.includes('--hard') ? 'hard' : 'soft';
+        const target = subArgs.find(a => !a.startsWith('--')) || 'HEAD';
+        await this.git.reset(target, mode);
+        return `HEAD is now at ${target}`;
+
+      case 'revert':
+        if (!subArgs[0]) return 'fatal: revert requires a commit hash';
+        const revertHash = await this.git.revert(subArgs[0], this.author);
+        return `[master ${revertHash.substring(0, 7)}] revert: ...\n 1 file changed`;
+
       default:
         return `git: '${subCommand}' is not a git command. See 'git --help'.`;
     }

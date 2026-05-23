@@ -149,5 +149,45 @@ export const LEVELS: LevelDefinition[] = [
       "Find the long string of letters and numbers (the hash) for the first commit.",
       "Use 'git checkout <hash>' to move the repository back to that state."
     ]
+  },
+  {
+    id: 4,
+    title: 'The Clean Undo',
+    role: 'BOTH',
+    narrative: [
+      "Mistakes happen. Incompetence does not.",
+      "An intern accidentally deleted the 'production_model.py' file and committed the change. The pipeline is broken.",
+      "You have two choices: Rewrite history with 'reset' or create a corrective trail with 'revert'.",
+      "In a professional firm, we prefer 'revert' for shared history. It keeps the audit trail intact.",
+      "Find the commit that broke the project and use 'git revert' to bring the model back."
+    ],
+    setup: async (state) => {
+      state.git.init();
+      state.fs.writeFile('/production_model.py', '# High performance model v1.0');
+      await state.git.add('production_model.py');
+      await state.git.commit('feat: ship production model', 'Senior Engineer');
+
+      // The disaster
+      state.fs.rm('/production_model.py');
+      await state.git.add('production_model.py');
+      await state.git.commit('fix: minor cleanup (OOPS)', 'Accidental Intern');
+    },
+    goals: [
+      {
+        id: 'revert',
+        description: 'Revert the accidental deletion commit.',
+        check: (state) => {
+          const commits = state.git.getGraph().commits;
+          // Level is complete if the file is back AND we have a revert commit
+          return state.fs.exists('/production_model.py') && 
+                 commits.some(c => c.message.toLowerCase().includes('revert'));
+        }
+      }
+    ],
+    hints: [
+      "Use 'git log' to find the hash of the commit titled 'fix: minor cleanup (OOPS)'.",
+      "Run 'git revert <hash>' to automatically create a new commit that undoes the damage.",
+      "Verify the file is back with 'ls'."
+    ]
   }
 ];
