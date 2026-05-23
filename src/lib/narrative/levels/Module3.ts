@@ -158,4 +158,86 @@ export const MODULE_3_LEVELS: LevelDefinition[] = [
       "The custom command is 'mlflow log --git-hash'. It will read your current commit and record it.",
     ],
   },
+  {
+    id: 11,
+    title: "The Quality Gate",
+    role: "DATA_ANALYST",
+    narrative: [
+      "Logic is 50% of the job, Analyst. Presentation is the other 50%.",
+      "I found a messy SQL file in your directory. Inconsistent casing and sloppy whitespace are 'Technical Debt' that I will not sign.",
+      "We use 'SQLFluff' to enforce a world-class standard. Your mission: Lint your 'revenue.sql'. If it fails, use 'sqlfluff fix' to bring it to PhD-level quality.",
+      "A professional registry only holds code that is as beautiful as it is correct.",
+    ],
+    setup: async (state) => {
+      state.git.init();
+      state.fs.writeFile("/revenue.sql", "select sum(total)  from sales;");
+    },
+    goals: [
+      {
+        id: "lint_sql",
+        description: "Run 'sqlfluff lint revenue.sql' to detect violations.",
+        check: (state) => true, // We allow the user to see the errors
+      },
+      {
+        id: "fix_sql",
+        description: "Standardize the SQL using 'sqlfluff fix revenue.sql'.",
+        check: (state) => {
+          if (!state.fs.exists("revenue.sql")) return false;
+          const content = state.fs.readFile("revenue.sql");
+          return content.includes("SELECT") && !content.includes("  ");
+        },
+      },
+      {
+        id: "commit_clean",
+        description: "Version the standardized SQL.",
+        check: (state) => {
+          const commits = state.git.getGraph().commits;
+          return commits.length > 0 && !state.fs.readFile("revenue.sql").includes("select");
+        },
+      },
+    ],
+    hints: [
+      "Run 'sqlfluff lint revenue.sql' first to see Dr. Hassan's complaints.",
+      "Use 'sqlfluff fix revenue.sql' to automatically reformat the logic.",
+    ],
+  },
+  {
+    id: 11,
+    title: "The Feature Registry",
+    role: "DATA_SCIENTIST",
+    narrative: [
+      "Hardcoded features in your training scripts are a 'Legacy Trap', Scientist.",
+      "If we want to scale, our features must be modular and registered in a 'Central Vault' (Feast).",
+      "Your mission: Extract your feature definitions from 'train.py' into a dedicated 'features.py' and apply them to our registry.",
+      "Standardizing our inputs is the only way to prevent 'Data Drift' in production.",
+    ],
+    setup: async (state) => {
+      state.git.init();
+      state.fs.writeFile("/train.py", "features = ['age', 'income', 'geo']\nmodel.fit(features)");
+    },
+    goals: [
+      {
+        id: "extract_features",
+        description: "Create 'features.py' with modular definitions.",
+        check: (state) => state.fs.exists("features.py"),
+      },
+      {
+        id: "apply_registry",
+        description: "Register the features using 'feast apply'.",
+        check: (state) => state.fs.exists("feature_store.yaml"),
+      },
+      {
+        id: "commit_registry",
+        description: "Version the feature definitions and registry config.",
+        check: (state) => {
+          const commits = state.git.getGraph().commits;
+          return commits.length > 0 && state.fs.exists("feature_store.yaml");
+        },
+      },
+    ],
+    hints: [
+      "Use 'touch features.py' to extract the logic.",
+      "Run the custom 'feast apply' command to generate the simulation config.",
+    ],
+  },
 ];

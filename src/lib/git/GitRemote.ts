@@ -1,5 +1,3 @@
-import { ReflogEntry } from "./types";
-
 /**
  * Git Remote Sync Engine
  * 

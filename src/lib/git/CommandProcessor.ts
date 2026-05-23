@@ -65,21 +65,53 @@ export class CommandProcessor {
           const pyFile = target.replace(".ipynb", ".py");
           this.fs.writeFile(pyFile, "# AUTO-GENERATED FROM NOTEBOOK\nprint('Logic synchronized')");
           return `✓ Synchronized ${target} -> ${pyFile}`;
-        }
-        return "usage: jupytext --sync <file.ipynb>";
+        case "mlflow":
+          if (args[0] === "log" && args.includes("--git-hash")) {
+            const currentHash = this.git.getCurrentCommit() || "N/A";
+            this.fs.writeFile(
+              "/mlruns/metadata.json",
+              JSON.stringify({
+                run_id: "77a1",
+                git_hash: currentHash.substring(0, 7),
+              }),
+            );
+            return `✓ Logged experiment to MLflow (Git Hash: ${currentHash.substring(0, 7)})`;
+          }
+          return "usage: mlflow log --git-hash";
 
-      case "mlflow":
-        if (args[0] === "log" && args.includes("--git-hash")) {
-          const currentHash = this.git.getCurrentCommit() || "N/A";
-          this.fs.writeFile("/mlruns/metadata.json", JSON.stringify({ run_id: "77a1", git_hash: currentHash.substring(0, 7) }));
-          return `✓ Logged experiment to MLflow (Git Hash: ${currentHash.substring(0, 7)})`;
-        }
-        return "usage: mlflow log --git-hash";
+        case "sqlfluff":
+          if (args[0] === "lint") {
+            const target = args[1];
+            if (!target) return "error: sqlfluff lint requires a target file";
+            if (!this.fs.exists(target)) return `error: file not found: ${target}`;
+            const content = this.fs.readFile(target);
+            if (content.includes("  ") || content.includes("\n\n")) {
+              return `L  1 | P001 | Unnecessary whitespace detected.\nL  3 | P005 | Keyword "select" should be uppercase.\n\n✓ 2 violations found. fix before committing.`;
+            }
+            return "✓ All SQL standards met. Code is audit-ready.";
+          }
+          if (args[0] === "fix") {
+            const target = args[1];
+            if (!target) return "error: sqlfluff fix requires a target file";
+            const content = this.fs.readFile(target);
+            const fixed = content.toUpperCase().replace(/\s\s+/g, " ");
+            this.fs.writeFile(target, fixed);
+            return `✓ Automatically fixed 2 violations in ${target}.`;
+          }
+          return "usage: sqlfluff <lint|fix> <file>";
 
-      default:
-        return `command not found: ${command}`;
-    }
-  }
+        case "feast":
+          if (args[0] === "apply") {
+            this.fs.writeFile(
+              "/feature_store.yaml",
+              "project: datapulse_ops\nregistry: s3://...",
+            );
+            return "✓ Registered feature definitions to the central vault.";
+          }
+          return "usage: feast apply";
+
+        default:
+          return `command not found: ${command}`;
 
   private async handleGit(args: string[]): Promise<string> {
     const subCommand = args[0];
