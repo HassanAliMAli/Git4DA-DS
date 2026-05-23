@@ -261,6 +261,23 @@ export class CommandProcessor {
         }
         return "usage: git filter-repo --path <path> --invert-paths";
 
+      case "worktree":
+        if (subArgs[0] === "add") {
+          const path = subArgs[1];
+          const branch = subArgs[2];
+          if (!path || !branch)
+            return "usage: git worktree add <path> <branch>";
+          await this.git.addWorktree(path, branch);
+          return `Preparing worktree (new branch '${branch}')\n✓ Successfully created parallel workspace at ${path}`;
+        }
+        if (subArgs[0] === "list") {
+          const wts = this.git.getWorktrees();
+          return wts
+            .map((wt) => `${wt.path.padEnd(30)} ${wt.branch}`)
+            .join("\n");
+        }
+        return "usage: git worktree <add|list|remove>";
+
       case "sparse-checkout":
         if (subArgs[0] === "set") {
           const path = subArgs[1];

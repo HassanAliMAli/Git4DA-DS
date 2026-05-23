@@ -37,6 +37,11 @@ export class GitRepository {
   private bisectGood: string | null = null;
   private bisectRange: string[] = [];
 
+  // Worktree state for Level 18
+  private worktrees: Array<{ path: string; branch: string }> = [
+    { path: "/repo", branch: "master" },
+  ];
+
   constructor(private fs: FileSystem) {
     this.remotes.set("origin", new Map());
     this.core = new GitCore(this.fs, this.objects);
@@ -295,6 +300,21 @@ export class GitRepository {
 
   public async fetch(remote: string): Promise<void> {
     return await this.sync.fetch(remote);
+  }
+
+  public getWorktrees(): Array<{ path: string; branch: string }> {
+    return [...this.worktrees];
+  }
+
+  public async addWorktree(path: string, branch: string): Promise<void> {
+    if (this.worktrees.some((wt) => wt.path === path)) {
+      throw new Error(`fatal: worktree already exists at '${path}'`);
+    }
+    if (!this.refs.has(branch)) {
+      await this.branch(branch);
+    }
+    this.worktrees.push({ path, branch });
+    this.addToReflog("HEAD", null, this.refs.get(branch) || "", `worktree: add ${path}`);
   }
 
   /**

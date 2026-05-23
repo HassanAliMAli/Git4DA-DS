@@ -83,7 +83,7 @@
 - [x] **Level 15**: Implement `git bisect` (Hunting the "Data Bug")
 - [x] **Level 16**: Implement `git filter-repo` (Purging sensitive CSVs)
 - [x] **Level 17**: **Legendary**: Implement `reflog` recovery of uncommitted work
-- [ ] **Level 18**: **Legendary**: Implement `git worktree` UI (Parallel experimentation)
+- [x] **Level 18**: **Legendary**: Implement `git worktree` UI (Parallel experimentation)
 - [ ] **Level 19**: **Legendary**: Implement GPG Signing workflow
 - [ ] **Level 20**: **Legendary**: Final Capstone: Managing a simulated monorepo with VFS
 

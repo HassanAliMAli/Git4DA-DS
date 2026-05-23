@@ -48,4 +48,35 @@ export const MODULE_5_LEVELS: LevelDefinition[] = [
       "Use 'git reset --hard <hash>' to force the branch back to that state.",
     ],
   },
+  {
+    id: 18,
+    title: "The Parallel Universe",
+    role: "BOTH",
+    narrative: [
+      "Context switching is the silent killer of focus, Operative.",
+      "We need to spin up a major ML experiment, but our current 'master' branch must remain completely stable and untouched.",
+      "In a massive monorepo, switching branches is too slow. Instead, we create 'Parallel Universes' using worktrees.",
+      "Your mission: Create a parallel working tree at '../experiment-run' linked to a new branch 'experiment-branch'.",
+      "Work on multiple problems simultaneously without ever leaving your current focus.",
+    ],
+    setup: async (state) => {
+      state.git.init();
+    },
+    goals: [
+      {
+        id: "create_worktree",
+        description: "Spin up a parallel workspace using 'git worktree add'.",
+        check: (state) => state.git.getWorktrees().length >= 2,
+      },
+      {
+        id: "list_worktrees",
+        description: "Audit your active universes using 'git worktree list'.",
+        check: (state) => true,
+      },
+    ],
+    hints: [
+      "The command is 'git worktree add ../experiment-run experiment-branch'.",
+      "Verify with 'git worktree list'.",
+    ],
+  },
 ];
