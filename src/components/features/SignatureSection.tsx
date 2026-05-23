@@ -104,10 +104,10 @@ export const SignatureSection: React.FC<SignatureSectionProps> = ({ router }) =>
                 </button>
             </div>
 
-            <div className="mt-20 flex flex-wrap justify-center items-center gap-12 text-[12px] text-zinc-700 font-mono uppercase tracking-[0.5em] italic font-black opacity-60">
-                <span className="flex items-center gap-3"><Check size={16} className="text-gh-green" /> E2E_ENCRYPTED</span>
-                <span className="flex items-center gap-3"><Check size={16} className="text-gh-green" /> ZERO_DATA_LOSS</span>
-                <span className="flex items-center gap-3"><Check size={16} className="text-gh-green" /> SIGNED_LINEAGE</span>
+            <div className="mt-20 flex flex-wrap justify-center items-center gap-12 text-[12px] text-white font-mono uppercase tracking-[0.5em] italic font-black opacity-90">
+                <span className="flex items-center gap-3"><Check size={16} className="text-gh-green shadow-glow" /> E2E_ENCRYPTED</span>
+                <span className="flex items-center gap-3"><Check size={16} className="text-gh-green shadow-glow" /> ZERO_DATA_LOSS</span>
+                <span className="flex items-center gap-3"><Check size={16} className="text-gh-green shadow-glow" /> SIGNED_LINEAGE</span>
             </div>
           </div>
         </div>
