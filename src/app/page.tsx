@@ -323,25 +323,25 @@ export default function LandingPage() {
                 </div>
 
                 <div className="lg:col-span-1">
-                    <div className="sticky top-24 rounded-2xl border border-white/5 bg-ink p-5 shadow-inner opacity-80">
+                    <div className="sticky top-24 rounded-2xl border border-white/5 bg-ink p-5 shadow-inner">
                         <div className="text-[10px] font-bold font-mono text-violet-400 mb-2 uppercase tracking-widest italic">MODULE 02</div>
                         <div className="font-bold text-white mb-1.5 tracking-tight uppercase text-xs italic underline decoration-white/10">Collaboration</div>
-                        <div className="text-[11px] text-zinc-500 mb-4 leading-relaxed font-light italic">Branching, remotes, conflicts, PRs. Professional sync.</div>
+                        <div className="text-[11px] text-gh-text-sec mb-4 leading-relaxed font-light italic">Branching, remotes, conflicts, PRs. Professional sync.</div>
                         <div className="space-y-2 text-[10px] font-mono uppercase tracking-tighter">
-                            <div className="flex items-center gap-2 text-zinc-700 italic">05 • Branch topology</div>
-                            <div className="flex items-center gap-2 text-zinc-700 italic">06 • Remotes & forks</div>
-                            <div className="flex items-center gap-2 text-zinc-700 italic">07 • Conflict resolution</div>
-                            <div className="flex items-center gap-2 text-zinc-800 italic">08 • PRs that ship</div>
+                            <div className="flex items-center gap-2 text-gh-text-sec italic">05 • Branch topology</div>
+                            <div className="flex items-center gap-2 text-gh-text-sec italic">06 • Remotes & forks</div>
+                            <div className="flex items-center gap-2 text-gh-text-sec italic">07 • Conflict resolution</div>
+                            <div className="flex items-center gap-2 text-gh-text-sec italic">08 • PRs that ship</div>
                         </div>
                     </div>
                 </div>
 
                 <div className="lg:col-span-1">
-                    <div className="sticky top-24 rounded-2xl border border-white/5 bg-ink p-5 shadow-inner opacity-70">
+                    <div className="sticky top-24 rounded-2xl border border-white/5 bg-ink p-5 shadow-inner">
                         <div className="text-[10px] font-bold font-mono text-gh-warn mb-2 uppercase tracking-widest italic">MODULE 03</div>
                         <div className="font-bold text-white mb-1.5 tracking-tight uppercase text-xs italic underline decoration-white/10">Data Forge</div>
-                        <div className="text-[11px] text-zinc-600 mb-4 leading-relaxed font-light italic">dbt, Jupytext, SQLFluff, DVC. Specialized data tooling.</div>
-                        <div className="space-y-2 text-[10px] font-mono uppercase tracking-tighter text-zinc-800">
+                        <div className="text-[11px] text-gh-text-sec mb-4 leading-relaxed font-light italic">dbt, Jupytext, SQLFluff, DVC. Specialized data tooling.</div>
+                        <div className="space-y-2 text-[10px] font-mono uppercase tracking-tighter text-gh-text-sec">
                             <div>09 • dbt + Git</div>
                             <div>10 • Notebooks</div>
                             <div>11 • Quality hooks</div>
