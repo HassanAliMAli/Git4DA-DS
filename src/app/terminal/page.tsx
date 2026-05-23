@@ -216,8 +216,8 @@ export default function TerminalPage() {
       {/* 
         CENTER PANE: The Forge (53%)
       */}
-      <main className="w-[53%] p-8 flex flex-col bg-grid relative overflow-hidden shrink-0 border-r border-white/5">
-         <div className="absolute inset-0 pointer-events-none grid-bg opacity-20" />
+      <main className="w-[53%] p-8 flex flex-col grid-bg relative overflow-hidden shrink-0 border-r border-white/5">
+         <div className="absolute inset-0 pointer-events-none grid-bg opacity-30" />
          
          <div className="relative z-10 flex-1 flex flex-col w-full mx-auto">
             <Terminal onCommand={handleCommand} history={terminalHistory} />
