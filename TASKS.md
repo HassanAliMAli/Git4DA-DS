@@ -85,7 +85,7 @@
 - [x] **Level 17**: **Legendary**: Implement `reflog` recovery of uncommitted work
 - [x] **Level 18**: **Legendary**: Implement `git worktree` UI (Parallel experimentation)
 - [x] **Level 19**: **Legendary**: Implement GPG Signing workflow
-- [ ] **Level 20**: **Legendary**: Final Capstone: Managing a simulated monorepo with VFS
+- [x] **Level 20**: **Legendary**: Final Capstone: Managing a simulated monorepo with VFS
 
 ---
 

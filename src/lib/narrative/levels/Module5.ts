@@ -115,4 +115,60 @@ export const MODULE_5_LEVELS: LevelDefinition[] = [
       "If you forget the '-S', Dr. Hassan will reject the audit.",
     ],
   },
+  {
+    id: 20,
+    title: "The Monorepo Architect",
+    role: "BOTH",
+    narrative: [
+      "Today, we dispense with the training wheels, Operative. I am handing you the keys to the entire DataPulse Monorepo.",
+      "This is the final trial. You must manage the complexity of a billion-line registry without breaking the heartbeat of the firm.",
+      "Your multi-step mandate:",
+      "1. Isolate the '/data/models' directory. We don't have time for the frontend noise.",
+      "2. Spin up a parallel universe ('worktree') for a risky 'transformer-v4' experiment.",
+      "3. Log your training lineage using 'mlflow' to anchor it to history.",
+      "4. Sign your final production commit with your GPG seal.",
+      "Prove to me that you are no longer a clerk, but a Legendary Staff Alchemist.",
+    ],
+    setup: async (state) => {
+      state.git.init();
+      state.fs.mkdir("frontend");
+      state.fs.mkdir("backend");
+      state.fs.mkdir("data");
+      state.fs.mkdir("data/models");
+      state.fs.writeFile("/data/models/final_run.py", "model.train()");
+      // Pre-set the key so they don't have to re-type it unless they want to
+      state.git.setConfig("user.signingkey", "0x4A7F9C2D");
+    },
+    goals: [
+      {
+        id: "capstone_sparse",
+        description: "Isolate the workspace: 'git sparse-checkout set data/models'.",
+        check: (state) => true, // Simulated signal
+      },
+      {
+        id: "capstone_worktree",
+        description: "Create a parallel universe: 'git worktree add ../exp-v4 experiment'.",
+        check: (state) => state.git.getWorktrees().length >= 2,
+      },
+      {
+        id: "capstone_mlflow",
+        description: "Anchor the lineage: 'mlflow log --git-hash'.",
+        check: (state) => state.fs.exists("mlruns/metadata.json"),
+      },
+      {
+        id: "capstone_sign",
+        description: "Seal the production registry: 'git commit -S -m \"feat: final ship\"'.",
+        check: (state) => {
+          const commits = state.git.getGraph().commits;
+          return commits.length > 0 && !!commits[0].signature;
+        },
+      },
+    ],
+    hints: [
+      "Start with 'git sparse-checkout set data/models'.",
+      "Next, 'git worktree add ../exp-v4 experiment'.",
+      "Then, 'mlflow log --git-hash'.",
+      "Finally, 'git add data/models/final_run.py' and 'git commit -S -m \"...\"'.",
+    ],
+  },
 ];
