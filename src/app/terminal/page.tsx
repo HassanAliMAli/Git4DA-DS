@@ -10,6 +10,7 @@ import { LEVELS } from '@/models/LevelManager';
 import { Terminal } from '@/components/Terminal';
 import { DataPulseMessenger } from '@/components/DataPulseMessenger';
 import { GitGraphVisualizer } from '@/components/GitGraphVisualizer';
+import { PullRequestView } from '@/components/PullRequestView';
 import { 
   Target, 
   Shield, 
@@ -33,6 +34,7 @@ export default function TerminalPage() {
   const [terminalHistory, setTerminalHistory] = useState<Array<{type: 'command' | 'output' | 'error', text: string | React.ReactNode}>>([]);
   const [completedGoalIds, setCompletedGoalIds] = useState<Set<string>>(new Set());
   const [isLevelComplete, setIsLevelComplete] = useState(false);
+  const [isPROpen, setIsPROpen] = useState(false);
   
   const currentLevel = LEVELS.find(l => l.id === currentLevelId);
   
@@ -61,12 +63,13 @@ export default function TerminalPage() {
     );
   }
 
-  const checkLevelProgress = () => {
+  const checkLevelProgress = (prOpenedOverride?: boolean) => {
     if (!currentLevel) return;
 
     const newlyCompleted = new Set<string>();
     currentLevel.goals.forEach(goal => {
-      if (goal.check({ fs, git })) {
+      const state = { fs, git, prOpened: isPROpen || prOpenedOverride };
+      if (goal.check(state)) {
         newlyCompleted.add(goal.id);
       }
     });
@@ -91,6 +94,9 @@ export default function TerminalPage() {
       
       if (output === 'CLEAR_TERMINAL') {
         setTerminalHistory([]);
+      } else if (output === 'SIGNAL:OPEN_PR') {
+        setIsPROpen(true);
+        checkLevelProgress(true);
       } else if (output) {
         setTerminalHistory(prev => [...prev, { type: 'output', text: output }]);
       }
@@ -101,10 +107,17 @@ export default function TerminalPage() {
     }
   };
 
+  const onPRApprove = () => {
+    setIsPROpen(false);
+    setTerminalHistory(prev => [...prev, { type: 'output', text: "✓ Dr. Hassan: 'Audit complete. Logic is sound. Merged to production registry.'" }]);
+    checkLevelProgress(true);
+  };
+
   const onNextLevel = () => {
     if (currentLevelId < LEVELS.length) {
       setCurrentLevelId(prev => prev + 1);
       setIsLevelComplete(false);
+      setIsPROpen(false);
       setCompletedGoalIds(new Set());
       setTerminalHistory([]);
     } else {
@@ -215,11 +228,21 @@ export default function TerminalPage() {
       {/* 
         CENTER PANE: The Forge (53%)
       */}
-      <main className="w-[53%] p-10 flex flex-col bg-grid relative overflow-hidden shrink-0 border-r border-white/10 grid-bg">
+      <main className="w-[53%] p-10 flex flex-col relative overflow-hidden shrink-0 border-r border-white/10 grid-bg">
          <div className="absolute inset-0 pointer-events-none grid-bg opacity-30 shadow-inner" />
          
          <div className="relative z-10 flex-1 flex flex-col w-full max-w-5xl mx-auto shadow-2xl rounded-[32px] overflow-hidden border border-white/5 bg-ink/20">
-            <Terminal onCommand={handleCommand} history={terminalHistory} />
+            {isPROpen ? (
+              <PullRequestView 
+                title="Resolve revenue logic conflict"
+                author={profile.name}
+                description="Merged colleague's tax adjustment with our local US region filtering. All tests pass."
+                diff=""
+                onApprove={onPRApprove}
+              />
+            ) : (
+              <Terminal onCommand={handleCommand} history={terminalHistory} />
+            )}
          </div>
 
          {/* Bottom Security Info */}

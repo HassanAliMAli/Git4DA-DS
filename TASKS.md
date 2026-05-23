@@ -64,8 +64,8 @@
 ### Module 2: The Collaboration Protocol
 - [x] **Level 5**: Implement basic branching (`git branch`, `git checkout`)
 - [x] **Level 6**: Implement simulated `remote` and `push` to "DataPulse Central"
-- [ ] **Level 7**: Implement Merge Conflict scenario (Simulated conflicting SQL files)
-- [ ] **Level 8**: Implement "Pull Request" UI (Dr. Hassan's logic audit)
+- [x] **Level 7**: Implement Merge Conflict scenario (Simulated conflicting SQL files)
+- [x] **Level 8**: Implement "Pull Request" UI (Dr. Hassan's logic audit)
 
 ### Module 3A: Data Analyst "Insights Architect" Track
 - [ ] **Level 9**: Implement dbt-style "State" versioning simulation

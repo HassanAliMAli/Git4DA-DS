@@ -292,5 +292,43 @@ export const LEVELS: LevelDefinition[] = [
       "Open the 'revenue_q4.sql' file in your mind (or use 'ls' and 'cat' logic) and edit it to remove the HEAD and colleague markers.",
       "Once the file is clean, 'git add' it and 'git commit' to finish the merge."
     ]
+  },
+  {
+    id: 8,
+    title: 'The Logic Audit',
+    role: 'BOTH',
+    narrative: [
+      "Conflict resolved. But precision is not optional.",
+      "In this firm, no code touches the production registry without a second pair of eyes.",
+      "You must now publish your resolved work and open a 'Pull Request' (PR) for my personal audit.",
+      "I will review your logic, your test coverage, and your data lineage before I sign the merge.",
+      "Use 'git push origin master' to upload your resolution, then run 'git pr open' to initiate the audit."
+    ],
+    setup: async (state) => {
+      // Setup state with a resolved but unpushed conflict
+      state.git.init();
+      state.fs.writeFile('/revenue_q4.sql', 'SELECT SUM(amount) * 1.05 FROM sales WHERE region = \"US\";');
+      await state.git.add('revenue_q4.sql');
+      await state.git.commit('feat: resolve revenue logic conflict', 'User');
+    },
+    goals: [
+      {
+        id: 'push_resolved',
+        description: 'Push your resolved work to the origin remote.',
+        check: (state) => {
+          const remoteBranches = state.git.getRemoteBranches('origin');
+          return remoteBranches.has('master') && remoteBranches.get('master') === state.git.getCurrentCommit();
+        }
+      },
+      {
+        id: 'open_pr',
+        description: "Use 'git pr open' to submit your work for Dr. Hassan's audit.",
+        check: (state) => state.prOpened === true
+      }
+    ],
+    hints: [
+      "Ensure you have pushed with 'git push origin master'.",
+      "Run the custom command 'git pr open' to trigger the review interface."
+    ]
   }
 ];

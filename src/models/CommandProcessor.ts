@@ -130,6 +130,13 @@ export class CommandProcessor {
         }
         return `Updating ${this.git.getCurrentCommit()?.substring(0, 7)}..${mergeResult.hash?.substring(0, 7)}\nFast-forward\n 1 file changed`;
 
+      case 'pr':
+        const prAction = subArgs[0];
+        if (prAction === 'open') {
+          return 'SIGNAL:OPEN_PR'; // Signal to the UI to show the PR view
+        }
+        return 'usage: git pr <open|status|list>';
+
       default:
         return `git: '${subCommand}' is not a git command. See 'git --help'.`;
     }
