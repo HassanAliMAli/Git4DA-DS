@@ -126,13 +126,14 @@ export default function TerminalPage() {
             <header className="flex items-center justify-between mb-2">
               <button 
                 onClick={() => router.push('/')}
-                className="group flex items-center gap-2 text-[9px] font-bold text-gh-text-sec uppercase tracking-widest hover:text-gh-text transition-colors italic"
+                className="group flex items-center gap-2 text-[9px] font-bold text-white uppercase tracking-widest hover:text-gh-blue transition-colors italic"
               >
                 <ArrowLeft size={12} />
                 Abort
               </button>
               <div className="text-[10px] font-mono text-gh-blue italic font-bold">Node-v2.4</div>
             </header>
+
 
             {/* Profile Brief */}
             <div className="bg-white/5 rounded-2xl p-4 border border-white/5 flex items-center gap-4 shadow-inner">
@@ -160,7 +161,7 @@ export default function TerminalPage() {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <h3 className="text-[10px] font-bold text-gh-text-sec uppercase tracking-[0.3em] italic">Objectives</h3>
-                  <span className="text-[9px] font-mono text-zinc-600 italic font-bold">{completedGoalIds.size}/{currentLevel.goals.length}</span>
+                  <span className="text-[9px] font-mono text-gh-text-sec italic font-bold">{completedGoalIds.size}/{currentLevel.goals.length}</span>
                 </div>
                 
                 <ul className="space-y-2.5">
@@ -168,7 +169,7 @@ export default function TerminalPage() {
                     <li key={goal.id} className={`flex items-start gap-3 p-3 rounded-xl border transition-all duration-500 ${
                       completedGoalIds.has(goal.id) 
                         ? 'bg-gh-green/10 border-gh-green/30 text-zinc-100 shadow-sm' 
-                        : 'bg-white/[0.01] border-white/5 text-zinc-600 opacity-60'
+                        : 'bg-white/[0.02] border-white/5 text-gh-text-sec'
                     }`}>
                       <div className={`mt-0.5 w-3.5 h-3.5 rounded-full border flex items-center justify-center shrink-0 ${
                         completedGoalIds.has(goal.id) ? 'bg-gh-green border-gh-green text-white' : 'border-zinc-800'
@@ -225,7 +226,7 @@ export default function TerminalPage() {
 
          {/* Bottom Security Info */}
          <div className="mt-8 flex justify-center shrink-0">
-            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-ink-2 border border-white/5 backdrop-blur text-[9px] text-zinc-600 italic uppercase tracking-widest font-bold">
+            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-ink-2 border border-white/5 backdrop-blur text-[9px] text-gh-text-sec italic uppercase tracking-widest font-bold">
               <Lock size={10} className="text-gh-warn opacity-50" />
               Production Integrity: <span className="text-gh-green font-black ml-1">Verified</span>
             </div>

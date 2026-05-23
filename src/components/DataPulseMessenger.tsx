@@ -120,7 +120,7 @@ export function DataPulseMessenger({ messages, onComplete }: DataPulseMessengerP
                   : 'bg-gh-blue text-white rounded-tr-none font-bold'
               }`}>
                 {msg.text}
-                <div className={`text-[9px] mt-2 text-right opacity-40 font-mono italic font-black`}>
+                <div className={`text-[9px] mt-2 text-right opacity-60 font-mono italic font-black`}>
                   {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </div>
               </div>
@@ -146,10 +146,10 @@ export function DataPulseMessenger({ messages, onComplete }: DataPulseMessengerP
       {/* Input Placeholder */}
       <div className="p-6 bg-ink border-t border-gh-border">
         <div className="flex items-center gap-4 bg-ink-3 rounded-2xl px-5 py-4 border border-white/5 opacity-40 cursor-not-allowed group">
-          <div className="flex-1 text-zinc-700 text-xs italic font-bold uppercase tracking-widest">
+          <div className="flex-1 text-zinc-500 text-xs italic font-bold uppercase tracking-widest">
              Awaiting system acknowledgement...
           </div>
-          <Send size={18} className="text-zinc-800" />
+          <Send size={18} className="text-zinc-600" />
         </div>
       </div>
     </div>

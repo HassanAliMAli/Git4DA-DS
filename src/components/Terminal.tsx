@@ -82,13 +82,13 @@ export function Terminal({ onCommand, history }: TerminalProps) {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          className="flex-1 bg-transparent border-none outline-none text-white font-mono text-[13px] placeholder:text-zinc-800 italic font-bold"
+          className="flex-1 bg-transparent border-none outline-none text-white font-mono text-[13px] placeholder:text-zinc-500 italic font-bold"
           placeholder="git init — initialize your registry"
           autoFocus
           spellCheck={false}
           autoComplete="off"
         />
-        <ChevronRight size={16} className="text-zinc-800" />
+        <ChevronRight size={16} className="text-zinc-500" />
       </form>
     </div>
   );
