@@ -231,7 +231,7 @@ export default function LandingPage() {
               <img
                 src="/logo.png"
                 alt="Git4Data Logo"
-                className="h-11 w-auto object-contain"
+                className="h-[49px] w-auto object-contain"
               />
               <div className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-gh-green shadow-[0_0_16px_#238636]"></div>
             </div>
