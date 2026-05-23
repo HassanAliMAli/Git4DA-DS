@@ -32,4 +32,45 @@ export const MODULE_4_LEVELS: LevelDefinition[] = [
       "This pattern allows you to work in a massive repo as if it were a small, local project.",
     ],
   },
+  {
+    id: 14,
+    title: "The History Weaver",
+    role: "BOTH",
+    narrative: [
+      "Messy history is the sign of a cluttered mind, Operative.",
+      "I noticed you've pushed three rapid, sloppy commits to your local branch: 'WIP 1', 'bug fix', and 'final test'.",
+      "At DataPulse, we only allow 'Atomic Commits' into the production registry. We don't record our stumbles; we only record our progress.",
+      "Your mission: Use 'git rebase -i HEAD~3' to squash those redundant snapshots into a single, clean 'feat: optimize revenue pipeline' commit.",
+      "Weave the history you want the world to see.",
+    ],
+    setup: async (state) => {
+      state.git.init();
+      state.fs.writeFile("/logic.sql", "-- version 1");
+      await state.git.add("logic.sql");
+      await state.git.commit("WIP 1", "User");
+      
+      state.fs.writeFile("/logic.sql", "-- version 2");
+      await state.git.add("logic.sql");
+      await state.git.commit("bug fix", "User");
+      
+      state.fs.writeFile("/logic.sql", "-- version 3");
+      await state.git.add("logic.sql");
+      await state.git.commit("final test", "User");
+    },
+    goals: [
+      {
+        id: "squash_history",
+        description: "Squash the 3 messy commits into 1 clean commit using 'git rebase -i'.",
+        check: (state) => {
+          const graph = state.git.getGraph();
+          // We check if the commit count for the current branch is exactly 1 (or reduced)
+          return graph.commits.length === 1 && !graph.commits[0].message.toLowerCase().includes("wip");
+        },
+      },
+    ],
+    hints: [
+      "The command is 'git rebase -i HEAD~3'.",
+      "In the rebase UI, change 'pick' to 'squash' for the bottom two commits.",
+    ],
+  },
 ];

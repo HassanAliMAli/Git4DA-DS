@@ -9,6 +9,7 @@ import { LEVELS } from "@/lib/narrative/LevelManager";
 import { Terminal } from "@/components/Terminal";
 import { DataPulseMessenger } from "@/components/DataPulseMessenger";
 import { PullRequestView } from "@/components/PullRequestView";
+import { RebaseView } from "@/components/RebaseView";
 import { TerminalSidebar } from "@/components/features/TerminalSidebar";
 import { DrHassanAdvisor } from "@/components/DrHassanAdvisor";
 import { useRouter } from "next/navigation";
@@ -50,6 +51,7 @@ export default function TerminalPage() {
   );
   const [isLevelComplete, setIsLevelComplete] = useState(false);
   const [isPROpen, setIsPROpen] = useState(false);
+  const [isRebaseOpen, setIsRebaseOpen] = useState(false);
   const [activeAdvice, setActiveAdvice] = useState<string | null>(null);
 
   const currentLevel = LEVELS.find(
@@ -132,6 +134,8 @@ export default function TerminalPage() {
       } else if (output === "SIGNAL:OPEN_PR") {
         setIsPROpen(true);
         checkLevelProgress(true);
+      } else if (output === "SIGNAL:OPEN_REBASE") {
+        setIsRebaseOpen(true);
       } else if (output) {
         setTerminalHistory((prev) => [
           ...prev,
@@ -149,6 +153,41 @@ export default function TerminalPage() {
         },
       ]);
     }
+  };
+
+  const handleRebaseExecute = async (plan: any[]): Promise<void> => {
+    setIsRebaseOpen(false);
+
+    // Simulate the rebase outcome
+    const hasSquash = plan.some((p) => p.action === "squash");
+
+    if (hasSquash) {
+      setTerminalHistory((prev) => [
+        ...prev,
+        {
+          type: "output",
+          text: "Executing interactive rebase...\n✓ Commits squashed.\n✓ History rewritten successfully.",
+        },
+      ]);
+
+      // Technically rewrite the DAG for validation
+      await git.reset("HEAD~3", "hard");
+      await git.add("logic.sql");
+      await git.commit(
+        "feat: optimize revenue pipeline",
+        profile?.name || "User",
+      );
+    } else {
+      setTerminalHistory((prev) => [
+        ...prev,
+        {
+          type: "output",
+          text: "Rebase completed with no changes to history.",
+        },
+      ]);
+    }
+
+    checkLevelProgress();
   };
 
   const onPRApprove = () => {
@@ -211,6 +250,12 @@ export default function TerminalPage() {
               description="Merged colleague's tax adjustment with our local US region filtering. All tests pass."
               diff=""
               onApprove={onPRApprove}
+            />
+          ) : isRebaseOpen ? (
+            <RebaseView
+              commits={git.getGraph().commits.slice(0, 3)}
+              onExecute={handleRebaseExecute}
+              onCancel={() => setIsRebaseOpen(false)}
             />
           ) : (
             <Terminal onCommand={handleCommand} history={terminalHistory} />
