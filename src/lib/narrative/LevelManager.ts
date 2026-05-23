@@ -3,6 +3,7 @@ import { MODULE_1_LEVELS } from "./levels/Module1";
 import { MODULE_2_LEVELS } from "./levels/Module2";
 import { MODULE_3_LEVELS } from "./levels/Module3";
 import { MODULE_4_LEVELS } from "./levels/Module4";
+import { MODULE_5_LEVELS } from "./levels/Module5";
 
 /**
  * Level Validation Engine
@@ -50,4 +51,5 @@ export const LEVELS: LevelDefinition[] = [
   ...MODULE_2_LEVELS,
   ...MODULE_3_LEVELS,
   ...MODULE_4_LEVELS,
+  ...MODULE_5_LEVELS,
 ];

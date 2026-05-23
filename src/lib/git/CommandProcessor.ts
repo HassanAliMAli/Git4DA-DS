@@ -198,6 +198,16 @@ export class CommandProcessor {
         await this.git.reset(target, mode);
         return `HEAD is now at ${target}`;
 
+      case "reflog":
+        const entries = this.git.getReflog();
+        if (entries.length === 0) return "";
+        return entries
+          .map((e, idx) => {
+            const hash = e.newHash?.substring(0, 7) || "0000000";
+            return `${hash} HEAD@{${idx}}: ${e.message}`;
+          })
+          .join("\n");
+
       case "revert":
         if (!subArgs[0]) return "fatal: revert requires a commit hash";
         const revertHash = await this.git.revert(subArgs[0], this.author);
