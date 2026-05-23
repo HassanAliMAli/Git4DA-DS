@@ -2,14 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Send,
-  MoreVertical,
-  Phone,
-  Video,
-  ShieldCheck,
-  
-} from "lucide-react";
+import { Send, MoreVertical, Phone, Video, ShieldCheck } from "lucide-react";
 
 interface Message {
   id: string;
@@ -23,10 +16,7 @@ interface DataPulseMessengerProps {
   onComplete?: () => void;
 }
 
-export function DataPulseMessenger({
-  messages,
-  
-}: DataPulseMessengerProps) {
+export function DataPulseMessenger({ messages }: DataPulseMessengerProps) {
   const [displayedMessages, setDisplayedMessages] = useState<Message[]>([]);
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const [isTyping, setIsTyping] = useState(false);

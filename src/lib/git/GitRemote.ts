@@ -1,6 +1,6 @@
 /**
  * Git Remote Sync Engine
- * 
+ *
  * ARCHITECTURAL PHILOSOPHY:
  * Handles the synchronization between the local registry and simulated remote servers.
  * This class abstracts the network layer, simulating latency and delta compression
@@ -10,7 +10,12 @@ export class GitRemote {
   constructor(
     private refs: Map<string, string>,
     private remotes: Map<string, Map<string, string>>,
-    private addToReflog: (ref: string, oldHash: string | null, newHash: string, message: string) => void
+    private addToReflog: (
+      ref: string,
+      oldHash: string | null,
+      newHash: string,
+      message: string,
+    ) => void,
   ) {}
 
   /**
@@ -27,12 +32,12 @@ export class GitRemote {
 
     // Synchronize the remote pointer with our local state
     remoteRefs.set(branch, localHash);
-    
+
     this.addToReflog(
       `${remote}/${branch}`,
       null,
       localHash,
-      `push: exported from ${branch}`
+      `push: exported from ${branch}`,
     );
   }
 
@@ -48,7 +53,7 @@ export class GitRemote {
         `${remote}/${branch}`,
         null,
         hash,
-        `fetch: from ${remote}`
+        `fetch: from ${remote}`,
       );
     }
   }

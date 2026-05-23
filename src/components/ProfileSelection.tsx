@@ -8,7 +8,6 @@ import {
   Lock,
   ChevronRight,
   Database,
-  
   ShieldAlert,
   Cpu,
   Zap,
@@ -44,7 +43,11 @@ export function ProfileSelection() {
       >
         <div className="text-center mb-16">
           <div className="inline-flex flex-col items-center gap-6 mb-8">
-            <img src="/logo.png" alt="Git4Data Logo" className="h-16 w-auto object-contain" />
+            <img
+              src="/logo.png"
+              alt="Git4Data Logo"
+              className="h-16 w-auto object-contain"
+            />
           </div>
           <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-white mb-6 italic uppercase">
             Initialize Lineage.

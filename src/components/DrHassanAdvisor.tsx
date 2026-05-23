@@ -11,14 +11,14 @@ interface DrHassanAdvisorProps {
 
 /**
  * Dr. Hassan's Technical Advisor
- * 
+ *
  * ARCHITECTURAL PHILOSOPHY:
- * This component provides specialized, high-importance technical guidance that 
- * is distinct from the main narrative flow in the Messenger. It is designed 
+ * This component provides specialized, high-importance technical guidance that
+ * is distinct from the main narrative flow in the Messenger. It is designed
  * as a high-fidelity "Heads-Up Display" (HUD) element.
- * 
+ *
  * Aesthetic:
- * Uses the signature DataPulse Teal gradient with a backdrop blur to command 
+ * Uses the signature DataPulse Teal gradient with a backdrop blur to command
  * visual attention without obscuring the workstation context.
  */
 export const DrHassanAdvisor: React.FC<DrHassanAdvisorProps> = ({
@@ -37,12 +37,12 @@ export const DrHassanAdvisor: React.FC<DrHassanAdvisorProps> = ({
           <div className="bg-ink-2/95 backdrop-blur-2xl border-2 border-gh-blue/30 rounded-[32px] p-8 shadow-terminal relative overflow-hidden group">
             {/* The "Sage" Gradient Aura */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(13,148,136,0.1),_transparent_70%)] pointer-events-none" />
-            
+
             <div className="flex items-start gap-6 relative z-10">
               <div className="w-14 h-14 rounded-2xl bg-gh-blue/10 border-2 border-gh-blue/20 flex items-center justify-center text-gh-blue shadow-glow shrink-0">
                 <ShieldCheck size={28} />
               </div>
-              
+
               <div className="flex-1 text-left">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
@@ -53,21 +53,21 @@ export const DrHassanAdvisor: React.FC<DrHassanAdvisorProps> = ({
                       <Info size={10} /> Active
                     </div>
                   </div>
-                  <button 
+                  <button
                     onClick={onClose}
                     className="text-zinc-600 hover:text-white transition-colors p-1"
                   >
                     <X size={18} />
                   </button>
                 </div>
-                
+
                 <p className="text-[15px] leading-relaxed text-white font-medium italic border-l-2 border-gh-blue/40 pl-6 py-1 shadow-sm">
                   {advice}
                 </p>
-                
+
                 <div className="mt-6 flex items-center gap-4 text-[9px] font-mono text-zinc-500 uppercase tracking-widest font-black italic">
-                   <span>• Source: Sage Archive</span>
-                   <span className="text-gh-green opacity-60">• Verified</span>
+                  <span>• Source: Sage Archive</span>
+                  <span className="text-gh-green opacity-60">• Verified</span>
                 </div>
               </div>
             </div>

@@ -24,7 +24,7 @@ export const MODULE_4_LEVELS: LevelDefinition[] = [
       {
         id: "set_sparse",
         description: "Initialize sparse-checkout for 'data/models'.",
-        check: (state) => true, // Validated via the command output signal in the orchestrator
+        check: (_state) => true, // Validated via the command output signal in the orchestrator
       },
     ],
     hints: [
@@ -48,11 +48,11 @@ export const MODULE_4_LEVELS: LevelDefinition[] = [
       state.fs.writeFile("/logic.sql", "-- version 1");
       await state.git.add("logic.sql");
       await state.git.commit("WIP 1", "User");
-      
+
       state.fs.writeFile("/logic.sql", "-- version 2");
       await state.git.add("logic.sql");
       await state.git.commit("bug fix", "User");
-      
+
       state.fs.writeFile("/logic.sql", "-- version 3");
       await state.git.add("logic.sql");
       await state.git.commit("final test", "User");
@@ -60,11 +60,15 @@ export const MODULE_4_LEVELS: LevelDefinition[] = [
     goals: [
       {
         id: "squash_history",
-        description: "Squash the 3 messy commits into 1 clean commit using 'git rebase -i'.",
+        description:
+          "Squash the 3 messy commits into 1 clean commit using 'git rebase -i'.",
         check: (state) => {
           const graph = state.git.getGraph();
           // We check if the commit count for the current branch is exactly 1 (or reduced)
-          return graph.commits.length === 1 && !graph.commits[0].message.toLowerCase().includes("wip");
+          return (
+            graph.commits.length === 1 &&
+            !graph.commits[0].message.toLowerCase().includes("wip")
+          );
         },
       },
     ],
@@ -100,7 +104,9 @@ export const MODULE_4_LEVELS: LevelDefinition[] = [
         description: "Identify the first bad commit using 'git bisect'.",
         check: (state) => {
           const graph = state.git.getGraph();
-          const firstBad = graph.commits.find((c) => c.message === "feat: snapshot 6");
+          const firstBad = graph.commits.find(
+            (c) => c.message === "feat: snapshot 6",
+          );
           // Check if bisect found it (simulated via log message or state check)
           return state.git.getCurrentCommit() === firstBad?.hash;
         },
@@ -144,7 +150,8 @@ export const MODULE_4_LEVELS: LevelDefinition[] = [
     goals: [
       {
         id: "purge_pii",
-        description: "Obliterate 'customer_pii.csv' from the repository's entire lineage.",
+        description:
+          "Obliterate 'customer_pii.csv' from the repository's entire lineage.",
         check: (state) => {
           // Check if file is gone from VFS AND the command was run
           return !state.fs.exists("customer_pii.csv");

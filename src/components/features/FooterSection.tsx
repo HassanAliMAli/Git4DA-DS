@@ -10,7 +10,11 @@ export const FooterSection: React.FC = () => {
         <div className="flex flex-col md:flex-row justify-between items-start gap-24 text-left font-sans italic">
           <div className="max-w-lg">
             <div className="flex items-center gap-5 mb-10 text-left justify-start group">
-              <img src="/logo.png" alt="Git4Data Logo" className="h-16 w-auto object-contain group-hover:scale-105 transition-transform duration-500" />
+              <img
+                src="/logo.png"
+                alt="Git4Data Logo"
+                className="h-16 w-auto object-contain group-hover:scale-105 transition-transform duration-500"
+              />
             </div>
             <p className="text-[19px] leading-relaxed text-white font-bold italic border-l-4 border-gh-blue/20 pl-10 py-2 max-w-md">
               The absolute ceiling of Git mastery for the high-stakes world of

@@ -5,15 +5,15 @@ import { UserProfile, UserRole, INITIAL_PROFILE } from "@/models/Profile";
 
 /**
  * Global Profile Context
- * 
+ *
  * ARCHITECTURAL PHILOSOPHY:
  * This Context manages the persistent state of the user across the entire application.
- * It is responsible for role assignment (Analyst vs. Scientist), XP progression, 
+ * It is responsible for role assignment (Analyst vs. Scientist), XP progression,
  * and level tracking.
- * 
- * By elevating this state globally, we ensure that the entire application—from the 
- * Landing Page to the Terminal UI—dynamically reacts to the user's specific career track 
- * and progress without needing prop drilling. Currently backed by LocalStorage, designed 
+ *
+ * By elevating this state globally, we ensure that the entire application—from the
+ * Landing Page to the Terminal UI—dynamically reacts to the user's specific career track
+ * and progress without needing prop drilling. Currently backed by LocalStorage, designed
  * for future integration with a Cloudflare D1 database.
  */
 
@@ -41,10 +41,7 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({
     setIsLoaded(true);
   }, []);
 
-  const setRole = async (
-    role: UserRole,
-    name: string,
-  ): Promise<void> => {
+  const setRole = async (role: UserRole, name: string): Promise<void> => {
     const newProfile: UserProfile = {
       ...INITIAL_PROFILE,
       id: crypto.randomUUID(),

@@ -3,9 +3,9 @@ import { FileSystem } from "../vfs/FileSystem";
 
 /**
  * Command Processor Engine
- * 
+ *
  * ARCHITECTURAL PHILOSOPHY:
- * The CommandProcessor acts as the translation layer between the raw terminal input 
+ * The CommandProcessor acts as the translation layer between the raw terminal input
  * and the underlying Git/VFS engines. It is responsible for:
  * 1. Lexical Parsing: Splitting user input into commands, subcommands, and flags.
  * 2. Execution Routing: Directing valid commands to either the FileSystem (ls, mkdir, echo)
@@ -90,7 +90,8 @@ export class CommandProcessor {
         if (args[0] === "lint") {
           const target = args[1];
           if (!target) return "error: sqlfluff lint requires a target file";
-          if (!this.fs.exists(target)) return `error: file not found: ${target}`;
+          if (!this.fs.exists(target))
+            return `error: file not found: ${target}`;
           const content = this.fs.readFile(target);
           if (content.includes("  ") || content.includes("\n\n")) {
             return `L  1 | P001 | Unnecessary whitespace detected.\nL  3 | P005 | Keyword "select" should be uppercase.\n\n✓ 2 violations found. fix before committing.`;

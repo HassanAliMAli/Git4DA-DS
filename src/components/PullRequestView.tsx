@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import {
   GitPullRequest,
   CheckCircle2,
-  
   MessageSquare,
   ShieldCheck,
   Activity,
@@ -23,7 +22,7 @@ export function PullRequestView({
   title,
   author,
   description,
-  
+
   onApprove,
 }: PullRequestViewProps) {
   return (

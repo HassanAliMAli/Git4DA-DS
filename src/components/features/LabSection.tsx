@@ -153,9 +153,9 @@ export const LabSection: React.FC<LabSectionProps> = ({
                   Multi-Verse
                 </h3>
                 <p className="text-[12px] text-white leading-relaxed font-black mb-0 italic opacity-95 border-l-2 border-gh-blue pl-4 py-0.5 text-left">
-                  Stop switching branches. Learn to spin up parallel working trees
-                  for concurrent A/B testing on multi-terabyte datasets. The staff
-                  engineer workflow.
+                  Stop switching branches. Learn to spin up parallel working
+                  trees for concurrent A/B testing on multi-terabyte datasets.
+                  The staff engineer workflow.
                 </p>
               </div>
             </div>

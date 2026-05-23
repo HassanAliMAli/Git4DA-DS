@@ -1,8 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { GitCommit, Edit3, Trash2, CheckCircle2, Terminal as TerminalIcon } from "lucide-react";
+import { motion } from "framer-motion";
+import {
+  Edit3,
+  Trash2,
+  CheckCircle2,
+  Terminal as TerminalIcon,
+} from "lucide-react";
 
 export type RebaseAction = "pick" | "squash" | "drop";
 
@@ -20,9 +25,9 @@ interface RebaseViewProps {
 
 /**
  * Interactive Rebase Controller (Vim Simulator)
- * 
+ *
  * ARCHITECTURAL PHILOSOPHY:
- * Simulates the staff-engineer rebase workflow. It provides a visual 
+ * Simulates the staff-engineer rebase workflow. It provides a visual
  * interface to manipulate the local DAG before it is finalized.
  */
 export function RebaseView({
@@ -31,7 +36,7 @@ export function RebaseView({
   onCancel,
 }: RebaseViewProps): React.ReactNode {
   const [plan, setPlan] = useState<RebaseCommit[]>(
-    commits.map((c) => ({ ...c, action: "pick" }))
+    commits.map((c) => ({ ...c, action: "pick" })),
   );
 
   const toggleAction = (idx: number): void => {
@@ -103,8 +108,8 @@ export function RebaseView({
               commit.action === "pick"
                 ? "bg-white/[0.02] border-white/5"
                 : commit.action === "squash"
-                ? "bg-gh-blue/5 border-gh-blue/20"
-                : "bg-gh-danger/5 border-gh-danger/20 opacity-40 grayscale"
+                  ? "bg-gh-blue/5 border-gh-blue/20"
+                  : "bg-gh-danger/5 border-gh-danger/20 opacity-40 grayscale"
             }`}
           >
             <button
@@ -113,8 +118,8 @@ export function RebaseView({
                 commit.action === "pick"
                   ? "bg-zinc-800 text-white"
                   : commit.action === "squash"
-                  ? "bg-gh-blue text-white shadow-glow"
-                  : "bg-gh-danger text-white"
+                    ? "bg-gh-blue text-white shadow-glow"
+                    : "bg-gh-danger text-white"
               }`}
             >
               {commit.action}
@@ -129,7 +134,9 @@ export function RebaseView({
               </span>
             </div>
 
-            {commit.action === "drop" && <Trash2 size={16} className="text-gh-danger" />}
+            {commit.action === "drop" && (
+              <Trash2 size={16} className="text-gh-danger" />
+            )}
           </motion.div>
         ))}
       </div>

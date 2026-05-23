@@ -325,7 +325,12 @@ export class GitRepository {
       await this.branch(branch);
     }
     this.worktrees.push({ path, branch });
-    this.addToReflog("HEAD", null, this.refs.get(branch) || "", `worktree: add ${path}`);
+    this.addToReflog(
+      "HEAD",
+      null,
+      this.refs.get(branch) || "",
+      `worktree: add ${path}`,
+    );
   }
 
   /**
@@ -345,7 +350,9 @@ export class GitRepository {
 
     if (action === "start") {
       this.bisectActive = true;
-      this.bisectRange = this.getGraph().commits.map((c) => c.hash).reverse();
+      this.bisectRange = this.getGraph()
+        .commits.map((c) => c.hash)
+        .reverse();
       this.bisectBad = this.getCurrentCommit();
       return "✓ Bisect started. Waiting for 'bad' and 'good' markers.";
     }

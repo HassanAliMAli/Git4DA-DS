@@ -16,12 +16,12 @@ import { useRouter } from "next/navigation";
 
 /**
  * Terminal UI / Workstation Orchestrator
- * 
+ *
  * ARCHITECTURAL PHILOSOPHY:
  * This component acts as the "Motherboard" of the Git4Data simulation.
  * It is responsible for instantiating the core engines (VFS, GitRepository, CommandProcessor)
  * and mounting them into the React lifecycle using `useMemo`.
- * 
+ *
  * Data Flow:
  * 1. The user inputs a command in the `<Terminal>` component.
  * 2. `TerminalPage` intercepts this and passes it to the `CommandProcessor`.
@@ -55,7 +55,9 @@ export default function TerminalPage() {
   const [activeAdvice, setActiveAdvice] = useState<string | null>(null);
 
   const currentLevel = LEVELS.find(
-    (l) => l.id === currentLevelId && (l.role === "BOTH" || l.role === profile?.role),
+    (l) =>
+      l.id === currentLevelId &&
+      (l.role === "BOTH" || l.role === profile?.role),
   );
 
   const processor = useMemo(() => {
@@ -155,7 +157,9 @@ export default function TerminalPage() {
     }
   };
 
-  const handleRebaseExecute = async (plan: any[]): Promise<void> => {
+  const handleRebaseExecute = async (
+    plan: Array<{ action: string }>,
+  ): Promise<void> => {
     setIsRebaseOpen(false);
 
     // Simulate the rebase outcome

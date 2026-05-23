@@ -7,7 +7,7 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 
 /**
  * Main Navigation Component
- * 
+ *
  * ARCHITECTURAL PHILOSOPHY:
  * Centralizes branding and primary navigation links. Handles the transition
  * to the terminal hub and provides consistent entry points for global sections.
@@ -36,17 +36,28 @@ export const Navigation: React.FC = () => {
         </div>
 
         <nav className="hidden md:flex items-center gap-7 text-[13px] text-white font-bold italic opacity-80 uppercase tracking-widest">
-          <Link href="#roadmap" className="hover:text-gh-blue transition-colors underline decoration-transparent hover:decoration-gh-blue/30 underline-offset-4">
+          <Link
+            href="#roadmap"
+            className="hover:text-gh-blue transition-colors underline decoration-transparent hover:decoration-gh-blue/30 underline-offset-4"
+          >
             Roadmap
           </Link>
-          <Link href="#lab" className="hover:text-gh-blue transition-colors underline decoration-transparent hover:decoration-gh-blue/30 underline-offset-4">
+          <Link
+            href="#lab"
+            className="hover:text-gh-blue transition-colors underline decoration-transparent hover:decoration-gh-blue/30 underline-offset-4"
+          >
             Lab
           </Link>
-          <Link href="#modules" className="hover:text-gh-blue transition-colors underline decoration-transparent hover:decoration-gh-blue/30 underline-offset-4">
+          <Link
+            href="#modules"
+            className="hover:text-gh-blue transition-colors underline decoration-transparent hover:decoration-gh-blue/30 underline-offset-4"
+          >
             Modules
           </Link>
           <span className="text-zinc-800">/</span>
-          <span className="font-mono text-xs text-gh-blue italic font-black">v2.4.1 • main</span>
+          <span className="font-mono text-xs text-gh-blue italic font-black">
+            v2.4.1 • main
+          </span>
         </nav>
 
         <div className="flex items-center gap-2.5">

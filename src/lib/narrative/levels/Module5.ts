@@ -14,7 +14,7 @@ export const MODULE_5_LEVELS: LevelDefinition[] = [
     ],
     setup: async (state) => {
       state.git.init();
-      
+
       // Step 1: Baseline
       state.fs.writeFile("/baseline.py", "# v1.0");
       await state.git.add("baseline.py");
@@ -23,13 +23,13 @@ export const MODULE_5_LEVELS: LevelDefinition[] = [
       // Step 2: The "Lost" work
       state.fs.writeFile("/advanced_model.py", "model.train(deep=True)");
       await state.git.add("advanced_model.py");
-      const lostHash = await state.git.commit("feat: advanced model", "User");
+      await await state.git.commit("feat: advanced model", "User");
 
       // Step 3: THE DESTRUCTION
       await state.git.reset("HEAD~1", "hard");
       // Verify file is gone from VFS
       if (state.fs.exists("advanced_model.py")) {
-         state.fs.rm("advanced_model.py");
+        state.fs.rm("advanced_model.py");
       }
     },
     goals: [
@@ -37,8 +37,12 @@ export const MODULE_5_LEVELS: LevelDefinition[] = [
         id: "resurrect_work",
         description: "Recover the lost 'advanced_model.py' using the reflog.",
         check: (state) => {
-          return state.fs.exists("advanced_model.py") && 
-                 state.git.getGraph().commits.some(c => c.message === "feat: advanced model");
+          return (
+            state.fs.exists("advanced_model.py") &&
+            state.git
+              .getGraph()
+              .commits.some((c) => c.message === "feat: advanced model")
+          );
         },
       },
     ],
@@ -71,7 +75,7 @@ export const MODULE_5_LEVELS: LevelDefinition[] = [
       {
         id: "list_worktrees",
         description: "Audit your active universes using 'git worktree list'.",
-        check: (state) => true,
+        check: (_state) => true,
       },
     ],
     hints: [
@@ -97,12 +101,14 @@ export const MODULE_5_LEVELS: LevelDefinition[] = [
     goals: [
       {
         id: "config_key",
-        description: "Configure your GPG signing key: 'git config --global user.signingkey 0x4A7F9C2D'.",
+        description:
+          "Configure your GPG signing key: 'git config --global user.signingkey 0x4A7F9C2D'.",
         check: (state) => !!state.git.getConfig("user.signingkey"),
       },
       {
         id: "signed_commit",
-        description: "Sign your work using the '-S' flag: 'git commit -S -m \"...\"'.",
+        description:
+          "Sign your work using the '-S' flag: 'git commit -S -m \"...\"'.",
         check: (state) => {
           const commits = state.git.getGraph().commits;
           return commits.length > 0 && !!commits[0].signature;
@@ -142,12 +148,14 @@ export const MODULE_5_LEVELS: LevelDefinition[] = [
     goals: [
       {
         id: "capstone_sparse",
-        description: "Isolate the workspace: 'git sparse-checkout set data/models'.",
-        check: (state) => true, // Simulated signal
+        description:
+          "Isolate the workspace: 'git sparse-checkout set data/models'.",
+        check: (_state) => true, // Simulated signal
       },
       {
         id: "capstone_worktree",
-        description: "Create a parallel universe: 'git worktree add ../exp-v4 experiment'.",
+        description:
+          "Create a parallel universe: 'git worktree add ../exp-v4 experiment'.",
         check: (state) => state.git.getWorktrees().length >= 2,
       },
       {
@@ -157,7 +165,8 @@ export const MODULE_5_LEVELS: LevelDefinition[] = [
       },
       {
         id: "capstone_sign",
-        description: "Seal the production registry: 'git commit -S -m \"feat: final ship\"'.",
+        description:
+          "Seal the production registry: 'git commit -S -m \"feat: final ship\"'.",
         check: (state) => {
           const commits = state.git.getGraph().commits;
           return commits.length > 0 && !!commits[0].signature;

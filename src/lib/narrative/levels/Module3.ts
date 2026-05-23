@@ -101,12 +101,16 @@ export const MODULE_3_LEVELS: LevelDefinition[] = [
     ],
     setup: async (state) => {
       state.git.init();
-      state.fs.writeFile("/exploration.ipynb", '{"cells": [{"cell_type": "code", "source": ["print(\"hello\")"]}]}');
+      state.fs.writeFile(
+        "/exploration.ipynb",
+        '{"cells": [{"cell_type": "code", "source": ["print(\"hello\")"]}]}',
+      );
     },
     goals: [
       {
         id: "sync_notebook",
-        description: "Synchronize the notebook using 'jupytext --sync exploration.ipynb'.",
+        description:
+          "Synchronize the notebook using 'jupytext --sync exploration.ipynb'.",
         check: (state) => state.fs.exists("exploration.py"),
       },
       {
@@ -151,7 +155,11 @@ export const MODULE_3_LEVELS: LevelDefinition[] = [
       {
         id: "log_experiment",
         description: "Link your experiment using 'mlflow log --git-hash'.",
-        check: (state) => state.fs.exists("mlruns/metadata.json") && state.fs.readFile("mlruns/metadata.json").includes(state.git.getCurrentCommit()?.substring(0, 7) || ""),
+        check: (state) =>
+          state.fs.exists("mlruns/metadata.json") &&
+          state.fs
+            .readFile("mlruns/metadata.json")
+            .includes(state.git.getCurrentCommit()?.substring(0, 7) || ""),
       },
     ],
     hints: [
@@ -176,7 +184,7 @@ export const MODULE_3_LEVELS: LevelDefinition[] = [
       {
         id: "lint_sql",
         description: "Run 'sqlfluff lint revenue.sql' to detect violations.",
-        check: (state) => true, // We allow the user to see the errors
+        check: (_state) => true, // We allow the user to see the errors
       },
       {
         id: "fix_sql",
@@ -192,7 +200,10 @@ export const MODULE_3_LEVELS: LevelDefinition[] = [
         description: "Version the standardized SQL.",
         check: (state) => {
           const commits = state.git.getGraph().commits;
-          return commits.length > 0 && !state.fs.readFile("revenue.sql").includes("select");
+          return (
+            commits.length > 0 &&
+            !state.fs.readFile("revenue.sql").includes("select")
+          );
         },
       },
     ],
@@ -213,7 +224,10 @@ export const MODULE_3_LEVELS: LevelDefinition[] = [
     ],
     setup: async (state) => {
       state.git.init();
-      state.fs.writeFile("/train.py", "features = ['age', 'income', 'geo']\nmodel.fit(features)");
+      state.fs.writeFile(
+        "/train.py",
+        "features = ['age', 'income', 'geo']\nmodel.fit(features)",
+      );
     },
     goals: [
       {
@@ -261,11 +275,12 @@ export const MODULE_3_LEVELS: LevelDefinition[] = [
       {
         id: "trigger_slim_ci",
         description: "Simulate a Slim CI run using 'dbt clone --state prod'.",
-        check: (state) => true, // We allow the command trigger to pass
+        check: (_state) => true, // We allow the command trigger to pass
       },
       {
         id: "push_automation",
-        description: "Push your optimized pipeline changes to the central registry.",
+        description:
+          "Push your optimized pipeline changes to the central registry.",
         check: (state) => {
           const remotes = state.git.getRemoteBranches("origin");
           return remotes.has("master");
@@ -296,12 +311,14 @@ export const MODULE_3_LEVELS: LevelDefinition[] = [
     goals: [
       {
         id: "trigger_workflow",
-        description: "Simulate an automated training run using 'workflow trigger train'.",
-        check: (state) => true,
+        description:
+          "Simulate an automated training run using 'workflow trigger train'.",
+        check: (_state) => true,
       },
       {
         id: "push_trigger",
-        description: "Push your production logic to activate the live central pipeline.",
+        description:
+          "Push your production logic to activate the live central pipeline.",
         check: (state) => {
           const remotes = state.git.getRemoteBranches("origin");
           return remotes.has("master");

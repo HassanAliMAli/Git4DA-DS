@@ -1,11 +1,11 @@
 /**
  * Virtual File System (VFS) Engine
- * 
+ *
  * ARCHITECTURAL PHILOSOPHY:
- * Why build an in-memory VFS? 
- * 1. Isolation: Git4Data is a high-fidelity simulation. We cannot risk executing 
+ * Why build an in-memory VFS?
+ * 1. Isolation: Git4Data is a high-fidelity simulation. We cannot risk executing
  *    destructive `git rm` or `git reset --hard` operations on a user's actual disk.
- * 2. Ephemerality: The simulation state must be rapidly reset between 'Levels' 
+ * 2. Ephemerality: The simulation state must be rapidly reset between 'Levels'
  *    without leaving residue. A Map-based tree achieves this with O(1) resets.
  * 3. Sandboxing: By virtualizing the disk, we control exactly what 'files' exist,
  *    allowing us to simulate Data Crimes (e.g., committing a 1GB .pkl file) instantly

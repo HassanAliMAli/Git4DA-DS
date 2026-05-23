@@ -1,15 +1,10 @@
 import { FileSystem } from "../vfs/FileSystem";
-import {
-  GitObject,
-  GitObjectType,
-  GitCommit,
-  GitTreeEntry,
-} from "./types";
+import { GitObject, GitObjectType, GitCommit, GitTreeEntry } from "./types";
 import { calculateHash } from "./GitUtils";
 
 /**
  * Git Core Engine (Internal)
- * 
+ *
  * ARCHITECTURAL PHILOSOPHY:
  * This class handles the low-level object database operations and VFS synchronization.
  * It is responsible for the 'plumbing' of Git: hashing, object storage, and tree serialization.
@@ -17,7 +12,7 @@ import { calculateHash } from "./GitUtils";
 export class GitCore {
   constructor(
     private fs: FileSystem,
-    private objects: Map<string, GitObject>
+    private objects: Map<string, GitObject>,
   ) {}
 
   /**
@@ -52,8 +47,8 @@ export class GitCore {
    */
   public async restoreStateFromCommit(hash: string): Promise<void> {
     const obj = this.objects.get(hash);
-    if (!obj || obj.type !== 'commit') return;
-    
+    if (!obj || obj.type !== "commit") return;
+
     const commitData = JSON.parse(obj.data) as GitCommit;
     const treeObj = this.objects.get(commitData.tree);
     if (!treeObj) return;

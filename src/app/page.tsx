@@ -15,19 +15,19 @@ import { FooterSection } from "@/components/features/FooterSection";
 
 /**
  * Main Landing Page Orchestrator
- * 
+ *
  * ARCHITECTURAL PHILOSOPHY:
  * This page serves as the entry point to the Git4Data universe. It utilizes
  * a modular feature-based architecture where individual sections are extracted
  * into standalone components to maintain strict file length limits (<300 lines).
- * 
- * It manages the high-level 'Legendary Lab' terminal state used in the hero 
+ *
+ * It manages the high-level 'Legendary Lab' terminal state used in the hero
  * and interactive sections to provide a seamless preview of the PhD-level simulation.
  */
 export default function LandingPage(): React.ReactNode {
   const router: AppRouterInstance = useRouter();
   const { isLoaded } = useProfile();
-  
+
   // Terminal state for the interactive lab preview
   const [terminalInput, setTerminalInput] = useState("");
   const [terminalHistory, setTerminalHistory] = useState<
@@ -82,7 +82,7 @@ export default function LandingPage(): React.ReactNode {
       ),
     },
   ]);
-  
+
   const terminalEndRef = useRef<HTMLDivElement>(null);
 
   // Maintain visual focus on the latest terminal movement
@@ -207,16 +207,21 @@ export default function LandingPage(): React.ReactNode {
   const handleCommand = (cmd: string): void => {
     if (!cmd) return;
     const normalizedCmd = cmd.trim();
-    setTerminalHistory((prev) => [...prev, { type: "cmd", content: normalizedCmd }]);
+    setTerminalHistory((prev) => [
+      ...prev,
+      { type: "cmd", content: normalizedCmd },
+    ]);
 
     setTimeout(() => {
-      const output =
-        commands[normalizedCmd] || (
-          <div className="text-zinc-500 font-mono italic font-bold uppercase tracking-widest text-[10px]">
-            Unknown command. Try: help, git reflog
-          </div>
-        );
-      setTerminalHistory((prev) => [...prev, { type: "output", content: output }]);
+      const output = commands[normalizedCmd] || (
+        <div className="text-zinc-500 font-mono italic font-bold uppercase tracking-widest text-[10px]">
+          Unknown command. Try: help, git reflog
+        </div>
+      );
+      setTerminalHistory((prev) => [
+        ...prev,
+        { type: "output", content: output },
+      ]);
       setTerminalInput("");
     }, 100);
   };
