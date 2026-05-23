@@ -226,24 +226,23 @@ export default function LandingPage() {
       {/* Top navigation */}
       <header className="sticky top-0 z-50 border-b border-white/5 bg-ink/80 backdrop-blur-2xl text-left">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="relative">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-gh-blue to-teal-600 flex items-center justify-center shadow-glow border border-white/10">
-                <span className="font-mono font-black text-[11px] tracking-widest text-white">
-                  G4D
-                </span>
-              </div>
-              <div className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-gh-green shadow-[0_0_16px_rgba(35,134,54,0.8)]"></div>
+          <div className="flex items-center gap-3 text-left justify-start">
+            <div className="relative text-left">
+              <img
+                src="/logo.png"
+                alt="Git4Data Logo"
+                className="h-11 w-auto object-contain"
+              />
+              <div className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-gh-green shadow-[0_0_16px_#238636]"></div>
             </div>
-            <div className="leading-tight">
-              <div className="font-black tracking-tighter text-[15px] italic uppercase">
-                Git4Data
-              </div>
+
+            <div className="leading-tight text-left">
               <div className="text-[10px] text-white font-mono -mt-0.5 uppercase font-black tracking-widest opacity-60">
                 PHD+ • LEGENDARY TIER
               </div>
             </div>
           </div>
+
 
           <nav className="hidden md:flex items-center gap-7 text-[13px] text-white font-bold italic opacity-80 uppercase tracking-widest">
             <Link
