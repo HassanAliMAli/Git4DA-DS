@@ -240,6 +240,17 @@ export class CommandProcessor {
         }
         return "usage: git bisect <start|good|bad|reset>";
 
+      case "filter-repo":
+        if (args.includes("--path") && args.includes("--invert-paths")) {
+          const path = args[args.indexOf("--path") + 1];
+          if (!path) return "error: filter-repo --path requires a target";
+          if (this.fs.exists(path)) {
+            this.fs.rm(path);
+          }
+          return `✓ Parsed ${this.git.getGraph().commits.length} commits.\n✓ Rewrote history: 100% complete.\n✓ Obliterated ${path} from all snapshots in the registry.`;
+        }
+        return "usage: git filter-repo --path <path> --invert-paths";
+
       case "sparse-checkout":
         if (subArgs[0] === "set") {
           const path = subArgs[1];

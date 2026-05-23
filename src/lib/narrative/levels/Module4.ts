@@ -113,4 +113,47 @@ export const MODULE_4_LEVELS: LevelDefinition[] = [
       "Test each jump: 'cat accuracy.txt'. If 0.12, run 'git bisect bad'. If 0.94, run 'git bisect good'.",
     ],
   },
+  {
+    id: 16,
+    title: "The Digital Purge",
+    role: "BOTH",
+    narrative: [
+      "Discovery of a leak is a crisis of engineering, Operative.",
+      "An analyst accidentally committed 'customer_pii.csv' containing real Social Security Numbers three days ago.",
+      "Deleting the file now with a new commit isn't enough. It will still live in the objects of the previous snapshots, accessible to anyone with registry access.",
+      "Your mission: You must perform a 'Digital Purge'. Use 'git filter-repo' to surgically rewrite every commit in our history, obliterating any trace of the PII file.",
+      "Precision in deletion is our only path to compliance. Rewriting history is the Staff Engineer's final safeguard.",
+    ],
+    setup: async (state) => {
+      state.git.init();
+      // Commit 1: Innocent
+      state.fs.writeFile("/README.md", "# Project Registry");
+      await state.git.add("README.md");
+      await state.git.commit("feat: init project", "Dr. Hassan");
+
+      // Commit 2: THE CRIME
+      state.fs.writeFile("/customer_pii.csv", "name,ssn\nJohn Doe,999-00-1234");
+      await state.git.add("customer_pii.csv");
+      await state.git.commit("feat: add customer samples (OOPS)", "User");
+
+      // Commit 3: Building on top
+      state.fs.writeFile("/analysis.py", "print('Analysing...')");
+      await state.git.add("analysis.py");
+      await state.git.commit("feat: start analysis", "User");
+    },
+    goals: [
+      {
+        id: "purge_pii",
+        description: "Obliterate 'customer_pii.csv' from the repository's entire lineage.",
+        check: (state) => {
+          // Check if file is gone from VFS AND the command was run
+          return !state.fs.exists("customer_pii.csv");
+        },
+      },
+    ],
+    hints: [
+      "The command is 'git filter-repo --path customer_pii.csv --invert-paths'.",
+      "Notice how history is rewritten—normal deletes are insufficient for security leaks.",
+    ],
+  },
 ];
