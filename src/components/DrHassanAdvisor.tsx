@@ -2,7 +2,8 @@
 
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShieldCheck, Info, X } from "lucide-react";
+import { Info, X } from "lucide-react";
+import Image from "next/image";
 
 interface DrHassanAdvisorProps {
   advice: string | null;
@@ -16,10 +17,6 @@ interface DrHassanAdvisorProps {
  * This component provides specialized, high-importance technical guidance that
  * is distinct from the main narrative flow in the Messenger. It is designed
  * as a high-fidelity "Heads-Up Display" (HUD) element.
- *
- * Aesthetic:
- * Uses the signature DataPulse Teal gradient with a backdrop blur to command
- * visual attention without obscuring the workstation context.
  */
 export const DrHassanAdvisor: React.FC<DrHassanAdvisorProps> = ({
   advice,
@@ -39,8 +36,14 @@ export const DrHassanAdvisor: React.FC<DrHassanAdvisorProps> = ({
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(13,148,136,0.1),_transparent_70%)] pointer-events-none" />
 
             <div className="flex items-start gap-6 relative z-10">
-              <div className="w-14 h-14 rounded-2xl bg-gh-blue/10 border-2 border-gh-blue/20 flex items-center justify-center text-gh-blue shadow-glow shrink-0">
-                <ShieldCheck size={28} />
+              <div className="w-16 h-16 rounded-2xl border-2 border-gh-blue/20 shadow-glow shrink-0 relative overflow-hidden">
+                <Image 
+                  src="/dr-hassan.png" 
+                  alt="Dr. Hassan" 
+                  fill 
+                  sizes="64px"
+                  className="object-cover"
+                />
               </div>
 
               <div className="flex-1 text-left">

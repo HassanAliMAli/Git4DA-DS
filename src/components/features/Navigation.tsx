@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
@@ -19,11 +20,14 @@ export const Navigation: React.FC = () => {
     <header className="sticky top-0 z-50 border-b border-white/5 bg-ink/80 backdrop-blur-2xl text-left">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
         <div className="flex items-center gap-3 text-left justify-start">
-          <div className="relative text-left">
-            <img
+          <div className="relative text-left h-[49px] w-32">
+            <Image
               src="/logo.png"
               alt="Git4Data Logo"
-              className="h-[49px] w-auto object-contain"
+              fill
+              sizes="128px"
+              className="object-contain"
+              priority
             />
             <div className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-gh-green shadow-[0_0_16px_#238636]"></div>
           </div>

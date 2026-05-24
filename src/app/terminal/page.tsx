@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { useProfile } from "@/contexts/ProfileContext";
 import { FileSystem } from "@/lib/vfs/FileSystem";
 import { GitRepository } from "@/lib/git/GitRepository";
@@ -16,19 +16,6 @@ import { useRouter } from "next/navigation";
 
 /**
  * Terminal UI / Workstation Orchestrator
- *
- * ARCHITECTURAL PHILOSOPHY:
- * This component acts as the "Motherboard" of the Git4Data simulation.
- * It is responsible for instantiating the core engines (VFS, GitRepository, CommandProcessor)
- * and mounting them into the React lifecycle using `useMemo`.
- *
- * Data Flow:
- * 1. The user inputs a command in the `<Terminal>` component.
- * 2. `TerminalPage` intercepts this and passes it to the `CommandProcessor`.
- * 3. The `CommandProcessor` executes the logic against the `GitRepository`/`FileSystem` instances.
- * 4. The execution output is returned and appended to the `terminalHistory` state.
- * 5. `checkLevelProgress()` is triggered, reading the mutated VFS to see if narrative goals are met.
- * 6. The UI automatically reflects changes (e.g., updating the GitGraph Visualizer).
  */
 
 export default function TerminalPage() {
@@ -53,21 +40,46 @@ export default function TerminalPage() {
   const [isPROpen, setIsPROpen] = useState(false);
   const [isRebaseOpen, setIsRebaseOpen] = useState(false);
   const [activeAdvice, setActiveAdvice] = useState<string | null>(null);
+  const [extraChatMessages, setExtraChatMessages] = useState<
+    import("@/components/DataPulseMessenger").ChatMessage[]
+  >([]);
 
-  const currentLevel = LEVELS.find(
-    (l) =>
-      l.id === currentLevelId &&
-      (l.role === "BOTH" || l.role === profile?.role),
-  );
+  const currentLevel = useMemo(() => {
+    return LEVELS.find(
+      (l) =>
+        l.id === currentLevelId &&
+        (l.role === "BOTH" || l.role === profile?.role),
+    );
+  }, [currentLevelId, profile?.role]);
 
   const processor = useMemo(() => {
     if (!profile) return null;
     return new CommandProcessor(fs, git, profile.name);
   }, [fs, git, profile]);
 
+  // Handle Level Initialization
   useEffect(() => {
     if (currentLevel && fs) {
-      currentLevel.setup({ fs, git });
+      const initLevel = async () => {
+        await currentLevel.setup({ fs, git });
+        
+        // Reset states for the new level
+        setIsLevelComplete(false);
+        setIsPROpen(false);
+        setCompletedGoalIds(new Set());
+        setExtraChatMessages([]);
+        
+        // Initial progress check to see if setup fulfilled any goals
+        const newlyCompleted = new Set<string>();
+        currentLevel.goals.forEach((goal) => {
+          if (goal.check({ fs, git, prOpened: false })) {
+            newlyCompleted.add(goal.id);
+          }
+        });
+        setCompletedGoalIds(newlyCompleted);
+      };
+      
+      initLevel();
     }
   }, [currentLevel, fs, git]);
 
@@ -125,11 +137,11 @@ export default function TerminalPage() {
     }
   };
 
-  const handleCommand = async (command: string) => {
+  const handleCommand = useCallback(async (command: string) => {
     setTerminalHistory((prev) => [...prev, { type: "command", text: command }]);
 
     try {
-      const output = await processor.execute(command);
+      const output = await processor?.execute(command);
 
       if (output === "CLEAR_TERMINAL") {
         setTerminalHistory([]);
@@ -155,14 +167,12 @@ export default function TerminalPage() {
         },
       ]);
     }
-  };
+  }, [processor, checkLevelProgress]);
 
-  const handleRebaseExecute = async (
+  const handleRebaseExecute = useCallback(async (
     plan: Array<{ action: string }>,
   ): Promise<void> => {
     setIsRebaseOpen(false);
-
-    // Simulate the rebase outcome
     const hasSquash = plan.some((p) => p.action === "squash");
 
     if (hasSquash) {
@@ -173,8 +183,6 @@ export default function TerminalPage() {
           text: "Executing interactive rebase...\n✓ Commits squashed.\n✓ History rewritten successfully.",
         },
       ]);
-
-      // Technically rewrite the DAG for validation
       await git.reset("HEAD~3", "hard");
       await git.add("logic.sql");
       await git.commit(
@@ -184,17 +192,13 @@ export default function TerminalPage() {
     } else {
       setTerminalHistory((prev) => [
         ...prev,
-        {
-          type: "output",
-          text: "Rebase completed with no changes to history.",
-        },
+        { type: "output", text: "Rebase completed with no changes to history." },
       ]);
     }
-
     checkLevelProgress();
-  };
+  }, [git, profile?.name, checkLevelProgress]);
 
-  const onPRApprove = () => {
+  const onPRApprove = useCallback(() => {
     setIsPROpen(false);
     setTerminalHistory((prev) => [
       ...prev,
@@ -204,19 +208,44 @@ export default function TerminalPage() {
       },
     ]);
     checkLevelProgress(true);
-  };
+  }, [checkLevelProgress]);
 
-  const onNextLevel = () => {
-    if (currentLevelId < LEVELS.length) {
+  const onNextLevel = useCallback(() => {
+    // Determine the max level ID available for the current role
+    const maxLevelId = Math.max(...LEVELS.filter(l => l.role === "BOTH" || l.role === profile?.role).map(l => l.id));
+
+    if (currentLevelId < maxLevelId) {
       setCurrentLevelId((prev) => prev + 1);
-      setIsLevelComplete(false);
-      setIsPROpen(false);
-      setCompletedGoalIds(new Set());
       setTerminalHistory([]);
     } else {
       router.push("/");
     }
-  };
+  }, [currentLevelId, profile?.role, router]);
+
+  const handleUserChatMessage = useCallback((text: string) => {
+    const query = text.toLowerCase().trim();
+    if (query === "help") {
+      const hassanResponse = {
+        id: Math.random().toString(36),
+        sender: "HASSAN" as const,
+        text: currentLevel?.helpMessage || "Objective is clear. Refer to your training if you are lost.",
+        timestamp: new Date(),
+      };
+      setTimeout(() => {
+        setExtraChatMessages((prev) => [...prev, hassanResponse]);
+      }, 1000);
+    } else {
+      const hassanResponse = {
+        id: Math.random().toString(36),
+        sender: "HASSAN" as const,
+        text: "Efficiency is key. Do not waste my time with non-technical queries.",
+        timestamp: new Date(),
+      };
+      setTimeout(() => {
+        setExtraChatMessages((prev) => [...prev, hassanResponse]);
+      }, 800);
+    }
+  }, [currentLevel?.helpMessage]);
 
   const graphData = git.getGraph();
 
@@ -240,12 +269,8 @@ export default function TerminalPage() {
         onAbort={() => router.push("/")}
       />
 
-      {/* 
-        CENTER PANE: The Forge (53%)
-      */}
       <main className="w-[53%] p-10 flex flex-col relative overflow-hidden shrink-0 border-r border-white/10 grid-bg">
         <div className="absolute inset-0 pointer-events-none grid-bg opacity-30 shadow-inner" />
-
         <div className="relative z-10 flex-1 flex flex-col w-full max-w-5xl mx-auto shadow-2xl rounded-[32px] overflow-hidden border border-white/5 bg-ink/20">
           {isPROpen ? (
             <PullRequestView
@@ -267,11 +292,12 @@ export default function TerminalPage() {
         </div>
       </main>
 
-      {/* 
-        RIGHT PANE: DataPulse Messenger (25%)
-      */}
       <aside className="w-[25%] shrink-0 shadow-2xl">
-        <DataPulseMessenger messages={currentLevel.narrative} />
+        <DataPulseMessenger
+          initialMessages={currentLevel.narrative}
+          extraMessages={extraChatMessages}
+          onSendMessage={handleUserChatMessage}
+        />
       </aside>
     </div>
   );

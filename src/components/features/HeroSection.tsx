@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Shield, Clock, Database } from "lucide-react";
+import Image from "next/image";
 
 export const HeroSection: React.FC = () => {
   return (
@@ -75,12 +76,15 @@ export const HeroSection: React.FC = () => {
             className="relative max-w-4xl rounded-[24px] border border-white/10 bg-ink-2/80 backdrop-blur-xl p-6 lg:p-10 shadow-terminal text-left mb-16"
           >
             <div className="flex items-start gap-6 text-left">
-              <div className="mt-0.5 w-14 h-14 rounded-2xl bg-gradient-to-br from-zinc-800 to-zinc-900 border border-white/10 flex items-center justify-center flex-shrink-0 shadow-inner relative">
-                <span className="font-mono text-[12px] leading-none font-black text-zinc-300 tracking-widest text-center uppercase">
-                  DR
-                  <br />H
-                </span>
-                <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-gh-green border-2 border-ink-2 shadow-sm" />
+              <div className="mt-0.5 w-14 h-14 rounded-2xl border border-white/10 shadow-glow flex-shrink-0 relative overflow-hidden">
+                <Image 
+                  src="/dr-hassan.png" 
+                  alt="Dr. Hassan" 
+                  fill 
+                  sizes="56px"
+                  className="object-cover opacity-80"
+                />
+                <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-gh-green border-2 border-ink-2 shadow-sm z-10" />
               </div>
               <div className="min-w-0">
                 <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 mb-4">

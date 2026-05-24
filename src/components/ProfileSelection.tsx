@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useProfile } from "@/contexts/ProfileContext";
 import { UserRole } from "@/models/Profile";
+import Image from "next/image";
 import {
   Lock,
   ChevronRight,
@@ -43,11 +44,16 @@ export function ProfileSelection() {
       >
         <div className="text-center mb-16">
           <div className="inline-flex flex-col items-center gap-6 mb-8">
-            <img
-              src="/logo.png"
-              alt="Git4Data Logo"
-              className="h-16 w-auto object-contain"
-            />
+            <div className="relative h-16 w-48">
+              <Image
+                src="/logo.png"
+                alt="Git4Data Logo"
+                fill
+                sizes="(max-width: 768px) 192px, 192px"
+                className="object-contain"
+                priority
+              />
+            </div>
           </div>
           <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-white mb-6 italic uppercase">
             Initialize Lineage.

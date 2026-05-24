@@ -4,11 +4,11 @@ import { motion } from "framer-motion";
 import {
   GitPullRequest,
   CheckCircle2,
-  MessageSquare,
   ShieldCheck,
   Activity,
   Database,
 } from "lucide-react";
+import Image from "next/image";
 
 interface PullRequestViewProps {
   title: string;
@@ -143,7 +143,15 @@ export function PullRequestView({
 
       <div className="px-8 py-5 bg-ink-3 border-t border-white/5 flex items-center justify-between">
         <div className="flex items-center gap-3 text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-black italic">
-          <MessageSquare size={14} className="text-gh-blue" />
+          <div className="relative w-5 h-5 rounded-full border border-white/10 overflow-hidden shadow-glow">
+            <Image 
+              src="/dr-hassan.png" 
+              alt="Dr. Hassan" 
+              fill 
+              sizes="20px"
+              className="object-cover opacity-80"
+            />
+          </div>
           Awaiting Dr. Hassan's Review
         </div>
       </div>

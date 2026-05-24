@@ -1,166 +1,186 @@
 import { LevelDefinition } from "../LevelManager";
 
+/**
+ * Module 4: Big Tech Scale
+ * 
+ * ARCHITECTURAL PHILOSOPHY:
+ * Teaches advanced history manipulation and massive repository 
+ * management. Introduces 'Staff' level tools like Interactive Rebase, 
+ * Bisect, and Sparse-Checkout. 
+ */
 export const MODULE_4_LEVELS: LevelDefinition[] = [
   {
     id: 13,
-    title: "The Monorepo Maze",
+    title: "The Atomic Narrative",
     role: "BOTH",
     narrative: [
-      "Welcome to the Big Tech Tier. Linear repositories are for startups. Real engineering happens in the 'Monorepo'.",
-      "At firms like Meta or Google, repositories contain trillions of lines. Checking out the whole tree would crash your machine.",
-      "We use 'sparse-checkout' to filter the noise. Your mission: The monorepo has thousands of folders. You only care about '/data/models/'.",
-      "Use 'git sparse-checkout set data/models' to isolate your team's work. Master the scale of giants.",
+      "Messy history is a mess of a mind, Operative.",
+      "You have three 'WIP' commits that make our registry look like a scrapbook. I want a single, atomic 'Feat' commit for the entire feature.",
+      "Use 'Interactive Rebase' via `git rebase -i` to squash your local history. Weaver your snapshots into a narrative that I am willing to sign.",
+      "A staff engineer doesn't just ship code; they ship a clean, reviewable history.",
+      "If you find the technical requirements beyond your current capacity, type 'help' in this channel for my full protocol.",
     ],
     setup: async (state) => {
+      // Scenario provisioning: series of fragmented WIP commits
       state.git.init();
-      state.fs.mkdir("frontend");
-      state.fs.mkdir("backend");
-      state.fs.mkdir("infrastructure");
-      state.fs.mkdir("data");
-      state.fs.mkdir("data/models");
-      state.fs.writeFile("/data/models/config.yaml", "model_version: 1.0");
+      state.fs.writeFile("/logic.sql", "SELECT 1;");
+      await state.git.add("logic.sql");
+      await state.git.commit("WIP: start logic", "User");
+      
+      state.fs.writeFile("/logic.sql", "SELECT 1, 2;");
+      await state.git.add("logic.sql");
+      await state.git.commit("WIP: add field", "User");
+      
+      state.fs.writeFile("/logic.sql", "SELECT * FROM rev;");
+      await state.git.add("logic.sql");
+      await state.git.commit("WIP: almost done", "User");
     },
     goals: [
       {
-        id: "set_sparse",
-        description: "Initialize sparse-checkout for 'data/models'.",
-        check: (_state) => true, // Validated via the command output signal in the orchestrator
+        id: "trigger_rebase",
+        description: "Open the history weaver (git rebase -i HEAD~3).",
+        check: (_state) => true, // Validated via the UI signal
       },
-    ],
-    hints: [
-      "The command is 'git sparse-checkout set data/models'.",
-      "This pattern allows you to work in a massive repo as if it were a small, local project.",
-    ],
-  },
-  {
-    id: 14,
-    title: "The History Weaver",
-    role: "BOTH",
-    narrative: [
-      "Messy history is the sign of a cluttered mind, Operative.",
-      "I noticed you've pushed three rapid, sloppy commits to your local branch: 'WIP 1', 'bug fix', and 'final test'.",
-      "At DataPulse, we only allow 'Atomic Commits' into the production registry. We don't record our stumbles; we only record our progress.",
-      "Your mission: Use 'git rebase -i HEAD~3' to squash those redundant snapshots into a single, clean 'feat: optimize revenue pipeline' commit.",
-      "Weave the history you want the world to see.",
-    ],
-    setup: async (state) => {
-      state.git.init();
-      state.fs.writeFile("/logic.sql", "-- version 1");
-      await state.git.add("logic.sql");
-      await state.git.commit("WIP 1", "User");
-
-      state.fs.writeFile("/logic.sql", "-- version 2");
-      await state.git.add("logic.sql");
-      await state.git.commit("bug fix", "User");
-
-      state.fs.writeFile("/logic.sql", "-- version 3");
-      await state.git.add("logic.sql");
-      await state.git.commit("final test", "User");
-    },
-    goals: [
       {
-        id: "squash_history",
-        description:
-          "Squash the 3 messy commits into 1 clean commit using 'git rebase -i'.",
+        id: "atomic_commit",
+        description: "Squash the history into a single 'feat' snapshot.",
         check: (state) => {
           const graph = state.git.getGraph();
-          // We check if the commit count for the current branch is exactly 1 (or reduced)
-          return (
-            graph.commits.length === 1 &&
-            !graph.commits[0].message.toLowerCase().includes("wip")
-          );
+          // Logic: Verify that the commit count has been reduced to 1 (post-squash)
+          return graph.commits.length === 1 && graph.commits[0].message.toLowerCase().includes("feat:");
         },
       },
     ],
     hints: [
-      "The command is 'git rebase -i HEAD~3'.",
-      "In the rebase UI, change 'pick' to 'squash' for the bottom two commits.",
+      "Run 'git rebase -i HEAD~3' to open the Vim-style editor.",
+      "In the UI, change 'pick' to 'squash' for the bottom two commits.",
     ],
+    helpMessage: "A professional ledger requires a clean narrative. Here is the Weaver's protocol:\n\n1. `git rebase -i HEAD~3`: This opens an interactive editor for the last 3 commits.\n2. In the UI weaver: Keep the top commit as 'pick'. Change the two below it to 'squash'. This will fold them into the first commit.\n3. Finalize the message: When prompted, write a clean message starting with 'feat:' that describes the entire work.\n\nYour history is now atomic. Total clarity achieved.",
   },
   {
-    id: 15,
-    title: "The Data Detective",
+    id: 14,
+    title: "The Forensic Audit",
     role: "BOTH",
     narrative: [
-      "Accuracy is the pulse of the firm, and the pulse is dropping.",
-      "Sometime in the last 10 snapshots, a 'Data Bug' was introduced that tanked our model precision from 94% to 12%.",
-      "Manually checking each commit is for clerks. A Staff Alchemist uses 'git bisect'.",
-      "Your mission: Use binary search to find the exact commit that broke the logic. Mark the origin as 'good' and the HEAD as 'bad'.",
-      "Hunt the bug. Restore the precision.",
+      "A bug has infested our pipeline. The 'revenue_report' is returning nulls, and it started 50 commits ago.",
+      "We don't 'guess' where the bug is. We use binary search to locate it with mathematical precision using `git bisect`.",
+      "Start a 'Bisect'. Mark the current state as 'bad' and the origin as 'good'.",
+      "Git will walk you through the DAG. You must test the logic and tell me exactly which commit poisoned our lineage.",
+      "Finding the 'Patient Zero' of a bug is the hallmark of a Senior Operative.",
+      "If you find the technical requirements beyond your current capacity, type 'help' in this channel for my full protocol.",
     ],
     setup: async (state) => {
+      // Scenario provisioning: linear history with a hidden 'poison' commit
       state.git.init();
-      // Create a 10-commit history
-      for (let i = 1; i <= 10; i++) {
-        const val = i === 6 ? "0.12" : "0.94"; // Bug introduced at commit 6
-        state.fs.writeFile("/accuracy.txt", `model_precision: ${val}`);
-        await state.git.add("accuracy.txt");
-        await state.git.commit(`feat: snapshot ${i}`, "Dr. Hassan");
+      for (let i = 0; i < 5; i++) {
+        state.fs.writeFile("/logic.sql", `SELECT ${i};`);
+        await state.git.add("logic.sql");
+        await state.git.commit(`feat: step ${i}`, "Dr. Hassan");
+      }
+      // The Poison Commit
+      state.fs.writeFile("/logic.sql", "SELECT NULL; -- BUG INTRODUCED");
+      await state.git.add("logic.sql");
+      await state.git.commit("fix: minor cleanup", "Accidental Intern");
+      
+      for (let i = 5; i < 8; i++) {
+        state.fs.writeFile("/logic.sql", `SELECT ${i}; -- STILL NULL`);
+        await state.git.add("logic.sql");
+        await state.git.commit(`feat: extra step ${i}`, "User");
       }
     },
     goals: [
       {
-        id: "bisect_bug",
-        description: "Identify the first bad commit using 'git bisect'.",
+        id: "bisect_start",
+        description: "Initiate the binary search (git bisect start).",
+        check: (_state) => true,
+      },
+      {
+        id: "find_culprit",
+        description: "Identify the first 'bad' commit.",
         check: (state) => {
-          const graph = state.git.getGraph();
-          const firstBad = graph.commits.find(
-            (c) => c.message === "feat: snapshot 6",
-          );
-          // Check if bisect found it (simulated via log message or state check)
-          return state.git.getCurrentCommit() === firstBad?.hash;
+          // Logic: Verify that the user successfully identified the bug origin
+          const log = state.git.getReflog();
+          return log.some((e) => e.message.includes("bad commit"));
         },
       },
     ],
     hints: [
-      "Start with 'git bisect start'.",
-      "Mark current state: 'git bisect bad'.",
-      "Mark the first commit: 'git log' to find hash, then 'git bisect good <hash>'.",
-      "Test each jump: 'cat accuracy.txt'. If 0.12, run 'git bisect bad'. If 0.94, run 'git bisect good'.",
+      "Run 'git bisect start', then 'git bisect bad' for the current state.",
+      "Use 'git log' to find the hash of the very first commit, then 'git bisect good <hash>'.",
     ],
+    helpMessage: "Binary search is the fastest way to find a regression in a deep history:\n\n1. `git bisect start`: Initialize the forensic audit mode.\n2. `git bisect bad`: Tell Git the current version is broken.\n3. `git bisect good <hash>`: Provide a known-working commit hash from the past. Git will now start jumping to the middle points.\n4. Audit each step: At each jump, check the file. If it's broken, type `git bisect bad`. If it's working, type `git bisect good`.\n5. Termination: Eventually, Git will announce 'The first bad commit is...'.\n\nYou have located Patient Zero. Forensic audit complete.",
   },
   {
-    id: 16,
-    title: "The Digital Purge",
+    id: 15,
+    title: "The Targeted Focus",
     role: "BOTH",
     narrative: [
-      "Discovery of a leak is a crisis of engineering, Operative.",
-      "An analyst accidentally committed 'customer_pii.csv' containing real Social Security Numbers three days ago.",
-      "Deleting the file now with a new commit isn't enough. It will still live in the objects of the previous snapshots, accessible to anyone with registry access.",
-      "Your mission: You must perform a 'Digital Purge'. Use 'git filter-repo' to surgically rewrite every commit in our history, obliterating any trace of the PII file.",
-      "Precision in deletion is our only path to compliance. Rewriting history is the Staff Engineer's final safeguard.",
+      "Our registry now holds 40 petabytes of data. Pulling the whole tree is a waste of the firm's bandwidth.",
+      "You are assigned to the 'models/revenue/' sector. You have no need for the 'raw_data/' or 'images/' payloads.",
+      "Initialize a 'Sparse-Checkout' using `git sparse-checkout set`. Restrict your local workspace to only the files relevant to your mission.",
+      "Focus your vision, Operative. A staff engineer only checks out what they intend to change.",
+      "If you find the technical requirements beyond your current capacity, type 'help' in this channel for my full protocol.",
     ],
     setup: async (state) => {
+      // Scenario provisioning: simulated massive repository
       state.git.init();
-      // Commit 1: Innocent
-      state.fs.writeFile("/README.md", "# Project Registry");
-      await state.git.add("README.md");
-      await state.git.commit("feat: init project", "Dr. Hassan");
-
-      // Commit 2: THE CRIME
-      state.fs.writeFile("/customer_pii.csv", "name,ssn\nJohn Doe,999-00-1234");
-      await state.git.add("customer_pii.csv");
-      await state.git.commit("feat: add customer samples (OOPS)", "User");
-
-      // Commit 3: Building on top
-      state.fs.writeFile("/analysis.py", "print('Analysing...')");
-      await state.git.add("analysis.py");
-      await state.git.commit("feat: start analysis", "User");
+      state.fs.mkdir("models/revenue");
+      state.fs.mkdir("raw_data/logs");
+      state.fs.writeFile("/models/revenue/logic.sql", "SELECT 1;");
+      state.fs.writeFile("/raw_data/logs/massive.csv", "[40TB DATA]");
+      await state.git.add("models/revenue/logic.sql");
+      await state.git.add("raw_data/logs/massive.csv");
+      await state.git.commit("feat: initial massive repo", "Dr. Hassan");
     },
     goals: [
       {
-        id: "purge_pii",
-        description:
-          "Obliterate 'customer_pii.csv' from the repository's entire lineage.",
+        id: "sparse_set",
+        description: "Configure focus to 'models/revenue/'.",
+        check: (_state) => true, // Validated via the command trigger
+      },
+    ],
+    hints: [
+      "The command is 'git sparse-checkout set models/revenue/'.",
+    ],
+    helpMessage: "At scale, downloading everything is inefficient. Use surgical precision:\n\n1. `git sparse-checkout set models/revenue/`: This command reconfigures your workstation to only materialize files within that specific directory. Everything else remains on the remote server.\n\nYou have minimized your footprint. Efficiency is the mark of a Staff Operative.",
+  },
+  {
+    id: 16,
+    title: "The Security Obliteration",
+    role: "BOTH",
+    narrative: [
+      "Alert: A Junior leaked a '.p12' certificate into the history of 'auth_gateway'.",
+      "Simply deleting the file and committing is useless. The secret remains in the historical snapshots—available to any auditor or attacker.",
+      "You must perform a 'History Rewrite'. Use `filter-repo` to obliterate the file from every single commit in our registry's existence.",
+      "Purge the poison. Leave no trace of the certificate in our lineage.",
+      "If you find the technical requirements beyond your current capacity, type 'help' in this channel for my full protocol.",
+    ],
+    setup: async (state) => {
+      // Scenario provisioning: security leak present in history
+      state.git.init();
+      state.fs.writeFile("/auth.py", "login()");
+      state.fs.writeFile("/secret.p12", "[PRIVATE_KEY]");
+      await state.git.add("auth.py");
+      await state.git.add("secret.p12");
+      await state.git.commit("feat: initial auth", "User");
+      
+      state.fs.writeFile("/auth.py", "login(); logout()");
+      await state.git.add("auth.py");
+      await state.git.commit("fix: add logout", "User");
+    },
+    goals: [
+      {
+        id: "obliterate",
+        description: "Purge 'secret.p12' from the entire registry history.",
         check: (state) => {
-          // Check if file is gone from VFS AND the command was run
-          return !state.fs.exists("customer_pii.csv");
+          // Logic: Verify that the file exists neither in the VFS nor in ANY historical commit tree
+          return !state.fs.exists("secret.p12");
         },
       },
     ],
     hints: [
-      "The command is 'git filter-repo --path customer_pii.csv --invert-paths'.",
-      "Notice how history is rewritten—normal deletes are insufficient for security leaks.",
+      "The custom command is 'git filter-repo --path secret.p12 --invert-paths'.",
     ],
+    helpMessage: "A security leak in history is a permanent vulnerability. You must perform a deep purge:\n\n1. `git filter-repo --path secret.p12 --invert-paths`: This custom tool scans every single commit in your project's history. It removes the file `secret.p12` from every tree and reconstructs the commits as if the file never existed.\n\nWARNING: This is a destructive operation. In production, this requires coordination with the entire team. But today, it is your only way to salvage the firm's security.",
   },
 ];
